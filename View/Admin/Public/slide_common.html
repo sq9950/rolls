@@ -1,0 +1,97 @@
+<div class="col-sm-3 col-md-2 col-lg-2 sidebar" id="sidebar">
+    <ul class="nav nav-sidebar slide-sortable-container">
+        <?php  foreach($group_slide_list as $list_key => $list_val){ ?>
+        <li>
+            <a href="#second-level-<?php echo $list_key;?>"
+               class="second-level accordion-toggle"
+               data-toggle="collapse"
+               data-parent="#mycollapse">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"> </span>
+                <i class="fa fa-table fa-fw"></i> <?php echo $group_list[$list_key]['name'];?>
+                <i class="fa fa-angle-left pull-right"></i>
+            </a>
+            <ul class="nav collapse nav-sidebar" id="second-level-<?php echo $list_key;?>">
+                <?php foreach($list_val as $key => $val){ ?>
+                <li class="<?php echo $val['active'];?>">
+                    <a style="padding-left: 50px;"
+                       href="<?php echo $val['url'];?>">
+                        &nbsp;&nbsp;&nbsp;&nbsp;<?php echo $val['title'];?>
+                    </a>
+                </li>
+                <?php } ?>
+            </ul>
+        </li>
+        <?php } ?>
+        <?php foreach($slide_list as $key => $val){ if($val['display']){ ?>
+        <li class="<?php echo $val['class'];?> sort_item sortable-drag" data-id="<?php echo $val['id'];?>">
+            <a href="<?php echo Url::get_action_url($current_node,$val['name']);?>">
+                <?php echo $val['title'];?>
+            </a>
+        </li>
+        <?php }
+        } ?>
+    </ul>
+    <div id="sidebar_collspan" title="展开/收缩">
+        <span class="glyphicon glyphicon-chevron-left" style="position: absolute;top: 49%;" href="javascript:;"></span>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function(){
+      $('#sidebar').offset({top:$height})
+      $('.main').css({marginTop:$height - 30})
+        var sortable = Sortable.create($('.slide-sortable-container')[0], {
+            dragClass: "sortable-drag",  // Class name for the dragging item
+            dataIdAttr: 'data-id',
+
+            onEnd: function (/**Event*/evt) {
+                if (evt.oldIndex != evt.newIndex) {
+                    var sort_index = [];
+                    $('.sort_item').each(function () {
+                        sort_index.push($(this).data('id'));
+                    });
+                    $.ajax({
+                        url: "<?php echo $actions['saveSort'];?>",
+                        type: 'post',
+                        data: {
+                            'sort_list': sort_index
+                        },
+                        success: function (res) {
+                            layer.msg(res.info);
+                        }
+                    });
+                }
+            },
+        });
+
+        $(document).on('click', '.accordion-toggle', function (event) {
+            event.stopPropagation();
+            var $this = $(this);
+            var actives = $('.slide-sortable-container').find('ul.collapse');
+            var span_glyphicon = actives.siblings('a').find('span');
+            // From bootstrap itself
+            if (actives && actives.length) {
+                actives.data('collapse');
+                if ($.isFunction(actives.collapse)) {
+                    actives.collapse('hide');
+                }
+
+                span_glyphicon.removeClass('glyphicon-minus').addClass('glyphicon-plus');
+
+            }
+
+            var target = $this.attr('data-target') || (href = $this.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, ''); //strip for ie7
+            if ($.isFunction(actives.collapse)) {
+                $(target).collapse('toggle');
+            }
+            span_glyphicon = $(target).siblings('a').find('span');
+            if (span_glyphicon.hasClass('glyphicon-plus')) {
+                span_glyphicon.removeClass('glyphicon-plus').addClass('glyphicon-minus');
+            } else {
+                span_glyphicon.removeClass('glyphicon-minus').addClass('glyphicon-plus');
+            }
+        });
+        $('ul[id^=second-level-]').find('li[class=active]').parent().siblings('a').click();
+    });
+
+
+</script>

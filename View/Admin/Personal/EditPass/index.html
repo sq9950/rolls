@@ -1,0 +1,468 @@
+<?php echo $header;?>
+
+<!-- jPList js and css  -->
+<link href="/static/jquery/jquery-plugins/jplist/css/jplist-core.min.css" rel="stylesheet" type="text/css" />
+<script src="/static/jquery/jquery-plugins/jplist/js/jplist-core.min.js"></script>
+
+<script src="/static/jquery/jquery-plugins/jplist/js/jplist.textbox-control.min.js"></script>
+<link href="/static/jquery/jquery-plugins/jplist/css/jplist-textbox-control.min.css" rel="stylesheet" type="text/css" />
+
+<!-- jplist pagination bundle -->
+<script src="/static/jquery/jquery-plugins/jplist/js/jplist.pagination-bundle.min.js"></script>
+<link href="/static/jquery/jquery-plugins/jplist/css/jplist-pagination-bundle.min.css" rel="stylesheet" type="text/css" />
+
+<!-- jplist history bundle -->
+<script src="/static/jquery/jquery-plugins/jplist/js/jplist.history-bundle.min.js"></script>
+<link href="/static/jquery/jquery-plugins/jplist/css/jplist-history-bundle.min.css" rel="stylesheet" type="text/css" />
+
+<!-- preloader -->
+<script src="/static/jquery/jquery-plugins/jplist/js/jplist.preloader-control.min.js"></script>
+<link href="/static/jquery/jquery-plugins/jplist/css/jplist-preloader-control.min.css" rel="stylesheet" type="text/css" />
+
+<!-- filter dropdown control -->
+<script src="/static/jquery/jquery-plugins/jplist/js/jplist.filter-dropdown-bundle.min.js"></script>
+
+<link href="/static/bootstrap/css/bootstrap-switch.css" rel="stylesheet">
+<script src="/static/bootstrap/js/bootstrap-switch.min.js"></script>
+<script src="/static/handlebars-v3.0.3.js"></script>
+
+<link href="/static/bootstrap/css/bootstrap-switch.css" rel="stylesheet">
+<link href="/static/admin/auth/user/index.css" rel="stylesheet">
+<script src="/static/bootstrap/js/bootstrap-switch.min.js"></script>
+
+<div class="container-fluid">
+    <div class="row">
+        <?php echo $slide_common;?>
+        <div class="col-sm-4 col-sm-offset-3 col-md-9 col-lg-10 col-md-offset-2 main">
+            <h2 class="page-header"><?php echo $title;?></h2>
+            <div id="jplist-page-area" class="box jplist">
+
+                <!-- ios button: show/hide panel -->
+                <div class="jplist-ios-button">
+                    <i class="fa fa-sort"></i>
+                    jPList Actions
+                </div>
+
+                <!-- panel -->
+                <div class="jplist-panel box panel-top">
+                    <div class="row">
+                        <div class="text-filter-box">
+
+                            <!--[if lt IE 10]>
+                            <div class="jplist-label">操作人:</div>
+                            <![endif]-->
+
+                            <input
+                                    data-path=".title"
+                                    data-button="#operation-search-button"
+                                    type="text"
+                                    value=""
+                                    placeholder="操作人"
+                                    data-control-type="textbox"
+                                    data-control-name="operation"
+                                    data-control-action="filter"
+                                    />
+
+                            <button
+                                    type="button"
+                                    id="operation-search-button">
+                                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                            </button>
+                        </div>
+
+                        <div class="text-filter-box">
+
+                            <!--[if lt IE 10]>
+                            <div class="jplist-label">内容:</div>
+                            <![endif]-->
+
+                            <input
+                                    data-path=".title"
+                                    data-button="#value-search-button"
+                                    type="text"
+                                    value=""
+                                    placeholder="内容"
+                                    data-control-type="textbox"
+                                    data-control-name="value"
+                                    data-control-action="filter"
+                                    />
+
+                            <button
+                                    type="button"
+                                    id="value-search-button">
+                                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                            </button>
+                        </div>
+                        <div class="text-filter-box">
+
+                            <!--[if lt IE 10]>
+                            <div class="jplist-label">原因:</div>
+                            <![endif]-->
+
+                            <input
+                                    data-path=".title"
+                                    data-button="#reason-search-button"
+                                    type="text"
+                                    value=""
+                                    placeholder="原因"
+                                    data-control-type="textbox"
+                                    data-control-name="reason"
+                                    data-control-action="filter"
+                                    />
+
+                            <button
+                                    type="button"
+                                    id="reason-search-button">
+                                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                            </button>
+                        </div>
+                        <div
+                                class="jplist-drop-down"
+                                data-control-type="filter-drop-down"
+                                data-control-name="type"
+                                data-control-action="radio">
+
+                            <ul>
+                                <li><span data-path="">黑名单类型</span></li>
+                                <li><span data-path="domain">域名</span></li>
+                                <li><span data-path="mobile">电话</span></li>
+                            </ul>
+                        </div>
+                        <button type="button"  data-toggle="modal"
+                                data-target="#addBlackModal"
+                                class="btn btn-primary"
+                                data-action="addBlack"
+                                data-class="action"
+                                data-url="<?php echo $actions['addBlack'];?>">新增</button>
+
+                        <!-- reset button -->
+                        <button
+                                style="margin-bottom: 10px;"
+                                type="button"
+                                class="jplist-reset-btn"
+                                data-control-type="reset"
+                                data-control-name="reset"
+                                data-control-action="reset">
+                            重置 &nbsp;<span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>
+                        </button>
+                    </div>
+                    <div class="row" style="margin-bottom: 10px;">
+                        <div
+                                class="jplist-drop-down"
+                                data-control-type="items-per-page-drop-down"
+                                data-control-name="paging"
+                                data-control-action="paging">
+
+                            <ul>
+
+
+                                <li><span data-number="10" data-default="true"> 每页 10 条 </span></li>
+                                <li><span data-number="20"> 每页 20 条 </span></li>
+                                <li><span data-number="50"> 每页 50 条 </span></li>
+                            </ul>
+                        </div>
+
+                        <!-- pagination results -->
+                        <div
+                                class="jplist-label"
+                                data-type="Page {current} of {pages} 共 {all} 条"
+                                data-control-type="pagination-info"
+                                data-control-name="paging"
+                                data-control-action="paging">
+                        </div>
+
+                        <!-- pagination -->
+                        <div
+                                class="jplist-pagination"
+                                data-control-type="pagination"
+                                data-control-name="paging"
+                                data-control-action="paging">
+                        </div>
+
+                        <!-- preloader for data sources -->
+                        <div
+                                class="jplist-hide-preloader jplist-preloader"
+                                data-control-type="preloader"
+                                data-control-name="preloader"
+                                data-control-action="preloader">
+                            <img src="/static/jquery/jquery-plugins/jplist/img/common/ajax-loader-line.gif" alt="Loading..." title="Loading..." />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ajax content here -->
+                <div class=" row">
+                    <table data-filter="#filter" class="table table-bordered table-hover" id="LIST" style="margin:0px;">
+                        <thead>
+                        <tr>
+                            <th  data-sort-ignore="true" style="text-align: center;" data-class="expand">id</th>
+                            <th  data-sort-ignore="true" style="text-align: center;" data-class="expand">操作人</th>
+                            <th  data-sort-ignore="true" style="text-align: center;" data-class="expand">内容</th>
+                            <th  data-sort-ignore="true" style="text-align: center;">类型</th>
+                            <th  data-sort-ignore="true" style="text-align: center;">原因</th>
+                            <th data-sort-ignore="true" style="text-align: center;">最后更新时间</th>
+                            <th data-sort-ignore="true" style="text-align: center;">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody id="role_list_container">
+
+                        </tbody>
+                    </table>
+
+                </div>
+
+                <!-- no result found -->
+                <div class="box jplist-no-results text-shadow align-center jplist-hidden">
+                    <p>暂无结果！</p>
+                </div>
+                <div class="jplist-panel box panel-bottom" style="margin: 0 0 20px 0">
+                    <div
+                            class="jplist-drop-down"
+                            data-control-type="items-per-page-drop-down"
+                            data-control-name="paging"
+                            data-control-action="paging">
+
+                        <ul>
+
+
+                            <li><span data-number="10" data-default="true"> 每页 10 条 </span></li>
+                            <li><span data-number="20"> 每页 20 条 </span></li>
+                            <li><span data-number="50"> 每页 50 条 </span></li>
+                        </ul>
+                    </div>
+
+                    <!-- pagination results -->
+                    <div
+                            class="jplist-label"
+                            data-type="Page {current} of {pages} 共 {all} 条"
+                            data-control-type="pagination-info"
+                            data-control-name="paging"
+                            data-control-action="paging">
+                    </div>
+
+                    <!-- pagination -->
+                    <div
+                            class="jplist-pagination"
+                            data-control-type="pagination"
+                            data-control-name="paging"
+                            data-control-action="paging">
+                    </div>
+
+                    <!-- preloader for data sources -->
+                    <div
+                            class="jplist-hide-preloader jplist-preloader"
+                            data-control-type="preloader"
+                            data-control-name="preloader"
+                            data-control-action="preloader">
+                        <img src="/static/jquery/jquery-plugins/jplist/img/common/ajax-loader-line.gif" alt="Loading..." title="Loading..." />
+                    </div>
+
+                </div>
+            </div>
+            <?php echo $footer;?>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addBlackModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+</div>
+
+
+<script>
+    $(function(){
+        //格式化用户权限组
+        Handlebars.registerHelper("formatType",function(type){
+            var type_name = '';
+            switch (type){
+                case 'domain':
+                    type_name = '域名';
+                    break;
+                case 'mobile':
+                    type_name = '电话';
+                    break;
+            }
+            return type_name;
+        });
+
+
+        function render_jplist(){
+            var $list = $('#role_list_container')
+                    , template = Handlebars.compile($('#jplist-template').html());
+
+            //init jplist with php + mysql data source, json and Mustache template
+            $('#jplist-page-area').jplist({
+                itemsBox: '.list'
+                , itemPath: '.list-item'
+                , panelPath: '.jplist-panel'
+                , dataSource: {
+                    type: 'server'
+                    , server: {
+                        //ajax settings
+                        ajax: {
+                            url: "<?php echo $actions['getBlackList'];?>"
+                            , dataType: 'json'
+                            , type: 'POST'
+                            , data: {}
+                        }
+                    }
+                    //render function for json + templates like Mustache, xml + xslt etc.
+                    , render: function (dataItem, statuses) {
+                        $list.html(template(dataItem.content));
+                        //调用开关插件
+                        $("input[name=status]").bootstrapSwitch();
+                        $('input[name="status"]').on('switchChange.bootstrapSwitch', function(event, state) {
+                            $.post(
+                                    $(this).data('url'),
+                                    {
+                                        id: $(this).data('id'),
+                                        status: state ? 1 : 0
+                                    },
+                                    function(res){
+                                        layer.msg(res.info, {icon:res.status});
+                                        render_jplist();
+                                    }
+                            );
+                        });
+                        $('select[name=black_type]').change(function(){
+                            var _this = $(this);
+                            layer.confirm('确定要修改黑名单类型？', {icon: 3, title:'提示'}, function(index){
+                                //do something
+                                if(index){
+                                    $.post(
+                                            _this.data('url'),
+                                            {id: _this.data('id'), type: _this.val()},
+                                            function(res){
+                                                layer.msg(res.info, {icon:res.status});
+                                                if(res.status == 1){
+                                                    render_jplist();
+                                                }
+                                            }
+                                    );
+                                }
+                            });
+                        });
+                    }
+                }
+
+            });
+        }
+
+        render_jplist();
+
+        layer.config({
+            skin:'layer-ext-moon',
+            extend:'skin/moon/style.css'
+        });
+
+        $(document).on('click', 'button',function() {
+            var current_action = $(this).attr('data-action');
+
+            switch (current_action){
+                case 'addBlack':
+                    $.get(
+                            "<?php echo $actions['addBlack'];?>",
+                            {},
+                            function(res){
+                                if(1 == res.status){
+                                    var handle = Handlebars.compile($('#addBlackModal-template').html());
+                                    $('#addBlackModal').html(handle(res.data));
+                                    $("input[name=add_status]").bootstrapSwitch();
+                                }
+                            }
+                    );
+                    break;
+                case 'saveBlack':
+                    $.post(
+                            $('#add_black_form').attr('action'),
+                            $('#add_black_form').serialize(),
+                            function (res) {
+                                layer.msg(res.info, {icon:res.status});
+                                if(res.status){
+                                    $('#addBlackModal').modal('hide');
+                                    render_jplist();
+                                }
+                            }
+                    );
+                    break;
+                case 'delete':
+                    var _this = $(this);
+                    layer.confirm('确定要删除么？', {icon: 3, title:'提示'}, function(index){
+                        //do something
+                        if(index){
+                            $.post(
+                                    _this.data('url'),
+                                    {id: _this.data('id')},
+                                    function(res){
+                                        layer.msg(res.info, {icon:res.status,time:3});
+                                        res.status == 1 && render_jplist();
+                                    }
+                            );
+                        }
+                    });
+                    break;
+                default:
+                    break;
+            }
+        });
+
+
+    });
+</script>
+
+<!-- Mustache template -->
+<script id="jplist-template" type="x-tmpl-mustache">
+    {{#list}}
+        <tr style="" data-id="tr_id_{{id}}">
+            <td style="text-align: center;">{{id}}</td>
+            <td style="text-align: center;">{{operation_name}}</td>
+            <td style="text-align: center;">{{value}}</td>
+            <td style="text-align: center;">{{formatType type}}</td>
+            <td style="text-align: center;">{{reason}}</td>
+            <td style="text-align: center;">{{datetime}}</td>
+            <td style="text-align: center;">
+                <div class="btn-group" role="group" aria-label="...">
+                    <button class="btn btn-danger" type="button"  data-id="{{id}}" data-action="delete" data-url="<?php echo $actions['delete'];?>">删除</button>
+                </div>
+            </td>
+        </tr>
+    {{/list}}
+</script>
+<!-- Mustache template -->
+<script id="addBlackModal-template" type="x-tmpl-mustache">
+    {{#.}}
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">新增黑名单</h4>
+            </div>
+            <div class="modal-body">
+                <form id="add_black_form" action="<?php echo $actions['addBlack'];?>">
+                    <div class="input-group" style="margin-bottom: 10px;">
+                        <span class="input-group-addon" id="sizing-addon1">内容</span>
+                        <input class="form-control" type="text" name="value" value="" />
+                    </div>
+                    <div class="input-group" style="margin-bottom: 10px;">
+                        <span class="input-group-addon" id="sizing-addon1">原因</span>
+                        <input class="form-control" type="text" name="reason" value="" />
+                    </div>
+                    <div class="input-group" style="margin-bottom: 10px;">
+                        <span class="input-group-addon" id="sizing-addon2">黑名单类型</span>
+                        <select class="form-control" name="type">
+                            <option value=""> --请选择-- </option>
+                            {{#each black_type}}
+                            <option value="{{@key}}">{{this}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" data-action="saveBlack" class="btn btn-primary">保存</button>
+            </div>
+        </div>
+    </div>
+    {{/.}}
+</script>

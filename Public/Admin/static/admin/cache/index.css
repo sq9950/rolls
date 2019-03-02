@@ -1,0 +1,6 @@
+.cache-key {
+    max-width: 500px;
+    max-height: 300px;
+    word-wrap: break-word;
+    overflow: auto;
+}

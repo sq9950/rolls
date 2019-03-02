@@ -1,0 +1,162 @@
+/**
+*  域名套餐标签扩展样式类
+**/
+
+/**试用版**/
+.label-level-try {
+  background-color: #B874B0;
+}
+.label-level-try[href]:hover,
+.label-level-try[href]:focus {
+  background-color: #b838a6;
+}
+
+/**红网卫士**/
+.label-level-hwws {
+  background-color: #7eb8a2;
+}
+.label-level-hwws[href]:hover,
+.label-level-hwws[href]:focus {
+  background-color: #23b878;
+}
+
+
+.label-level-1 {
+  background-color: #1abc9c;
+}
+.label-level-1[href]:hover,
+.label-level-1[href]:focus {
+  background-color: #16a085;
+}
+
+.label-level-2 {
+  background-color: #2ecc71;
+}
+.label-level-2[href]:hover,
+.label-level-2[href]:focus {
+  background-color: #27ae60;
+}
+
+.label-level-3 {
+  background-color: #3498db;
+}
+.label-level-3[href]:hover,
+.label-level-3[href]:focus {
+  background-color: #2980b9;
+}
+
+.label-level-4 {
+  background-color: #9b59b6;
+}
+.label-level-4[href]:hover,
+.label-level-4[href]:focus {
+  background-color: #8e44ad;
+}
+
+.label-level-5 {
+  background-color: #34495e;
+}
+.label-level-5[href]:hover,
+.label-level-5[href]:focus {
+  background-color: #2c3e50;
+}
+
+.label-level-6 {
+  background-color: #f1c40f;
+}
+.label-level-6[href]:hover,
+.label-level-6[href]:focus {
+  background-color: #f39c12;
+}
+
+.label-level-7 {
+  background-color: #e67e22;
+}
+.label-level-7[href]:hover,
+.label-level-7[href]:focus {
+  background-color: #d35400;
+}
+
+.label-level-8 {
+  background-color: #e74c3c;
+}
+.label-level-8[href]:hover,
+.label-level-8[href]:focus {
+  background-color: #c0392b;
+}
+
+.label-level-9 {
+  background-color: #95a5a6;
+}
+.label-level-9[href]:hover,
+.label-level-9[href]:focus {
+  background-color: #7f8c8d;
+}
+
+.label-level-10 {
+  background-color: #ecf0f1;
+}
+.label-level-10[href]:hover,
+.label-level-10[href]:focus {
+  background-color: #bdc3c7;
+}
+
+
+.jplist-drop-down .jplist-dd-panel {
+  cursor: pointer;
+  float: none;
+  height: 30px;
+  line-height: 30px;
+  overflow: hidden;
+  text-indent: 10px;
+  width: auto;
+}
+
+.jplist-drop-down .jplist-dd-panel::after {
+  color: #111;
+  content: "▼";
+  display: inline-block;
+  position: relative;
+  right: 10px;
+  z-index: 1000;
+}
+
+.jplist-drop-down {
+  background: #fff none repeat scroll 0 0;
+  border: 1px solid #dbdbdb;
+  border-radius: 3px;
+  box-shadow: 0 0 1px #fff;
+  box-sizing: border-box;
+  float: left;
+  height: 30px;
+  margin: 10px 10px 0 0;
+  position: relative;
+  text-shadow: 1px 1px 1px #fff;
+  width: auto;
+}
+
+.jplist-drop-down ul {
+  background: #fff none repeat scroll 0 0;
+  border: 1px solid #dbdbdb;
+  border-radius: 0 0 3px 3px;
+  box-shadow: 0 3px 6px #bbb;
+  box-sizing: border-box;
+  display: none;
+  list-style: outside none none;
+  margin: 0;
+  overflow: hidden;
+  padding: 0;
+  position: relative;
+  top: 0;
+  width: auto;
+  z-index: 1000;
+}
+
+.jplist-drop-down ul li {
+  cursor: pointer;
+  float: none;
+  height: 30px;
+  line-height: 30px;
+  text-indent: 10px;
+  width: 100%;
+}

@@ -1,0 +1,342 @@
+/* --------------------- common ----------------------- */
+
+html {
+    font-size: 14px;
+}
+
+html, body, h2, p, tr, td, th, tbody, table, thead, tfoot, span, div {
+    font-family: "\5FAE\8F6F\96C5\9ED1", "Microsoft Yahei", "Hiragino Sans GB", tahoma, arial, "\5B8B\4F53"!important;
+}
+
+body {
+    background-color: #f5f5f5;
+    background: url(../images/headbg.jpg);
+    background-position: center top;
+    background-repeat: no-repeat;
+}
+
+h2, p {
+    margin: 0;
+}
+
+canvas {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+.container {
+    width: 1220px;
+    padding: 0 10px;
+    margin: 0 auto;
+}
+
+
+/* --------------------- header ----------------------- */
+
+.header {
+    width: 1200px;
+    height: 104px;
+    margin: 0 auto;
+}
+
+.header .logo-wrap {
+    background: url(../images/logo.png) no-repeat;
+    width: 700px;
+    height: 104px;
+}
+
+.header .logo-wrap p {
+    color: #fff;
+    margin: 50px 60px;
+    font-size: 1.5em;
+    text-shadow: 1px 1px 1px #000;
+}
+
+.header .download-warp {
+    margin-right: 0;
+    float: right;
+    height: 104px;
+}
+
+.header .download-warp>img {
+    display: none;
+    cursor: pointer;
+    margin-left: 18px;
+}
+
+.header .download-warp>p {
+    display: inline-block;
+    margin-left: 28px;
+    color: #fff;
+    font-size: 23px;
+    height: 104px;
+    line-height: 104px;
+    vertical-align: top;
+    text-shadow: 1px 1px 1px #000;
+}
+
+
+/* --------------------- content ----------------------- */
+
+.content {
+    width: 1200px;
+    padding-top: 31px;
+    margin: 0 auto;
+    background: url(../images/holdbg.png);
+    background-position: center top;
+    background-repeat: no-repeat;
+}
+
+
+/* -------------------- content dash-block ------------------------ */
+
+.content .dash-block {
+    background-color: #fff;
+    padding: 44px 0;
+    margin-bottom: 36px;
+    border-radius: 4px;
+    box-shadow: 0 5px 5px #c3c3c3;
+}
+
+.dash-block .block-title {
+    font-size: 36px;
+    color: #434343;
+    padding-left: 44px;
+    margin-bottom: 36px;
+}
+
+.dash-block .block-stat-wrap {
+    margin-bottom: 35px;
+}
+
+.dash-block .stat-cell {
+    display: inline-block;
+    vertical-align: top;
+    width: 349px;
+    height: 300px;
+    padding-left: 40px;
+}
+
+.dash-block .solid-line {
+    display: inline-block;
+    vertical-align: top;
+    width: 0px;
+    height: 240px;
+    border-left: #ccc 2px solid;
+}
+
+.dash-block .stat-name {
+    color: #949494;
+    font-size: 20px;
+    margin-bottom: 28px;
+}
+
+.dash-block .stat-value {
+    color: #3f3f3f;
+    font-size: 40px;
+    margin-bottom: 38px;
+}
+
+.dash-block .stat-level {
+    color: #3f3f3f;
+    font-size: 30px;
+    margin-bottom: 18px;
+}
+
+.dash-block .block-ip {
+    margin-top: 30px;
+    margin-bottom: 70px;
+}
+
+.dash-block .block-ip>p {
+    font-size: 18px;
+    color: #3f3f3f;
+    padding-left: 44px;
+    margin-bottom: 28px;
+}
+
+.dash-block .block-ip>div {
+    padding-left: 44px;
+}
+
+.dash-block .block-ip>div>p {
+    display: inline-block;
+    vertical-align: top;
+    width: 370px;
+    margin-bottom: 18px;
+    font-size: 20px;
+    color: rbg(81, 81, 81);
+}
+
+
+/* -------------------- content normal-block ------------------------ */
+
+.content .normal-block {
+    background-color: #fff;
+    padding: 44px 0;
+    margin-bottom: 36px;
+    border-radius: 4px;
+    box-shadow: 0 5px 5px #c3c3c3;
+}
+
+.normal-block .block-title {
+    font-size: 36px;
+    color: #434343;
+    padding-left: 44px;
+    margin-bottom: 40px;
+}
+
+.normal-block .block-stat-wrap {
+    margin-bottom: 40px;
+}
+
+.normal-block .block-stat-wrap>div {
+    min-width: 240px;
+    margin-left: 46px;
+    padding-left: 4px;
+    border-left: dotted 2px #1972d3;
+}
+
+.normal-block .stat-value {
+    font-size: 36px;
+    color: #3f3f3f;
+    margin-bottom: 5px;
+    padding-left: 8px;
+}
+
+.normal-block .stat-name {
+    font-size: 20px;
+    color: #949494;
+    padding-left: 10px;
+}
+
+.normal-block .block-chart-warp {
+    width: 1140px;
+    padding: 0 30px;
+    margin-bottom: 10px;
+}
+
+.normal-block .block-table-warp {
+    width: 1176px;
+    padding-left: 24px;
+}
+
+table {
+    table-layout: fixed;
+    border-collapse: collapse;
+    width: 536px;
+    margin: 20px;
+}
+
+table thead th:first-child {
+    border-top-left-radius: 6px;
+}
+
+table thead th:last-child {
+    border-top-right-radius: 6px;
+}
+
+table thead {
+    color: #ffffff;
+}
+
+table tbody: {
+    height: 170px;
+    color: #4b4b4b;
+}
+
+table th {
+    text-align: left;
+    background-color: #2992d4;
+    height: 40px;
+    padding: 0;
+}
+
+table td {
+    text-align: left;
+    background-color: #f5f5f5;
+    height: 34px;
+    padding: 0;
+}
+
+.table-col-3 th, .table-col-3 td {
+    width: 240px;
+    text-align: center;
+}
+
+.table-col-3 th:first-child, .table-col-3 td:first-child {
+    width: 201px;
+    padding-left: 15px;
+    text-align: left;
+}
+
+.table-col-3 th:last-child, .table-col-3 td:last-child {
+    width: 80px;
+    text-align: center;
+}
+
+.table-col-2 th:first-child, .table-col-2 td:first-child {
+    width: 441px;
+    padding-left: 15px;
+    text-align: left;
+}
+
+.table-col-2 th:last-child, .table-col-2 td:last-child {
+    width: 80px;
+    text-align: left;
+}
+
+
+/* --------------------- basic ----------------------- */
+
+.div-inline-block {
+    display: inline-block
+}
+
+.color-blue {
+    color: #0a7edb;
+}
+
+.color-red {
+    color: #ff4200;
+}
+
+.color-orange {
+    color: #ff9600;
+}
+
+.color-gray {
+    color: #3f3f3f;
+}
+
+
+/* --------------------- critical-box ----------------------- */
+
+.critical-box {
+    display: none;
+}
+
+.critical-box.info span {
+    color: #0a7edb;
+}
+
+.critical-box.warn span {
+    color: #ff9600;
+}
+
+.critical-box.danger span {
+    color: #ff4200;
+}
+
+.critical-box .title, .critical-box .progressbar, .critical-box .color-red {
+    display: none;
+}
+
+.critical-box.info, .critical-box.warn, .critical-box.danger, .critical-box.over, .critical-box.info .title, .critical-box.info .progressbar, .critical-box.warn .title, .critical-box.warn .progressbar, .critical-box.danger .title, .critical-box.danger .progressbar {
+    display: block;
+}
+
+.critical-box.over .color-red {
+    display: block;
+}

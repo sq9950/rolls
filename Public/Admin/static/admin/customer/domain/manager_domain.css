@@ -1,0 +1,15 @@
+.dispatch-loading{
+    background: url("/static/images/ydloading.gif") no-repeat scroll center center transparent;
+    display: block;
+    height: 31px;
+    padding:20px 0px;
+    opacity: 0.8;
+    width: 25%;
+}
+
+.dispatch-iplist-flush{
+    background: url("/static/images/loading.gif") ;
+    display: block;
+    width: 16px;
+    height: 16px;
+}

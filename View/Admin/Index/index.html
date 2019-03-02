@@ -1,0 +1,51 @@
+<?php echo $header;?>
+<div class="container-fluid">
+    <div class="row">
+        <?php echo $slide_common;?>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+            <h1 class="page-header">控制面板</h1>
+
+            <div class="container-fluid" >
+                <ul class="nav nav-tabs sub-tabs yundun-taber">
+
+                    <li data-triggerType="click"
+                        data-requestUrl="/index/index/getLatestVersionLog"
+                        data-requestType="post"
+                        data-requestParams="status=1"
+                        data-triggerAuto="true" data-callback="callback_logList"
+                         class="active first">
+                        <a href="#log_list" role="tab" data-toggle="tab" >系统更新日志</a>
+                    </li>
+                </ul>
+                <div class="tab-content sub-tab-content">
+                    <div id="log_list" class="tab-pane fade active in">
+
+                    </div>
+                </div>
+            </div>
+            <?php echo $footer;?>
+        </div>
+    </div>
+</div>
+<script src="/static/handlebars-v3.0.3.js"></script>
+<script src="/static/jquery/jquery-plugins/yundun-taber.js"></script>
+<script>
+    $(function(){
+        var callback_maps = {
+            'callback_logList': function (res) {
+                var handle_template = Handlebars.compile($('#logList-template').html());
+                $('#log_list').html(
+                    handle_template(res.data)
+                );
+            }
+        };
+        $('.yundun-taber').find('li').YundunTaber({
+            'callback_maps':callback_maps
+        });
+    });
+</script>
+<!-- 加载模板文件 -->
+<?php Templater(array(
+            'templates/temp_logList.html',      //系统更新日志
+        ), __DIR__);?>

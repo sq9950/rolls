@@ -1,0 +1,416 @@
+<?php echo $header;?>
+<style type="text/css">
+#table-for-member-admin td {
+	vertical-align: middle;
+}
+</style>
+<link href="/static/bootstrap/css/bootstrap-switch.css" rel="stylesheet">
+<script src="/static/bootstrap/js/bootstrap-switch.min.js"></script>
+<link href="/static/bootstrap/css/bootstrap-datetimepicker.min.css"
+	rel="stylesheet">
+<script src="/static/bootstrap/js/bootstrap-datetimepicker.min.js"></script>
+<script src="/static/bootstrap/js/bootstrap-datetimepicker.zh-CN.js"
+	charset="UTF-8"></script>
+<!-- jPList js and css  -->
+<link
+	href="/static/jquery/jquery-plugins/jplist/css/jplist-core.min.css"
+	rel="stylesheet" type="text/css" />
+<script src="/static/jquery/jquery-plugins/jplist/js/jplist-core.min.js"></script>
+
+<!-- jplist pagination bundle -->
+<script
+	src="/static/jquery/jquery-plugins/jplist/js/jplist.pagination-bundle.min.js"></script>
+<link
+	href="/static/jquery/jquery-plugins/jplist/css/jplist-pagination-bundle.min.css"
+	rel="stylesheet" type="text/css" />
+
+<!-- jplist history bundle -->
+<script
+	src="/static/jquery/jquery-plugins/jplist/js/jplist.history-bundle.min.js"></script>
+<link
+	href="/static/jquery/jquery-plugins/jplist/css/jplist-history-bundle.min.css"
+	rel="stylesheet" type="text/css" />
+<!-- textbox filter control -->
+<script
+	src="/static/jquery/jquery-plugins/jplist/js/jplist.textbox-control.min.js"></script>
+<link
+	href="/static/jquery/jquery-plugins/jplist/css/jplist-textbox-control.min.css"
+	rel="stylesheet" type="text/css" />
+<!-- jplist toggle bundle -->
+<script
+	src="/static/jquery/jquery-plugins/jplist/js/jplist.filter-toggle-bundle.min.js"></script>
+<link
+	href="/static/jquery/jquery-plugins/jplist/css/jplist-filter-toggle-bundle.min.css"
+	rel="stylesheet" type="text/css" />
+<!-- filter dropdown control -->
+<script
+	src="/static/jquery/jquery-plugins/jplist/js/jplist.filter-dropdown-bundle.min.js"></script>
+
+<!-- preloader -->
+<script
+	src="/static/jquery/jquery-plugins/jplist/js/jplist.preloader-control.min.js"></script>
+<link
+	href="/static/jquery/jquery-plugins/jplist/css/jplist-preloader-control.min.css"
+	rel="stylesheet" type="text/css" />
+
+<!-- filter dropdown control -->
+<script
+	src="/static/jquery/jquery-plugins/jplist/js/jplist.filter-dropdown-bundle.min.js"></script>
+
+<script src="/static/handlebars-v3.0.3.js"></script>
+<script src="/static/jquery/jquery-plugins/yundun-tools.js"></script>
+<script src="/static/jquery/jquery-plugins/lhgcalendar-3.0.0/jquery-1.7.1.min.js"></script>
+<script src="/static/jquery/jquery-plugins/lhgcalendar-3.0.0/lhgcalendar.min.js"></script>
+
+<style type="text/css">
+ .xuanzhuan{
+ 	animation: spin 5s linear infinite;
+ }
+
+	@keyframes spin {
+		0% {
+			transform: rotate(0deg);
+		}
+		100% {
+			transform: rotate(360deg);
+		}
+	}
+</style>
+
+<div class="container-fluid">
+	<div class="row">
+		<?php echo $slide_common;?>
+		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+			<h2 class="sub-header">后台操作日志</h2>
+			<div class="row" style="margin-bottom: 20px;">
+				<div class="col-sm-10">
+					<div id="jplist-page-area" class="box jplist">
+
+						<!-- ios button: show/hide panel -->
+						<div class="jplist-ios-button">
+							<i class="fa fa-sort"></i> jPList Actions
+						</div>
+
+						<!-- panel -->
+						<div class="jplist-panel box panel-top">
+							<div class="row">
+								<div class="text-filter-box">
+									<input
+											data-path=".desc"
+											data-button="#nickname-search-button"
+											type="text"
+											value=""
+											placeholder="操作者"
+											data-control-type="textbox"
+											data-control-name="nickname"
+											data-control-action="filterEq"
+											style="width: 80px;"
+											/>
+									<button
+											type="button"
+											id="nickname-search-button">
+										<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+									</button>
+								</div>
+
+								<div class="text-filter-box">
+									<!--[if lt IE 10]>
+									<div class="jplist-label">域名:</div>
+									<![endif]-->
+									<input data-path=".title" data-button="#domain-search-button"
+										   type="text" value="" placeholder="域名"
+										   data-control-type="textbox" data-control-name="domain"
+										   data-control-action="filterEq" />
+									<button
+											type="button"
+											id="domain-search-button">
+										<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+									</button>
+								</div>
+								<div class="text-filter-box">
+									<!--[if lt IE 10]>
+									<div class="jplist-label">日志记录:</div>
+									<![endif]-->
+									<input data-path=".title" data-button="#message-search-button"
+										   type="text" value="" placeholder="日志记录"
+										   data-control-type="textbox" data-control-name="message"
+										   data-control-action="filterEq" />
+									<button
+											type="button"
+											id="message-search-button">
+										<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+									</button>
+								</div>
+
+								<div class="text-filter-box">
+									<!--[if lt IE 10]>
+									<div class="jplist-label">时间（开始）:</div>
+									<![endif]-->
+									<input data-path=".title" data-button="#start_time-search-button"
+										   type="text" value="" placeholder="时间（开始）"
+										   data-control-type="textbox" data-control-name="start_time"
+										   data-control-action="filterEq"
+											class="lhgcalendar  t_input" style="width:150px;border: 1px solid #ccc" readonly
+									/>
+									<button
+											type="button"
+											id="start_time-search-button">
+										<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+									</button>
+								</div>
+
+								<div class="text-filter-box">
+									<!--[if lt IE 10]>
+									<div class="jplist-label">时间（结束）:</div>
+									<![endif]-->
+									<input data-path=".title" data-button="#end_time-search-button"
+										   type="text" value="" placeholder="时间（结束）"
+										   data-control-type="textbox" data-control-name="end_time"
+										   data-control-action="filterEq"
+											class="lhgcalendar  t_input" style="width:150px;border: 1px solid #ccc" readonly
+									/>
+									<button
+											type="button"
+											id="end_time-search-button">
+										<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+									</button>
+								</div>
+
+								<div class="text-filter-box">
+									<!--[if lt IE 10]>
+									<div class="jplist-label">参数:</div>
+									<![endif]-->
+									<input data-path=".title" data-button="#params_json-search-button"
+										   type="text" value="" placeholder="参数"
+										   data-control-type="textbox" data-control-name="params_json"
+										   data-control-action="filterEq" />
+									<button
+											type="button"
+											id="params_json-search-button">
+										<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+									</button>
+								</div>
+
+								<div class="text-filter-box">
+									<!--[if lt IE 10]>
+									<div class="jplist-label">IP:</div>
+									<![endif]-->
+									<input data-path=".title" data-button="#ip-search-button"
+										   type="text" value="" placeholder="ip"
+										   data-control-type="textbox" data-control-name="ip"
+										   data-control-action="filterEq" />
+									<button
+											type="button"
+											id="ip-search-button">
+										<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+									</button>
+								</div>
+
+								<!-- reset button -->
+								<button type="button" class="jplist-reset-btn"
+										data-control-type="reset" data-control-name="reset"
+										data-control-action="reset">
+									重置 &nbsp;<span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>
+								</button>
+							</div>
+							<div class="row" style="margin-bottom: 10px;">
+								<div class="jplist-drop-down"
+									 data-control-type="items-per-page-drop-down"
+									 data-control-name="paging" data-control-action="paging">
+
+									<ul>
+
+
+										<li><span data-number="10"> 每页 10 条 </span></li>
+										<li><span data-number="20" data-default="true"> 每页
+											20 条 </span></li>
+										<li><span data-number="50"> 每页 50 条 </span></li>
+									</ul>
+								</div>
+
+								<!-- pagination results -->
+								<div class="jplist-label" data-type="Page {current} of {pages} 共 {all} 条"
+									 data-control-type="pagination-info" data-control-name="paging"
+									 data-control-action="paging"></div>
+
+								<!-- pagination -->
+								<div class="jplist-pagination" data-control-type="pagination"
+									 data-control-name="paging" data-control-action="paging"></div>
+
+								<!-- preloader for data sources -->
+								<div class="jplist-hide-preloader jplist-preloader"
+									 data-control-type="preloader" data-control-name="preloader"
+									 data-control-action="preloader">
+									<img
+											src="/static/jquery/jquery-plugins/jplist/img/common/ajax-loader-line.gif"
+											alt="Loading..." title="Loading..." />
+								</div>
+							</div>
+						</div>
+
+						<!-- ajax content here -->
+						<div class="list box text-shadow"></div>
+
+						<!-- no result found -->
+						<div
+							class="box jplist-no-results text-shadow align-center jplist-hidden">
+							<p>没有找到</p>
+						</div>
+
+						<!-- ios button: show/hide panel -->
+						<div class="jplist-ios-button">
+							<i class="fa fa-sort"></i> jPList Actions
+						</div>
+
+					</div>
+				</div>
+				<div class="col-sm-2" style="padding-top: 10px; text-align: right;">
+					<button class="btn btn-default" data-class="member-action"
+						data-action="flush_apidata" data-work="no">
+						<span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+						实时刷新
+					</button>
+				</div>
+				<div class="export-log" style="clear:both;padding-top: 10px; margin-right: 30px; text-align: right;">
+					<form method="post" action="<?php echo $actions['exportAuthLog'];?>">
+						开始:<input value="" id="start_time_id" name="startTime" class=" lhgcalendar t_input" style="width:160px;border: 1px solid #ccc" readonly />
+						&nbsp;结束:<input value="" id="end_time_id" name="endTime" class=" lhgcalendar t_input" style="width:160px;border: 1px solid #ccc" readonly />
+						<button type="submit" class="btn btn-success"   data-value="导出日志">导出日志</button>
+					</form>
+				</div>
+			</div>
+
+			<div class="row" id="search_line"></div>
+
+			<div class="table-responsive" id="table-for-member-admin">
+				<div
+					style="width: 32px; height: 32px; background-image: url(/static/loading-2.gif); margin: 10px auto;"></div>
+			</div>
+            <?php echo $footer;?>
+		</div>
+	</div>
+</div>
+
+<!-- 管理用户列表模板 -->
+<script id="jplist-template" type="x-tmpl-mustache">
+	<table data-filter="#filter" class="table table-bordered table-hover" id="LIST" style="margin:0px;">
+		<thead>
+			<tr>
+				<th>id</th>
+				<th>操作者</th>
+				<th>域名</th>
+				<th>日志记录</th>
+				<th>时间</th>
+				<th>IP</th>
+				<th>请求</th>
+				<th>参数</th>
+			</tr>
+		</thead>
+		<tbody>
+			{{#.}}
+			<tr>
+				<td>{{id}}</td>
+				<td>{{nickname}}&nbsp;&nbsp;<span style="font-size: 12px;">( ID：{{user_id}} )</span></td>
+				<td>{{domain}}</td>
+				<td>{{message}}</td>
+				<td>{{timestamp}}</td>
+				<td>{{ip}}</td>
+				<td>{{{formatMethod method}}}</td>
+				<td>
+					<textarea style="display: none;">{{params}}</textarea>
+					<button type="button" class="btn btn-default btn-sm" data-title="{{message}}" data-url="{{request_url}}" data-class='member-action' data-action="look_params"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> 查看</button>
+				</td>
+			</tr>
+			{{/.}}
+		</tbody>
+	</table>
+</script>
+
+<style type="text/css">
+.input-sm {
+	width: 50%;
+	
+}
+</style>
+
+
+<script type="text/javascript">
+//注意jQuery版本的加载顺序（先加载1.11.2版本，再加载1.7版本）
+//使用1.7版本
+var jq1_7_1 = jQuery.noConflict(true);
+jq1_7_1('.lhgcalendar').calendar({
+	format:'yyyy-MM-dd HH:mm:ss'
+});
+	$(function() {
+		
+		//添加格式化method的方法
+		Handlebars.registerHelper("formatMethod",function(v1,options){
+			if(v1 == 2)return '<span class="label label-info">GET</span>';
+			if(v1 == 8)return '<span class="label label-success">POST</span>';
+			if(v1 == 0)return '<span class="label label-danger">未知</span>';
+        });
+
+		$(document).off('click', "button[data-class='member-action']").on('click', "button[data-class='member-action']", function() {
+			var operate = $(this).attr('data-action');
+				//id = $(this).attr('data-id');
+			switch (operate) {
+				case 'look_params':
+					var paramsStr = $(this).siblings('textarea').val();
+					var apiurl = $(this).attr('data-url');
+					paramsStr = '<br/>' + $.YundunTools.formatJson(paramsStr) + '&nbsp;' ;
+					var t = $(this).attr('data-title');
+					layer.open({
+    					type: 1,
+    					title:t,
+    					shadeClose: true,
+						shade: 0.8,
+						area: ['50%', '60%'],
+    					content: '<div style="font-size:13px;">' + paramsStr + '</div>'
+					});
+					break;
+					
+				case 'flush_apidata':
+					if($(this).attr('data-work') == 'no'){
+						flush_work_Timer = setInterval(flushPage, 5000);
+						$(this).attr('data-work', 'yes');
+						$(this).find('.glyphicon').addClass('xuanzhuan');
+					}else{
+						clearInterval(flush_work_Timer);
+						$(this).attr('data-work', 'no');
+						$(this).find('.glyphicon').removeClass('xuanzhuan');
+					}
+					break;
+			}
+		});
+		//刷新页面数据
+		function flushPage() {
+			var $list = $('#table-for-member-admin'),
+				template = $('#jplist-template').html();
+			//init jplist with php + mysql data source, json and Mustache template
+			$('#jplist-page-area').jplist({
+				itemsBox: '.list',
+				itemPath: '.list-item',
+				panelPath: '.jplist-panel',
+				dataSource: {
+					type: 'server',
+					server: {
+						//ajax settings
+						ajax: {
+							url: "<?php echo $actions['getLogList'];?>",
+							dataType: 'json',
+							type: 'POST',
+							data: {}
+						}
+					}
+					//render function for json + templates like Mustache, xml + xslt etc.
+					,
+					render: function(dataItem, statuses) {
+						var myTemplate = Handlebars.compile(template);
+						$list.html(myTemplate(dataItem.content));
+					}
+				}
+			});
+		}
+		flushPage();
+	});
+</script>

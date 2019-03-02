@@ -1,0 +1,622 @@
+<?php echo $header;?>
+<!-- Bootstrap core CSS -->
+
+<link href="/static/bootstrap/css/bootstrap-switch.css" rel="stylesheet">
+<script src="/static/bootstrap/js/bootstrap-switch.min.js"></script>
+<link href="/static/bootstrap/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+<script src="/static/bootstrap/js/bootstrap-datetimepicker.min.js"></script>
+<script src="/static/bootstrap/js/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+<!-- jPList js and css  -->
+<link href="/static/jquery/jquery-plugins/jplist/css/jplist-core.min.css" rel="stylesheet" type="text/css"/>
+<script src="/static/jquery/jquery-plugins/jplist/js/jplist-core.min.js"></script>
+
+<!-- jplist pagination bundle -->
+<script src="/static/jquery/jquery-plugins/jplist/js/jplist.pagination-bundle.min.js"></script>
+<link href="/static/jquery/jquery-plugins/jplist/css/jplist-pagination-bundle.min.css" rel="stylesheet"
+      type="text/css"/>
+
+<!-- jplist history bundle -->
+<script src="/static/jquery/jquery-plugins/jplist/js/jplist.history-bundle.min.js"></script>
+<link href="/static/jquery/jquery-plugins/jplist/css/jplist-history-bundle.min.css" rel="stylesheet" type="text/css"/>
+<!-- textbox filter control -->
+<script src="/static/jquery/jquery-plugins/jplist/js/jplist.textbox-control.min.js"></script>
+<link href="/static/jquery/jquery-plugins/jplist/css/jplist-textbox-control.min.css" rel="stylesheet" type="text/css"/>
+<!-- jplist toggle bundle -->
+<script src="/static/jquery/jquery-plugins/jplist/js/jplist.filter-toggle-bundle.min.js"></script>
+<link href="/static/jquery/jquery-plugins/jplist/css/jplist-filter-toggle-bundle.min.css" rel="stylesheet"
+      type="text/css"/>
+<!-- filter dropdown control -->
+<script src="/static/jquery/jquery-plugins/jplist/js/jplist.filter-dropdown-bundle.min.js"></script>
+
+<!-- preloader -->
+<script src="/static/jquery/jquery-plugins/jplist/js/jplist.preloader-control.min.js"></script>
+<link href="/static/jquery/jquery-plugins/jplist/css/jplist-preloader-control.min.css" rel="stylesheet"
+      type="text/css"/>
+
+<!-- filter dropdown control -->
+<script src="/static/jquery/jquery-plugins/jplist/js/jplist.filter-dropdown-bundle.min.js"></script>
+
+<script src="/static/mustache.0.7.2.js"></script>
+<script src="/static/handlebars-v3.0.3.js"></script>
+<script src="/static/js/template.js"></script>
+<script src="/static/jquery/jquery-plugins/yundun-taber.js"></script>
+<script src="/static/jquery/jquery-plugins/yundun-tools.js"></script>
+
+<script src="/static/bootstrap/js/bootstrap-typeahead.js"></script>
+
+<script src="/static/jquery/jquery-plugins/lhgcalendar-3.0.0/jquery-1.7.1.min.js"></script>
+<script src="/static/jquery/jquery-plugins/lhgcalendar-3.0.0/lhgcalendar.min.js"></script>
+
+<link href="/static/bootstrap/css/bootstrap-yundun-extend.css" rel="stylesheet">
+<div class="container-fluid">
+    <div class="row">
+        <?php echo $slide_common;?>
+        <div class="col-sm-11 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <!--<h2 class="sub-header"></h2>-->
+            <ul class="nav nav-tabs sub-tabs" role="tablist">
+
+                <li
+                    class="active"
+                    data-class="tabClicker"
+                    data-requestUrl=""
+                    data-requestType="post"
+                    data-requestParams=""
+                    data-triggerAuto="true"
+                    data-action="tabClicker"
+                    data-callback="callback_list">
+                    <a href="#tab_li_list" role="tab" data-toggle="tab">数据列表</a>
+                </li>
+            </ul>
+            <div class="tab-content sub-tab-content">
+                <div id="tab_li_list" class="tab-pane fade active in">
+                    <div >
+                        <div id="jplist-page-area" class="box jplist">
+                            <!-- ios button: show/hide panel -->
+                            <div class="jplist-ios-button">
+                                <i class="fa fa-sort"></i>
+                                jPList Actions
+                            </div>
+                            <div class="row" style="margin: 10px;">
+                                <span>批量操作：</span>
+                                <div class="btn-group" role="group" aria-label="...">
+                                    <button type="button" class="btn btn-danger"  data-class="action" data-action="batchDeleteData"    data-url="<?php echo $actions['batchDeleteData'];?>" data-type="delete">批量删除</button>
+                                </div>
+                            </div>
+                            <!-- panel -->
+                            <div class="jplist-panel box panel-top" style="margin: 10px;">
+                                <div class="row">
+                                    <?php if($show_add){ ?>
+                                    <button
+                                            class="btn-info btn"
+                                            type="button"
+                                            data-class="action"
+                                            data-control-type="add"
+                                            data-control-name="add"
+                                            data-action="add"
+                                            data-url="<?php echo $actions['addData'];?>">
+                                        &nbsp;新增 &nbsp;<i class="fa fa-share"></i>
+                                    </button>
+                                    <?php } ?>
+                                    <!-- filter by title -->
+                                    <div class="text-filter-box" style="display: none;">
+                                        <input
+                                                data-path=".title"
+                                                data-button="#default-search-button"
+                                                type="text"
+                                                value=""
+                                                placeholder=""
+                                                data-control-type="textbox"
+                                                data-control-name=""
+                                                data-control-action="filterEq"
+                                        />
+
+                                        <button
+                                                type="button"
+                                                id="default-search-button">
+                                            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                                        </button>
+                                    </div>
+                                    <?php foreach($params['fields_list'] as $field){
+                                        if($field['is_search']) {
+                                            switch($field['form_config']['type']){
+                                                case 'text': ?>
+                                                    <div class="text-filter-box">
+                                                        <!-- [if lt IE 10]>
+                                                        <div class="jplist-label"><?php echo $field['form_config']['title'];?>:</div>
+                                                        <![endif] -->
+                                                        <input
+                                                            class="<?php echo $field['form_config']['class'];?>"
+                                                            data-path=".title"
+                                                            data-button="#<?php echo $field['form_config']['name'];?>-search-button"
+                                                            type="text"
+                                                            value=""
+                                                            placeholder="<?php echo $field['form_config']['title'];?>"
+                                                            data-control-type="textbox"
+                                                            data-control-name="<?php echo $field['form_config']['name'];?>"
+                                                            data-control-action="<?php echo empty($field['form_config']['data-control-action']) ? 'filterEq' : $field['form_config']['data-control-action'];?>"
+                                                            style="width:150px;border: 1px solid #ccc"
+                                                            <?php echo $field['form_config']['output'];?>
+                                                        />
+
+                                                        <button
+                                                                type="button"
+                                                                id="<?php echo $field['form_config']['name'];?>-search-button">
+                                                            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                                                        </button>
+                                                    </div>
+                                                <?php break;
+                                                case 'select': ?>
+                                                    <div
+                                                            class="jplist-drop-down"
+                                                            data-control-type="filter-drop-down"
+                                                            data-control-name="<?php echo $field['form_config']['name'];?>"
+                                                            data-control-action="radio">
+                                                        <ul>
+                                                            <li><span data-path=""><?php echo $field['form_config']['title'];?></span></li>
+                                                            <?php foreach($field['form_config']['select_options'] as $val){ ?>
+                                                                <li><span data-path="<?php echo $val['value'];?>"><?php echo $val['name'];?></span></li>
+                                                            <?php } ?>
+                                                        </ul>
+                                                    </div>
+                                                <?php break;
+                                            }
+                                        }
+                                    } ?>
+                                    <button
+                                            type="button"
+                                            class="jplist-reset-btn btn btn-warning"
+                                            data-control-type="reset"
+                                            data-control-name="reset"
+                                            data-control-action="reset">
+                                        重置 &nbsp;<i class="fa fa-share"></i>
+                                    </button>
+                                </div>
+                                <div class="row" style="">
+                                    <div
+                                            class="jplist-drop-down"
+                                            data-control-type="items-per-page-drop-down"
+                                            data-control-name="paging"
+                                            data-control-action="paging">
+
+                                        <ul>
+
+                                            <li><span data-number="20" data-default="true"> 每页 20 条 </span></li>
+                                            <li><span data-number="50"> 每页 50 条 </span></li>
+                                            <li><span data-number="100"> 每页 100 条 </span></li>
+                                        </ul>
+                                    </div>
+
+                                    <!-- pagination results -->
+                                    <div
+                                            class="jplist-label"
+                                            data-type="Page {current} of {pages} 共 {all} 条"
+                                            data-control-type="pagination-info"
+                                            data-control-name="paging"
+                                            data-control-action="paging">
+                                    </div>
+
+                                    <!-- pagination -->
+                                    <div
+                                            class="jplist-pagination"
+                                            data-control-type="pagination"
+                                            data-control-name="paging"
+                                            data-control-action="paging"
+                                            style="margin-bottom: 20px;">
+                                    </div>
+
+                                    <!-- preloader for data sources -->
+                                    <div
+                                            class="jplist-hide-preloader jplist-preloader"
+                                            data-control-type="preloader"
+                                            data-control-name="preloader"
+                                            data-control-action="preloader">
+                                        <img src="/static/jquery/jquery-plugins/jplist/img/common/ajax-loader-line.gif"
+                                             alt="Loading..." title="Loading..."/>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- ajax content here -->
+                            <div class="row">
+                                <table data-filter="#filter" class="table table-bordered table-hover" id="LIST"
+                                       style="margin:0px;">
+                                    <thead>
+                                    <tr id="jplist_container_th">
+
+                                    </tr>
+                                    </thead>
+                                    <tbody id="jplist_container_tr">
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- no result found -->
+                            <div class="box jplist-no-results text-shadow align-center jplist-hidden">
+                                <p>暂无结果！</p>
+                            </div>
+
+                            <!-- ios button: show/hide panel -->
+                            <div class="jplist-ios-button">
+                                <i class="fa fa-sort"></i>
+                                jPList Actions
+                            </div>
+                            <div class="jplist-panel box panel-bottom" style="margin: 0 0 20px 0">
+                                <div
+                                        class="jplist-drop-down"
+                                        data-control-type="items-per-page-drop-down"
+                                        data-control-name="paging"
+                                        data-control-action="paging">
+
+                                    <ul>
+                                        <li><span data-number="3" > 每页 3 条 </span></li>
+                                        <li><span data-number="20" data-default="true"> 每页 20 条 </span></li>
+                                        <li><span data-number="50"> 每页 50 条 </span></li>
+                                        <li><span data-number="100"> 每页 100 条 </span></li>
+                                    </ul>
+                                </div>
+
+                                <!-- pagination results -->
+                                <div
+                                        class="jplist-label"
+                                        data-type="Page {current} of {pages} 共 {all} 条"
+                                        data-control-type="pagination-info"
+                                        data-control-name="paging"
+                                        data-control-action="paging">
+                                </div>
+
+                                <!-- pagination -->
+                                <div
+                                        class="jplist-pagination"
+                                        data-control-type="pagination"
+                                        data-control-name="paging"
+                                        data-control-action="paging">
+                                </div>
+
+                                <!-- preloader for data sources -->
+                                <div
+                                        class="jplist-hide-preloader jplist-preloader"
+                                        data-control-type="preloader"
+                                        data-control-name="preloader"
+                                        data-control-action="preloader">
+                                    <img src="/static/jquery/jquery-plugins/jplist/img/common/ajax-loader-line.gif"
+                                         alt="Loading..." title="Loading..."/>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <?php echo $footer;?>
+        </div>
+    </div>
+    <!-- 加载模板文件 -->
+    <?php Templater(array(
+            'templates/temp_ddos_top.html',  //DDoS攻击TOP
+        ), __DIR__);?>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        //注意jQuery版本的加载顺序（先加载1.11.2版本，再加载1.7版本）
+        //使用1.7版本
+        var jq1_7_1 = jQuery.noConflict(true);
+        jq1_7_1('.lhgcalendar').calendar({
+            format: 'yyyy-MM-dd HH:mm:ss',
+        });
+
+        layer.config({
+            skin:'layer-ext-moon',
+            extend:'skin/moon/style.css'
+        });
+        $.fn.typeahead.Constructor.prototype.blur = function() {
+            var that = this;
+            setTimeout(function () { that.hide() }, 250);
+        };
+
+        $('input[data-control-name="account"]').typeahead({
+            source: function (query, process) {
+                $.post(
+                    "<?php echo $actions['getUserAccount'];?>",
+                    {account: $('input[data-control-name="account"]').val()},
+                    function (data) {
+                        process(data);
+                });
+            }
+        });
+
+        $('li[data-action=tabClicker]').YundunTaber({
+            'requestBefore': function () {
+                $('.tab-content').addClass('admin-yundun-loading');
+            },
+            'callback_maps': {
+                callback_list: function(){
+                    $.YundunTools.render_jplist({
+                        jplist_page: $('#jplist-page-area'),
+                        container_list: $('#jplist_container'),
+                        jplist_template: $('#jplist-template'),
+                        dataSource:{
+                            ajax:{
+                                url:"<?php echo $actions['getDataList'];?>"
+                                , dataType: 'json'
+                                , type: 'POST'
+                                , data: {
+                                    ip : "<?php echo $get_params['ip'];?>",
+                                    start_time : "<?php echo $get_params['start_time'];?>"
+                                }
+                            },
+                            //查询数据后，页面渲染方法
+                            render:function(dataItem, statuses){
+                                $('#jplist_container_th').handlebars($('#jplist-template-th'), dataItem.content);
+                                $('#jplist_container_tr').handlebars($('#jplist-template-tr'), dataItem.content);
+                                $('select').change(function(){
+                                    var _this = $(this);
+                                    layer.confirm('确定要修改状态？', {icon: 3, title:'提示'}, function(){
+                                        //do something
+                                        $.post(
+                                            _this.data('url'),
+                                            {
+                                                id: _this.data('id'),
+                                                field_name: _this.attr('name'),
+                                                field_value: _this.val()
+                                            },
+                                            function(res){
+                                                layer.msg(res.info, {icon:res.status});
+
+                                            }
+                                        );
+                                        $('#default-search-button').click();
+                                    },
+                                    function(){
+                                        $('#default-search-button').click();
+                                    });
+                                });
+                            },
+                            //渲染后，回调方法
+                            callback:function(){}
+                        }
+                    });
+                },
+
+            },
+            'callbackAfter': function () {
+                $('.tab-content').removeClass('admin-yundun-loading');
+            }
+        });
+
+        $(document).off('click', "[data-class='action']").on('click', "[data-class='action']", function () {
+            switch ($(this).attr('data-action')) {
+                case 'add':
+                    layer.open({
+                        type: 2,
+                        title: $(this).attr('data-title'),
+                        shadeClose: true,
+                        shade: 0.8,
+                        area: ['60%', '90%'],
+                        content: $(this).attr('data-url'),
+                        cancel:function(){
+                        }
+                    });
+                    break;
+                case 'edit':
+                    layer.open({
+                        type: 2,
+                        title: $(this).attr('data-title'),
+                        shadeClose: true,
+                        shade: 0.8,
+                        area: ['60%', '90%'],
+                        content: $(this).attr('data-url')+'?id='+$(this).attr('data-id'),
+                        cancel:function(){
+                        }
+                    });
+                    break;
+                case 'delete':
+                    var _this = $(this);
+                    layer.confirm('确定要删除么？', {icon: 3, title:'提示'}, function(index){
+                        //do something
+                        if(index){
+                            $.post(
+                                _this.attr('data-url'),
+                                {id: _this.attr('data-id')},
+                                function(res){
+                                    layer.msg(res.info, {icon:res.status});
+                                    $('#default-search-button').click();
+                                }
+                            );
+                        }
+                    });
+                    break;
+                 case 'batchDeleteData':
+                    var _this = $(this);
+                    var checked_list =  $(document).find('input[name^=batch_ids]:checked');
+                    if(checked_list.length > 0){
+                        layer.confirm('确定要批量操作？', {icon: 3, title:'提示'},
+                                function(){
+                                    var checked_list =  $(document).find('input[name^=batch_ids]:checked');
+                                    var batch_ids = [];
+                                    $.each(checked_list, function(){
+                                        batch_ids.push($(this).val());
+                                    });
+                                    //确定
+                                    $.post(
+                                            _this.attr('data-url'),
+                                            {
+                                                batch_type: _this.attr('data-type'),
+                                                batch_ids: batch_ids
+                                            },
+                                            function(res){
+                                                if(1 == res.status){
+                                                    layer.msg(res.info, {icon:res.status});
+                                                    $('#default-search-button').click();
+//                                            $.YundunTools.render_jplist(jplist_params);
+                                                }
+                                            }
+                                    );
+                                return true;
+                                },
+                                function(){
+                                    //取消
+                                }
+                        );
+                    }else{
+                        layer.msg('请选择批量操作的节点',{icon: 6});
+                    }
+                    break;
+                default:
+                    break;
+            }
+        });
+
+        Handlebars.registerHelper("formatUser", function (user_id, user_list, options) {
+            var user_name = '未知';
+            if(user_list[user_id]){
+                user_name = user_list[user_id]['account'] + '（'+user_list[user_id]['nickname']+'）';
+            }
+            return user_name;
+        });
+
+        //列表表格表头
+        Handlebars.registerPartial("partial_td",
+                '<{{tagName}} data-sort-ignore="true" style="text-align: center;">{{field_title}}</{{tagName}}>'
+        );
+
+        //新的列表表格表头
+        Handlebars.registerHelper("formatFromHead",function(data,options){
+            var html="";
+            var title = data.form_config && data.form_config.title ? data.form_config.title : data.field_title;
+            if('id' == data.field_name){
+                html='<th data-sort-ignore="true" style="text-align: center;"> <input type="checkbox" name="all_batch_ids" value=""/>'+title+'</th>';
+            }else{
+                html='<th data-sort-ignore="true" style="text-align: center;">'+title+'</th>';
+            }
+
+            return html;
+        });
+
+        Handlebars.registerHelper("formatFormData", function (field_name, field_list, field_config, options) {
+            if(field_config[field_name].form_config){
+                switch (field_config[field_name].form_config.type){
+                    case 'select':
+                        field_config[field_name].form_config.default_value = field_list[field_name];
+                        return Handlebars.compile($('#form-template-select').html())(
+                            {
+                                data_id: field_list.id,
+                                default_value: field_list[field_name],
+                                filed_config: field_config[field_name].form_config
+                            }
+                        );
+                        break;
+                    case 'file':
+                        var html="";
+                        var default_value=field_list[field_name];
+                        return html= '<a target="_blank" href="'+default_value+'"><img src="'+default_value+'" class="img-rounded" style="width: 140px; height: 140px;"> </a>';
+                    break;
+                    default:
+                        var html="";
+                        if(field_name=="id"){
+                            html='<input type="checkbox" name="batch_ids[]" value="'+field_list[field_name]+'" />'+field_list[field_name];
+                            return html;
+                        }else{
+                           return field_list[field_name]; 
+                        }
+                        
+                        break;
+                }
+            }
+        });
+
+        //edit
+        Handlebars.registerHelper("formatButtonEdit",function(is_show,list,options){
+            var html="";
+            var id=list['id'];
+            if(is_show){
+                html='<button type="button" class="btn btn-primary"'+
+                        'data-class="action"'+
+                        'data-action="edit"'+
+                        'data-id="'+id+'"'+
+                        'data-title="编辑"'+
+                        'data-url="<?php echo $actions['editData'];?>"'+
+                        'data-type="" title="编辑">'+
+                    '编辑'+
+                '</button>';
+            }
+
+            return html;
+        });
+
+        $(document).on("click",'input[name=all_batch_ids]',function(){
+            if($(this).is(':checked')){
+                $(document).find('input[name^=batch_ids]').prop('checked', true);
+            }else{
+                $(document).find('input[name^=batch_ids]').prop('checked', false);
+            }
+        });
+    });
+</script>
+
+<!-- 添加防火墙IP模板 开始 -->
+<script src="/static/jquery/jquery-plugins/jquery-multiselect/jquery.select-multiple.js"></script>
+<script src="/static/jquery/jquery-plugins/jquery-multiselect/jquery.quicksearch.js"></script>
+
+<!--列表模板 开始 -->
+<script id="jplist-template-th" type="text/template">
+    {{#each list_fields}}
+        {{#if is_show}}
+            {{{formatFromHead this}}}
+       <!--  {{> partial_td tagName="th" }} -->
+        {{/if}}
+    {{/each}}
+</script>
+<!-- 列表模板 结束 -->
+<!--列表模板 开始 -->
+<script id="jplist-template-tr" type="text/template">
+    {{#list}}
+    <tr style="" data-id="">
+        {{#each this}}
+            {{#.}}
+                <td style="vertical-align: middle;text-align: center;max-width: 350px;overflow: hidden;">
+                    {{{formatFormData @key ../../this ../../../this.list_fields}}}
+                </td>
+            {{/.}}
+        {{/each}}
+        <td style="vertical-align: middle;text-align: center;">
+            <div class="btn-group" role="group" aria-label="...">
+                 {{{formatButtonEdit ../this.edit_show this}}}
+                <button type="button" class="btn btn-danger"
+                        data-class="action"
+                        data-action="delete"
+                        data-id="{{id}}"
+                        data-title="删除"
+                        data-url="<?php echo $actions['deleteData'];?>"
+                        data-type="" title="删除">
+                    删除
+                </button>
+            </div>
+        </td>
+    </tr>
+    {{/list}}
+</script>
+<!-- 列表模板 结束 -->
+
+<script id="form-template-input" type="text/template">
+
+</script>
+
+<script id="form-template-select" type="text/template">
+    <select name="{{filed_config.name}}" class="form-control"
+            data-id="{{data_id}}"
+            data-url="{{filed_config.form_action}}"
+            style="width: auto;"
+    >
+        {{#filed_config.select_options}}
+        <option value="{{value}}"
+            {{#compare value '==' ../default_value}}
+                selected="selected"
+            {{else}}
+            {{/compare}}
+        >{{name}}</option>
+        {{/filed_config.select_options}}
+    </select>
+</script>

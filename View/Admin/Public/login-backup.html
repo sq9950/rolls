@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="">
+
+    <title>云盾后台管理系统</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="/static/bootstrap/dashboard.css" rel="stylesheet">
+    <link href="/static/bootstrap/site.min.css" rel="stylesheet">
+    <script src="/static/jquery/jquery-1.11.2.min.js"></script>
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+	
+<div class="container">
+    <div class="row-fluid" style="width: 400px; margin: 0px auto;">
+        <div class="span4"></div>
+        <div class="span4" style="text-align:center;">
+        <!--<pre style="text-align:center;">-->
+          <img src="/static/admin/images/logo.jpg" style="width:100px;margin-bottom:5px;" />
+          <h5 id="msg" style="text-align:left;color:red;"></h5>
+          <form action="#" method="post" id="loginForm" >
+            <table class="table " width="100%">
+               <tr>
+                  <td>
+                  	<div class="input-group">
+  					<span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
+  						<input type="text" value="" class="form-control input-sm" tabindex="1" placeholder="请输入用户名" id="account" name="account" style="margin:0px; vertical-align:middle;"  data-toggle="popover" data-trigger="focus" data-content="请输入用户名" >
+					</div>
+                  </td>
+               </tr>
+               <tr>
+                  <td>
+                  	<div class="input-group">
+                  		<span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span></span>
+  						<input type="password" value="" placeholder="请输入密码" tabindex="2" class="form-control input-sm" name="password" id="password" style="margin:0px; vertical-align:middle;"   data-toggle="popover" data-trigger="focus" data-content="请输入密码">
+					</div>
+                 </td>
+               </tr>
+               <tr>
+                 
+                  <td>
+                  	<div class="input-group">
+                  		<span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-barcode" aria-hidden="true"></span></span>
+  						<input type="text" value="" tabindex="3" placeholder="请输入验证码" class="form-control input-sm" name="yzm" id="YZM" style="width: 130px;"  data-toggle="popover" data-trigger="focus" data-content="请输入验证码" />
+  						<img src="yzm" id="yzm" style="margin-left: 10px;"/>
+  						<a href=" " id="yzm_change">看不清?</a>
+					</div>
+                  </td>
+               </tr>
+
+               <tr>
+                  <td colspan="1" style="text-align:center;">
+                     <div class="btn-group">
+                         <button type="button" class="btn btn-primary btn-small" tabindex="4" style="margin:0px;width:120px;" id="login" data-placement="left"  data-toggle="popover" data-trigger="focus" data-content="" >登陆</button>
+                         <button type="reset" class="btn btn-small btn-default" tabindex="5" style="margin:0px;width:120px;">重置</button>
+                     </div>
+                  </td>
+               </tr>
+            </table>
+          </form>
+        <!--</pre>-->
+        </div>
+        <div class="span4"></div>
+    </div>
+</div>
+  <script>
+    $(function(){
+		/*回车提交登录*/
+	    $("#YZM").keydown(function(event){
+		  if( event.keyCode == 13 ){
+			  $("#login").click();
+		  }
+        });
+		/*用户名框赋焦点*/
+		$("#account").focus();
+
+		/*
+		 * 点击更换验证码
+		*/
+		$("#yzm_change").click(function(){
+		   $("#yzm").attr('src','yzm/num/'+Math.random());
+		   return false;
+	    });
+
+		/*
+		 * 更换验证码
+		*/
+		$("#yzm").click(function(){
+		   $(this).attr("src",'yzm/num/'+Math.random());
+	    });
+
+        //提示框初始化
+        $("[data-toggle='popover']").popover('hide');
+		/*登陆按钮验证*/
+		$("#login").click(function(){
+            $("[data-toggle='popover']").popover('hide');
+		     var account  = $("#account").val();
+			 var password = $("#password").val();
+			 var yzm      = $("#YZM").val();
+			 if(account == "" || password == "" || yzm == ""){
+				 if(account == ""){
+                     $('#account').popover('show');
+					 $("#account").focus();
+				 } else if(password == ""){
+                     $('#password').popover('show');
+					 $("#password").focus();
+				 } else if(yzm == ""){
+                     $('#YZM').popover('show');
+					 $("#YZM").focus();
+				 }
+				 return false;
+			 } else {
+			     /*
+				  * 验证信息的完善性
+				 */
+				 $.post("check_login",{ account:account , password:password , yzm:yzm },function(json){
+					 if( json.status == 0 ){
+						 $("#yzm").attr('src','yzm/num/'+Math.random());
+						 $("#YZM").val("");
+						 $('#login').attr('data-content', json.info).popover('show');
+                         return false;
+				     } else {
+                         window.location.reload();
+					 }
+                     return false;
+				 },'json');
+		     }
+		});
+	});
+  </script>
+</body>
+</html>

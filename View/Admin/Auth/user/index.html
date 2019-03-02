@@ -1,0 +1,560 @@
+<?php echo $header;?>
+
+<!-- jPList js and css  -->
+<link href="/static/jquery/jquery-plugins/jplist/css/jplist-core.min.css" rel="stylesheet" type="text/css" />
+<script src="/static/jquery/jquery-plugins/jplist/js/jplist-core.min.js"></script>
+
+<script src="/static/jquery/jquery-plugins/jplist/js/jplist.textbox-control.min.js"></script>
+<link href="/static/jquery/jquery-plugins/jplist/css/jplist-textbox-control.min.css" rel="stylesheet" type="text/css" />
+
+<!-- jplist pagination bundle -->
+<script src="/static/jquery/jquery-plugins/jplist/js/jplist.pagination-bundle.min.js"></script>
+<link href="/static/jquery/jquery-plugins/jplist/css/jplist-pagination-bundle.min.css" rel="stylesheet" type="text/css" />
+
+<!-- jplist history bundle -->
+<script src="/static/jquery/jquery-plugins/jplist/js/jplist.history-bundle.min.js"></script>
+<link href="/static/jquery/jquery-plugins/jplist/css/jplist-history-bundle.min.css" rel="stylesheet" type="text/css" />
+
+<!-- preloader -->
+<script src="/static/jquery/jquery-plugins/jplist/js/jplist.preloader-control.min.js"></script>
+<link href="/static/jquery/jquery-plugins/jplist/css/jplist-preloader-control.min.css" rel="stylesheet" type="text/css" />
+
+<!-- filter dropdown control -->
+<script src="/static/jquery/jquery-plugins/jplist/js/jplist.filter-dropdown-bundle.min.js"></script>
+
+<link href="/static/bootstrap/css/bootstrap-switch.css" rel="stylesheet">
+<script src="/static/bootstrap/js/bootstrap-switch.min.js"></script>
+<script src="/static/handlebars-v3.0.3.js"></script>
+
+<link href="/static/bootstrap/css/bootstrap-switch.css" rel="stylesheet">
+<link href="/static/admin/auth/user/index.css" rel="stylesheet">
+<script src="/static/bootstrap/js/bootstrap-switch.min.js"></script>
+
+<div class="container-fluid">
+    <div class="row">
+        <?php echo $slide_common;?>
+        <div class="col-sm-4 col-sm-offset-3 col-md-9 col-md-offset-2 main">
+            <h2 class="page-header">用户中心</h2>
+            <div id="jplist-page-area" class="box jplist">
+
+                <!-- ios button: show/hide panel -->
+                <div class="jplist-ios-button">
+                    <i class="fa fa-sort"></i>
+                    jPList Actions
+                </div>
+
+                <!-- panel -->
+                <div class="jplist-panel box panel-top">
+                    <div class="row">
+                        <div class="text-filter-box">
+
+                            <!--[if lt IE 10]>
+                            <div class="jplist-label">账户:</div>
+                            <![endif]-->
+
+                            <input
+                                    data-path=".title"
+                                    data-button="#account-search-button"
+                                    type="text"
+                                    value=""
+                                    placeholder="账户"
+                                    data-control-type="textbox"
+                                    data-control-name="account"
+                                    data-control-action="filter"
+                                    />
+
+                            <button
+                                    type="button"
+                                    id="account-search-button"  class="list-flush-button">
+                                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                            </button>
+                        </div>
+                        <div class="text-filter-box">
+
+                            <!--[if lt IE 10]>
+                            <div class="jplist-label">昵称:</div>
+                            <![endif]-->
+
+                            <input
+                                    data-path=".title"
+                                    data-button="#nickname-search-button"
+                                    type="text"
+                                    value=""
+                                    placeholder="昵称"
+                                    data-control-type="textbox"
+                                    data-control-name="nickname"
+                                    data-control-action="filter"
+                                    />
+
+                            <button
+                                    type="button"
+                                    id="nickname-search-button">
+                                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                            </button>
+                        </div>
+                        <div
+                                class="jplist-drop-down"
+                                data-control-type="filter-drop-down"
+                                data-control-name="role_id"
+                                data-control-action="radio">
+
+                            <ul>
+                                <li><span data-path="">权限组</span></li>
+                                <?php foreach((array)$role_list as $role_id => $val){ ?>
+                                    <li><span data-path="<?php echo $role_id;?>"><?php echo $val['name'];?></span></li>
+                                <?php } ?>
+                            </ul>
+                        </div>
+                        <div
+                                class="jplist-drop-down"
+                                data-control-type="filter-drop-down"
+                                data-control-name="status"
+                                data-control-action="radio">
+
+                            <ul>
+                                <li><span data-path="">状态</span></li>
+                                <li><span data-path="0">禁用</span></li>
+                                <li><span data-path="1">启用</span></li>
+
+                            </ul>
+                        </div>
+                        <button type="button" type="button" id="add-controller" data-toggle="modal" data-target="#addUserModal"
+                                class="btn btn-primary">新增</button>
+
+                        <!-- reset button -->
+                        <button
+                                style="margin-bottom: 10px;"
+                                type="button"
+                                class="jplist-reset-btn"
+                                data-control-type="reset"
+                                data-control-name="reset"
+                                data-control-action="reset">
+                            重置 &nbsp;<span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>
+                        </button>
+                    </div>
+                    <div class="row" style="margin-bottom: 10px;">
+                        <div
+                                class="jplist-drop-down"
+                                data-control-type="items-per-page-drop-down"
+                                data-control-name="paging"
+                                data-control-action="paging">
+
+                            <ul>
+                                <li><span data-number="10"> 每页 10 条 </span></li>
+                                <li><span data-number="20" data-default="true"> 每页 20 条 </span></li>
+                                <li><span data-number="50"> 每页 50 条 </span></li>
+                            </ul>
+                        </div>
+
+                        <!-- pagination results -->
+                        <div
+                                class="jplist-label"
+                                data-type="Page {current} of {pages} 共 {all} 条"
+                                data-control-type="pagination-info"
+                                data-control-name="paging"
+                                data-control-action="paging">
+                        </div>
+
+                        <!-- pagination -->
+                        <div
+                                class="jplist-pagination"
+                                data-control-type="pagination"
+                                data-control-name="paging"
+                                data-control-action="paging">
+                        </div>
+
+                        <!-- preloader for data sources -->
+                        <div
+                                class="jplist-hide-preloader jplist-preloader"
+                                data-control-type="preloader"
+                                data-control-name="preloader"
+                                data-control-action="preloader">
+                            <img src="/static/jquery/jquery-plugins/jplist/img/common/ajax-loader-line.gif" alt="Loading..." title="Loading..." />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ajax content here -->
+                <div class=" row">
+                    <table data-filter="#filter" class="table table-bordered table-hover" id="LIST" style="margin:0px;">
+                        <thead>
+                        <tr>
+                            <th  data-sort-ignore="true" style="text-align: center;" data-class="expand">id</th>
+                            <th  data-sort-ignore="true" style="text-align: center;" data-class="expand">账户</th>
+                            <th  data-sort-ignore="true" style="text-align: center;" data-class="expand">昵称</th>
+                            <th  data-sort-ignore="true" style="text-align: center;">权限组</th>
+                            <th  data-sort-ignore="true" style="text-align: center;">状态</th>
+                            <th data-sort-ignore="true" style="text-align: center;">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody id="role_list_container">
+
+                        </tbody>
+                    </table>
+
+                </div>
+
+                <!-- no result found -->
+                <div class="box jplist-no-results text-shadow align-center jplist-hidden">
+                    <p>暂无结果！</p>
+                </div>
+
+                <!-- ios button: show/hide panel -->
+                <div class="jplist-ios-button">
+                    <i class="fa fa-sort"></i>
+                    jPList Actions
+                </div>
+                <div class="jplist-panel box panel-bottom" style="margin: 0 0 20px 0">
+                    <div
+                            class="jplist-drop-down"
+                            data-control-type="items-per-page-drop-down"
+                            data-control-name="paging"
+                            data-control-action="paging">
+
+                        <ul>
+                            <li><span data-number="10"> 每页 10 条 </span></li>
+                            <li><span data-number="20" data-default="true"> 每页 20 条 </span></li>
+                            <li><span data-number="50"> 每页 50 条 </span></li>
+                        </ul>
+                    </div>
+
+                    <!-- pagination results -->
+                    <div
+                            class="jplist-label"
+                            data-type="Page {current} of {pages} 共 {all} 条"
+                            data-control-type="pagination-info"
+                            data-control-name="paging"
+                            data-control-action="paging">
+                    </div>
+
+                    <!-- pagination -->
+                    <div
+                            class="jplist-pagination"
+                            data-control-type="pagination"
+                            data-control-name="paging"
+                            data-control-action="paging">
+                    </div>
+
+                    <!-- preloader for data sources -->
+                    <div
+                            class="jplist-hide-preloader jplist-preloader"
+                            data-control-type="preloader"
+                            data-control-name="preloader"
+                            data-control-action="preloader">
+                        <img src="/static/jquery/jquery-plugins/jplist/img/common/ajax-loader-line.gif" alt="Loading..." title="Loading..." />
+                    </div>
+
+                </div>
+
+            </div>
+            <?php echo $footer;?>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">新增用户 （新增用户的密码统一为123456,请用户自己更改）</h4>
+            </div>
+            <div class="modal-body">
+                <form id="add_user_form" action="<?php echo $actions['add'];?>">
+                    <div class="form-group">
+                        <label for="" class="control-label">用户名</label>
+                        <input type="text" class="form-control" name="user_name">
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="control-label">昵称</label>
+                        <input type="text" class="form-control" name="nickname">
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" name="role_id">
+                            <option value="0"> --请选择-- </option>
+                            <?php foreach($role_list as $role){ ?>
+                            <option value="<?php echo $role['id'];?>"><?php echo $role['name'];?></option>
+                            <?php } ?>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="control-label">来源</label>
+                        <input type="text" class="form-control" name="source">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" data-action="add_user" class="btn btn-primary">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="resetPassword" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">重置密码 <button type="button" class="btn btn-default btn-sm" data-action="rand_password">生成随机密码</button></h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <input type="text" class="form-control" name="new_password" placeholder="请输入密码" value="">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" data-action="reset_passwd" data-id="" data-url="<?php echo $actions['resetPasswd']; ?>">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="edit_user" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+</div>
+
+<script>
+    $(function(){
+        //格式化用户权限组
+        Handlebars.registerHelper("formatRole",function(role_id, role_list, options){
+            var option_html = '<option value="">--选择权限组--</option>';
+            $.each(role_list, function(index, ele){
+                if(role_id == ele.id){
+                    option_html += '<option value="'+ele.id+'" selected="selected">'+ele.name+'</option>';
+                }else{
+                    option_html += '<option value="'+ele.id+'">'+ele.name+'</option>';
+                }
+            });
+            return option_html;
+        });
+
+        Handlebars.registerHelper('formatStatus', function(status){
+            return 1 == status ? 'checked="checked"' : '';
+        });
+
+        function render_jplist(){
+            var $list = $('#role_list_container')
+                    , template = Handlebars.compile($('#jplist-template').html());
+
+            //init jplist with php + mysql data source, json and Mustache template
+            $('#jplist-page-area').jplist({
+                itemsBox: '.list'
+                , itemPath: '.list-item'
+                , panelPath: '.jplist-panel'
+                , dataSource: {
+                    type: 'server'
+                    , server: {
+                        //ajax settings
+                        ajax: {
+                            url: "<?php echo $actions['getUserList'];?>"
+                            , dataType: 'json'
+                            , type: 'POST'
+                            , data: {}
+                        }
+                    }
+                    //render function for json + templates like Mustache, xml + xslt etc.
+                    , render: function (dataItem, statuses) {
+                        $list.html(template(dataItem.content));
+                        //调用开关插件
+                        $("input[name=status]").bootstrapSwitch();
+                        $('input[name="status"]').on('switchChange.bootstrapSwitch', function(event, state) {
+                            $.post(
+                                $(this).data('url'),
+                                {
+                                    user_id: $(this).data('id'),
+                                    status: state ? 1 : 0
+                                },
+                                function(res){
+                                    layer.msg(res.info, {icon:res.status});
+                                    if(res.status == 0){
+                                        global_flush_jplist();
+                                    }
+                                }
+                            );
+                        });
+                        $('select[name=user_role]').change(function(){
+                            var _this = $(this);
+                            layer.confirm('确定要修改权限组？', {icon: 3, title:'提示'}, function(index){
+                                //do something
+                                if(index){
+                                    $.post(
+                                        _this.data('url'),
+                                        {user_id: _this.data('id'), role_id: _this.val()},
+                                        function(res){
+                                            layer.msg(res.info, {icon:res.status});
+                                            if(res.status == 0){
+                                                global_flush_jplist();
+                                            }
+                                        }
+                                    );
+                                }
+                            });
+                        });
+                    }
+                }
+
+            });
+        }
+
+        render_jplist();
+
+        layer.config({
+            skin:'layer-ext-moon',
+            extend:'skin/moon/style.css'
+        });
+
+        $(document).on('click', 'button',function() {
+            var current_action = $(this).attr('data-action');
+            var _this = $(this);
+            switch (current_action){
+                case 'add_user':
+                    $.post(
+                        $('#add_user_form').attr('action'),
+                        $('#add_user_form').serialize(),
+                        function (res) {
+                            layer.msg(res.info, {icon:res.status});
+                            if(res.status){
+                                $('#addUserModal').modal('hide');
+                                global_flush_jplist();
+                            }
+                        }
+                    );
+                    break;
+                case 'rand_password':
+                    $('input[name=new_password]').val(getRandPassword());
+                    break;
+                case 'reset_passwd':
+                    $.post(
+                        $(this).data('url'),
+                        {
+                            user_id: $(this).data('id'),
+                            new_passwd: $('input[name=new_password]').val()
+                        },
+                        function(res){
+                            layer.msg(res.info, {icon:res.status});
+                        }
+                    );
+                    break;
+                case 'manager':
+                    $('[data-action=reset_passwd]').data('id', $(this).data('id'));
+                    break;
+                case 'edit':
+                    $.get(
+                        _this.attr('data-url'),
+                        {user_id:_this.attr('data-id')},
+                        function(res){
+                            if(1 == res.status){
+                                var handle_template = Handlebars.compile($('#edit-user-template').html());
+                                $('#edit_user').html(handle_template(res.data));
+                                $('#edit_user').modal('show');
+                            }
+                        }
+                    );
+                    break;
+                case 'saveEdit':
+                    $.post(
+                            $('#edit_user_form').attr('action'),
+                            $('#edit_user_form').serialize(),
+                            function (res) {
+                                layer.msg(res.info, {icon:res.status});
+                                if(res.status){
+                                    $('#edit_user').modal('hide');
+                                    global_flush_jplist();
+                                }
+                            }
+                    );
+                    break;
+                case 'delete':
+                    layer.confirm('确定要删除么？', {icon: 3, title:'提示'}, function(index){
+                        //do something
+                        if(index){
+                            $.post(
+                                _this.attr('data-url'),
+                                {user_id: _this.attr('data-id')},
+                                function(res){
+                                    layer.msg(res.info, {icon:res.status});
+                                    res.status == 1 && global_flush_jplist();
+                                }
+                            );
+                        }
+                    });
+                    break;
+                default:
+                    break;
+            }
+        });
+    });
+
+    function getRandPassword(){
+        return _getRandomString(9);
+    }
+    function _getRandomString(len) {
+        len = len || 32;
+        var $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz0123456789'; // 默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1
+        var maxPos = $chars.length;
+        var pwd = '';
+        for (i = 0; i < len; i++) {
+            pwd += $chars.charAt(Math.floor(Math.random() * maxPos));
+        }
+        return pwd;
+    }
+</script>
+
+<!-- Mustache template -->
+<script id="jplist-template" type="x-tmpl-mustache">
+    {{#user_list}}
+        <tr style="" data-id="tr_id_{{id}}">
+            <td style="text-align: center;">{{id}}</td>
+            <td style="text-align: center;">{{account}}</td>
+            <td style="text-align: center;">{{nickname}}</td>
+            <td style="text-align: center;">
+                <select data-id={{id}} name="user_role" data-url="<?php echo $actions['setRole'];?>">
+                {{#formatRole role_id ../role_list}}{{/formatRole}}
+                </select>
+            </td>
+            <td style="text-align: center;">
+                <div class="switch has-switch">
+                    <input  data-on-text="启用" data-off-text="禁用" name="status" type="checkbox" {{formatStatus status}} data-id="{{id}}" data-url="<?php echo $actions['editStatus'];?>">
+                </div>
+            </td>
+            <td style="text-align: center;">
+                <div class="btn-group" role="group" aria-label="...">
+                    <button class="btn btn-primary" type="button"  data-id="{{id}}" data-action="edit" data-url="<?php echo $actions['edit'];?>" >编辑</button>
+                    <button class="btn btn-warning" type="button"  data-id="{{id}}" data-action="manager"  data-toggle="modal" data-target="#resetPassword">重置密码</button>
+                    <button class="btn btn-danger" type="button"  data-id="{{id}}" data-action="delete" data-url="<?php echo $actions['delete'];?>">删除</button>
+                </div>
+            </td>
+        </tr>
+    {{/user_list}}
+</script>
+
+<!-- Mustache template -->
+<script id="edit-user-template" type="x-tmpl-mustache">
+    {{#.}}
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="exampleModalLabel">编辑用户</h4>
+                </div>
+                <form id="edit_user_form" action="<?php echo $actions['edit'];?>">
+                <div class="modal-body" style="margin-bottom:20px;">
+                        <div class="form-group">
+                            <label for="" class="control-label col-sm-2 control-label">昵称</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control" name="nickname" value="{{nickname}}" />
+                            </div>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" name="user_id" value={{id}} />
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" data-action="saveEdit" class="btn btn-primary">保存</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    {{/.}}
+</script>

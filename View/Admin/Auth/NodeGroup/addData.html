@@ -1,0 +1,198 @@
+<link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet">
+<link href="/static/bootstrap/dashboard.css" rel="stylesheet">
+<link href="/static/bootstrap/site.min.css" rel="stylesheet">
+<link href="/static/bootstrap/css/bootstrap-switch.css" rel="stylesheet">
+<script src="/static/jquery/jquery-1.11.2.min.js"></script>
+<script src="/static/bootstrap/js/bootstrap.min.js"></script>
+<script src="/static/bootstrap/js/bootstrap-switch.min.js"></script>
+<script src="/static/layer/layer.js"></script>
+<script src="/static/handlebars-v3.0.3.js"></script>
+
+<script src="/static/jquery/jquery-plugins/jquery.number.min.js"></script>
+<script src="/static/jquery/jquery-plugins/lhgcalendar-3.0.0/jquery-1.7.1.min.js"></script>
+<script src="/static/jquery/jquery-plugins/lhgcalendar-3.0.0/lhgcalendar.min.js"></script>
+<script src="/static/jquery/jquery-plugins/uploadify/jquery.uploadify.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/jquery/jquery-plugins/uploadify/uploadify.css">
+<form id="form_add"  class="form-horizontal" style="padding: 10px;" action="">
+
+</form>
+<script>
+    $(function(){
+
+        layer.config({
+            skin:'layer-ext-moon',
+            extend:'skin/moon/style.css'
+        });
+        Handlebars.registerHelper("formatDefault", function (value, default_value, options) {
+            if(undefined == value || '' == value){
+                return default_value;
+            }else{
+                return value;
+            }
+        });
+
+        var fields_add = $.parseJSON('<?php echo $fields_add;?>');
+        if(fields_add){
+            var form_html = '';
+            $.each(fields_add, function(index, field){
+                if(field.is_show && field.form_config){
+                    switch (field.form_config.type){
+                        case 'text':
+                            var template = Handlebars.compile($('#add-template-input').html());
+                            form_html += template(field);
+                            break;
+                        case 'textarea':
+                            var template = Handlebars.compile($('#add-template-textarea').html());
+                            form_html += template(field);
+                            break;
+                        case 'select':
+                            var template = Handlebars.compile($('#add-template-select').html());
+                            form_html += template(field);
+                            break;
+
+                        case 'file':
+                            var template = Handlebars.compile($('#add-template-file').html());
+                            form_html += template(field);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            });
+            var template = Handlebars.compile($('#add-template-operate').html());
+            form_html += template([]);
+            $('#form_add').html(form_html);
+        }
+
+        $('#form_add').on('submit',function(){
+            $.post(
+                    $(this).attr('action'),
+                    $(this).serialize(),
+                    function(res){
+                        layer.msg(res.info, {icon:res.status});
+                        if(1 == res.status){
+                            $('#default-search-button', parent.document).click();
+                            var index = parent.layer.getFrameIndex(window.name);
+                            //先得到当前iframe层的索引
+                            parent.layer.close(index); //再执行关闭
+                        }
+                    }
+            );
+            return false;
+        });
+        //注意jQuery版本的加载顺序（先加载1.11.2版本，再加载1.7版本）
+        //使用1.7版本
+        var jq1_7_1 = jQuery.noConflict(true);
+        jq1_7_1(document).find('.lhgcalendar').calendar({
+            format: 'yyyy-MM-dd HH:mm:ss',
+        });
+
+        var file_img_obj=$(".upload_file_addform");
+        $.each(file_img_obj,function(index,value){
+            name=$(value).attr("name");
+              jq1_7_1('#file_upload_'+name).uploadify({
+                'buttonText': '上传图片',
+                'fileSizeLimit' : '5MB',
+                'fileTypeExts' : '*.gif; *.jpg; *.png; *.jpeg;',
+                'fileTypeDesc' : '支持上传格式：gif,jpg,jpeg,png',
+                'formData'     : {
+                },
+                'swf'      : '/static/jquery/jquery-plugins/uploadify/uploadify.swf',
+                'uploader' : "<?php echo $actions['uploadProfileImg'];?>",
+                'onSelect': function(){
+                    $('button[name=submit]').prop('disabled', 'disabled');
+                },
+                'onUploadSuccess' : function(file, res, response) {
+                    var json_res = $.parseJSON(res);
+                    //获取from_config的name
+                    var _this_file=$(this);
+                    button_id=_this_file[0]['button'][0]['id'];
+                    name=button_id.replace("file_upload_","").substring(0,button_id.replace("file_upload_","").indexOf("-"));
+                    
+                    if(1 == json_res.status){
+                        $('input[name='+name+']').val(json_res.data.key);
+                        $('#show_uploaded_photo_'+name).attr('src', json_res.data.key).show();
+                    }else{
+                        $('input[name='+name+']').val('');
+                        $('#show_uploaded_photo_'+name).attr('src', '').hide();
+                    }
+                    $('button[name=submit]').removeAttr('disabled');
+                }
+
+            });
+
+        });
+
+    });
+</script>
+
+<!--input 表单模板开始 -->
+<script id="add-template-input" type="text/template">
+    <div class="form-group">
+        <label class="col-sm-2 control-label">{{form_config.title}}</label>
+        <div class="col-sm-6">
+            <input name="{{form_config.name}}"
+                   type="{{form_config.type}}"
+                   class="{{{formatDefault form_config.class 'form-control'}}}"
+                   placeholder="{{form_config.title}}"
+                   value="{{{formatDefault form_config.value ''}}}" {{form_config.output}}>
+        </div>
+    </div>
+</script>
+<!--input 表单模板结束 -->
+
+<!--textarea 表单模板开始 -->
+<script id="add-template-textarea" type="text/template">
+    <div class="form-group">
+        <label class="col-sm-2 control-label">{{form_config.title}}</label>
+        <div class="col-sm-6">
+            <textarea  class="{{{formatDefault form_config.class 'form-control'}}}"
+                      name="{{form_config.name}}">{{form_config.value}}</textarea>
+        </div>
+    </div>
+</script>
+<!--textarea 表单模板结束 -->
+
+<!--select 表单模板开始 -->
+<script id="add-template-select" type="text/template">
+    <div class="form-group">
+        <label class="col-sm-2 control-label">{{form_config.title}}</label>
+        <div class="col-sm-6">
+            <select
+                    class="{{{formatDefault form_config.class 'form-control'}}}"
+                    name="{{form_config.name}}">
+                {{#form_config.select_options}}
+                    <option value="{{value}}">{{name}}</option>
+                {{/form_config.select_options}}
+            </select>
+        </div>
+    </div>
+</script>
+<!--select 表单模板结束 -->
+
+<!-- file 表单模板开始 -->
+<script id="add-template-file" type="text/template">
+    <div class="form-group">
+        <label for="inputPassword3" class="col-sm-2 control-label">{{form_config.title}}</label>
+        <div class="col-sm-6">
+            <div id="queue"></div>
+            <input style="margin-left: 200px;" id="file_upload_{{form_config.name}}" name="file_upload" type="{{form_config.type}}" multiple="true">
+            <img id="show_uploaded_photo_{{form_config.name}}" src="" alt="..." class="img-rounded"
+                 style="width: 140px; height: 140px;display: none;">
+            <input name="{{form_config.name}}" type="hidden" class="upload_file_addform" placeholder="{{form_config.title}}" value="" />
+        </div>
+    </div>
+</script>
+<!-- file 表单模板结束 -->
+
+
+<!-- 按钮模板开始 -->
+<script id="add-template-operate" type="text/template">
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-6">
+            <button name="submit" type="submit" class="btn btn-primary" data-action="">保存</button>
+            <button name="reset" type="reset" class="btn btn-warning" >重置</button>
+        </div>
+    </div>
+</script>
+<!-- 表单模板结束 -->

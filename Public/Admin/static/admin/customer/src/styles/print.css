@@ -1,0 +1,8 @@
+@media print {
+    body {
+        /*background-color: red;*/
+    }
+    .header .download-warp>img {
+        visibility: hidden;
+    }
+}

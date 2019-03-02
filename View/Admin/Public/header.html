@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon"/>
+
+    <title><?php echo $title; ?></title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="/static/bootstrap/dashboard.css" rel="stylesheet">
+    <link href="/static/bootstrap/site.min.css" rel="stylesheet">
+    <link href="/static/admin/common/admin-common.css" rel="stylesheet">
+    <script src="/static/jquery/jquery-1.11.2.min.js"></script>
+    <script src="/static/js/tools.js"></script>
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/static/layer/layer.js"></script>
+    <script src="/static/mustache.js"></script>
+    <script src="/static/js/sortable.js"></script>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top" id="container">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#"><?php echo $title; ?></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav left  sortable-container nav-item">
+                <?php foreach($nav_list as $key => $node){ if($node['display']){ ?>
+                    <li class="<?php echo $node['active'];?> sort_item sortable-drag" data-id="<?php echo $node['id'];?>">
+                        <a href="<?php echo $node['nav_url'];?>"><?php echo $node['title'];?></a>
+                    </li>
+                <?php } } ?>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li ><a href="#">欢迎回来，<?php echo $user_info['nickname'] ? $user_info['nickname'] : $user_info['account']; ?></a></li>
+                <li><a href="<?php echo $actions['logout_url'];?>">退出</a></li>
+            </ul>
+            <!--<form class="navbar-form navbar-right">-->
+                <!--<input class="form-control" placeholder="Search..." type="text">-->
+            <!--</form>-->
+        </div>
+    </div>
+</nav>
+
+<script type="text/javascript">
+    $(function(){
+        var sortable = Sortable.create($('.sortable-container')[0], {
+            dragClass: "sortable-drag",  // Class name for the dragging item
+            dataIdAttr: 'data-id',
+
+            onEnd: function (/**Event*/evt) {
+                if(evt.oldIndex != evt.newIndex){
+                    var sort_index = [];
+                    $('.sort_item').each(function(){
+                        sort_index.push($(this).data('id'));
+                    });
+                    $.ajax({
+                        url: "<?php echo $actions['saveSort'];?>",
+                        type:'post',
+                        data: {
+                            'sort_list': sort_index
+                        },
+                        success:function(res){
+                            layer.msg(res.info);
+                        }
+                    });
+                }
+            },
+        });
+
+    });
+</script>
+
+<script type="text/javascript">
+  var $height =  $('#container').height();
+</script>

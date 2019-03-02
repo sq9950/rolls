@@ -1,0 +1,133 @@
+#!/usr/bin/env php
+<?php
+/**
+ * useage ./ypfclijob \\Controller\\Cli\\Monitor\\main a/1/b/2
+ * legend:  \\Controller\\Cli\\Monitor\\main 动作  a/1/b/2参数
+ */
+date_default_timezone_set('Asia/Shanghai');
+
+//error_reporting(E_ALL);
+error_reporting(E_ALL ^ E_WARNING ^ E_NOTICE ^ E_DEPRECATED);
+ini_set('display_errors',     'On');
+define('ERROR_DISPLAY_CLI',   true);
+define('ERROR_DISPLAY_HTML', false);
+define('SYS_KEY',       'admin-v3');
+
+ini_set('limit_memory','512M');
+if(0 === strpos(strtolower(PHP_OS), 'win')) exit("can not run on Windows operating system\n");
+if(empty($argv[1])) exit("useage: \\Controller\\Cli\\Monitor\\main a/1/b/2 ".PHP_EOL);
+
+//动作
+$action = trim($argv[1]);
+if(substr($action, 0, 1) != '\\') $action = '\\'.$action;
+$action = str_replace(".", "\\", $action);
+
+//参数
+$params = isset($argv[2])?$argv[2]:'';
+$depr = "/";
+$paramsArr = explode($depr, trim($params, $depr));
+
+if(count($paramsArr) > 1){
+	// 解析剩余参数 并采用GET方式获取
+    foreach($paramsArr as $key => $val){
+        !($key & 1) && $_GET[$val] = $paramsArr[$key + 1];
+    }
+}
+
+
+define("__ROOT__",dirname(__DIR__));
+define("__APP__", __ROOT__); //Public
+define("__LIBRARY__", __ROOT__ . '/Library');
+define("__LOG_PATH__", __ROOT__.'/Runtime/Logs/');
+
+//define("__CONF__",__ROOT__. '/Conf');
+$applicaion = getenv("APPLICATION_ENV") ?getenv("APPLICATION_ENV") : "Conf";
+define("__CONF__",__ROOT__. '/'.$applicaion.'/');
+define("__ViolationWord_PATH__", __ROOT__.'/WebRoot/Public/'); //违规关键词目录
+
+$autoloadFile = __ROOT__.'/vendor/autoload.php';
+if(file_exists($autoloadFile)) require $autoloadFile;
+
+require __ROOT__.'/../Ypf/Ypf.php';
+
+
+$ypfSetting = array(
+	'root' => __ROOT__,
+);
+
+$app = new \Ypf\Ypf($ypfSetting);
+
+
+//config
+$config = new \Ypf\Lib\Config();
+$config->load(__CONF__);
+$config->load(__CONF__.'/Cli');
+$config->load(__CONF__.'/Cli/action');
+$conf  = require(__CONF__.'/Cli/config.php');
+\Ypf\Lib\Config::$config = array_merge(\Ypf\Lib\Config::$config, $conf); //合并.php配置文件
+
+$app->set('config', $config);
+
+$load = new \Ypf\Lib\Load(__ROOT__);
+$app->set('load', $load);
+
+//help
+$load->helper(array('common', 'utf8'));
+
+//qw_bs
+$qwconf = array(
+    'conConf' => array(
+        'host' => $config->get('db.queue.BEANSTALK_SERVER'),
+        'port' => $config->get('db.queue.BEANSTALK_PORT'),
+        'persistent' => true,
+        'timeout' => 2,
+    ),
+    'tubeConf' => array(
+        'tube_dns' => $config->get('db.tube.QUEUE_DNS'),
+        'tube_clear_cache' => $config->get('db.tube.QUEUE_CLEAR_CACHE'),
+        'tube_mail_send' => $config->get('db.tube.QUEUE_NEW_MAIL_SEND'),
+        'tube_sms_send' => $config->get('db.tube.QUEUE_NEW_SMS_SEND'),
+        'tube_ip_dispatch' => $config->get('db.tube.QUEUE_IP_DISPATCH'),
+        'tube_ip_dispatch_domain' => $config->get('db.tube.QUEUE_IP_DISPATCH_DOMAIN'),
+        'tube_ip_dispatch_node' => $config->get('db.tube.QUEUE_IP_DISPATCH_NODE'),
+        'tube_ip_dispatch_pool' => $config->get('db.tube.QUEUE_IP_DISPATCH_POOL'),
+        'tube_ip_dispatch_ssl' => $config->get('db.tube.QUEUE_IP_DISPATCH_SSL'),
+        'tube_sync_dns_domain' => $config->get('db.tube.QUEUE_SYNC_DNS_DOMAIN'),
+        'tube_sync_cname_records' => $config->get('db.tube.QUEUE_SYNC_CNAME_RECORDS'),
+        'tube_clear_member_agent_cache' => $config->get('db.tube.QUEUE_CLEAR_MEMBER_AGENT_CACHE'),
+        'tube_queue_tube_redis_conf' => $config->get('db.tube.QUEUE_TUBE_REDIS_CONF'),
+        'tjkd_plus_ip_dispatch_callback' => $config->get('db.tube.QUEUE_TJKD_PLUS_IP_DISPATCH_CALLBACK'),
+    ),
+);
+$load->library('QueueWorker_Beanstalk.php', $qwconf, 'qw_bs');
+
+//db
+$db = new \Ypf\Lib\DatabaseV5($config->get('db.cp'));
+$app->set('db', $db);
+
+//db_api
+$db_api = new \Ypf\Lib\DatabaseV5($config->get('db.api'));
+$app->set('db_api',$db_api);
+
+//db dns
+$db_dns = new \Ypf\Lib\DatabaseV5($config->get('db.dns'));
+$app->set('db_dns',$db_dns);
+
+//log
+$log = new \Ypf\Lib\Log(__LOG_PATH__ . $config->get('default.log.ADMIN_V3_CLI_LOG_FILE'));
+$log->SetLevel(0);
+$app->set('log', $log);
+
+//sdk
+$app_id = $config->get('app_id_secret.conf.app_id');
+$app_secret = $config->get('app_id_secret.conf.app_secret');
+$client_ip = '127.0.0.1';
+$client_userAgent = 'YunDunMonitor-UserAgent';
+$load->library('YundunSDK', array('app_id'=>$app_id, 'app_secret'=>$app_secret, 'client_ip'=>$client_ip, 'client_userAgent'=>$client_userAgent), 'sdk');
+
+
+//curl
+$load->library('Curl', '', 'curl');
+
+//excute action
+$app->disPatch($action, array_values($_GET));

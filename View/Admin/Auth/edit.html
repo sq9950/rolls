@@ -1,0 +1,414 @@
+<link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet">
+<link href="/static/bootstrap/dashboard.css" rel="stylesheet">
+<link href="/static/bootstrap/site.min.css" rel="stylesheet">
+<link href="/static/bootstrap/css/bootstrap-switch.css" rel="stylesheet">
+<script src="/static/jquery/jquery-1.11.2.min.js"></script>
+<script src="/static/bootstrap/js/bootstrap.min.js"></script>
+<script src="/static/bootstrap/js/bootstrap-switch.min.js"></script>
+<script src="/static/layer/layer.js"></script>
+<script src="/static/mustache.js"></script>
+
+<style  type="text/css">
+    .glyphicon-xuanzhuan{
+        animation: spin 5s linear infinite;
+    }
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+</style>
+<ul class="nav nav-tabs">
+    <li name="basic_info" role="presentation" class="active"><a href="#basic">基本信息</a></li>
+    <li  id="node_li" data-action="flush_node"
+        data-id="<?php echo $node_id;?>"
+        data-url="<?php echo $action_url['getClassNode'];?>"
+        data-class="action" name="action_list" role="presentation"><a href="#extend">方法列表</a></li>
+</ul>
+<form data-action-type="nodeSave" name="edites" class="form-horizontal" id="basic_info" style="padding: 10px;" action="<?php echo $action_url['nodeSave'];?>">
+    <div class="form-group">
+        <label for="inputEmail3" class="col-sm-2 control-label">标题</label>
+        <div class="col-sm-6">
+            <input name="node_title" type="text" class="form-control" id="inputEmail3" placeholder="请输入标题" value="<?php echo $basic_info['title'];?>">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputPassword3" class="col-sm-2 control-label">控制器名</label>
+        <div class="col-sm-6">
+            <input name="node_name" type="text" class="form-control" id="inputPassword3" placeholder="请输入控制器名" value="<?php echo $basic_info['name'];?>" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputPassword3" class="col-sm-2 control-label">菜单别名</label>
+        <div class="col-sm-6">
+            <input name="node_nav_name" type="text" class="form-control" id="" placeholder="菜单别名，默认为空" value="<?php echo $basic_info['nav_name'];?>" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputPassword3" class="col-sm-2 control-label">菜单分组</label>
+        <div class="col-sm-6">
+            <select class="form-control" name="group_id">
+                <option>无分组</option>
+                <?php foreach($group_list as $group){ ?>
+                    <option value="<?php echo $group['id'];?>" <?php if($group['id']==$basic_info['group_id']){?>selected="selected"<?php } ?>><?php echo $group['name'];?></option>
+                <?php } ?>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputPassword3" class="col-sm-2 control-label">区域展示</label>
+        <div class="col-sm-6">
+            <select class="form-control" name="node_pid">
+                <?php foreach($basic_info['parent_nodes'] as $node){ ?>
+                    <option value="<?php echo $node['id'];?>" <?php if($node['id']==$basic_info['pid']){?>selected="selected"<?php } ?>><?php echo $node['title'];?></option>
+                <?php } ?>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputPassword3" class="col-sm-2 control-label">是否显示</label>
+        <div class="col-sm-6">
+            <select class="form-control" name="display">
+                <option value="1" <?php if($basic_info['display']){ ?>selected="selected" <?php } ?> >显示</option>
+                <option value="0" <?php if(!$basic_info['display']){ ?>selected="selected" <?php } ?>>隐藏</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputPassword3" class="col-sm-2 control-label">状态</label>
+        <div class="col-sm-6">
+            <div class="switch" data-on-label="SI" data-off-label="NO">
+                <input name="node_status" type="checkbox" <?php if($basic_info['status']){ echo 'checked' ;} ?> />
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-6">
+            <input type="hidden" name="node_id" value="<?php echo $basic_info['id'];?>" />
+            <button name="submit" type="submit" class="btn btn-primary">保存</button>
+            <button type="button" class="btn btn-default">还原</button>
+        </div>
+    </div>
+</form>
+<table name="edites" class="table table-bordered  table-hover" id="action_list" style="width:850px;margin:10px;padding: 10px;display: none;">
+    <thead>
+    <tr>
+        <th>操作名</th>
+        <th>菜单别名</th>
+        <th>标题</th>
+        <th>
+            操作
+            <span class="glyphicon glyphicon-refresh" aria-hidden="true" style="cursor: pointer;"
+                    data-action="flush_node"
+                    data-class="action"
+                    data-id="<?php echo $node_id;?>"
+                    data-url="<?php echo $action_url['getClassNode'];?>"
+                    ></span>
+
+            <div class="btn-group" role="group" aria-label="...">
+                <button type="button" class="btn btn-primary btn-sm"
+                        data-class="action"
+                        data-action="batchAdd"
+                        data-url="<?php echo $action_url['nodeBatchAdd'];?>"
+                        data-id="" data-title="批量添加">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                </button>
+                <button type="button" class="btn btn-danger btn-sm"
+                        data-class="action"
+                        data-action="batchDelete"
+                        data-url="<?php echo $action_url['nodeBatchDelete'];?>"
+                        data-title="批量删除">
+                    <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                </button>
+            </div>
+        </th>
+    </tr>
+    </thead>
+    <tbody id="node_list_body">
+    <?php if(is_array($action_list) && !empty($action_list)){ foreach($action_list as $action){ ?>
+        <tr data-action-type="nodeEdit" id="action_edit_<?php echo $action['id'];?>">
+            <th scope="row" class="col-md-4">
+                <input type="text" class="form-control" value="<?php echo $action['name'];?>" name="node_name" />
+            </th>
+            <td>
+                <input type="text" class="form-control" value="<?php echo $action['nav_name'];?>" name="node_nav_name" />
+            </td>
+            <td>
+                <input type="text" class="form-control" value="<?php echo $action['title'];?>" name="node_title" />
+            </td>
+            <td>
+                <button type="button" name="save" data-class="action" data-action="node-edit" class="btn btn-sm btn-primary" data-id="<?php echo $action['id'];?>" data-url="<?php echo $action_url['nodeEdit'];?>">修改</button>
+                <button type="button" name="delete" data-class="action" data-action="node-delete" class="btn btn-sm btn-default" data-id="<?php echo $action['id'];?>" data-url="<?php echo $action_url['nodeDelete'];?>">删除</button>
+            </td>
+        </tr>
+    <?php } } ?>
+    <tr class="node-add" data-action-type="nodeAdd" id="action_add" method="post" action="<?php echo $action_url['nodeAdd'];?>">
+        <th scope="row" class="col-sm-4"><input id="node-add-name" type="text" class="form-control" value="" name="node_name"></th>
+        <td><input type="text" class="form-control" id="node-nav-name" value="" name="node_nav_name"></td>
+        <td><input type="text" class="form-control" id="node-add-title" value="" name="node_title"></td>
+        <td>
+            <input type="hidden" name="node_pid" value="<?php echo $basic_info['id'];?>" />
+            <button type="button" name="save" data-class="action" data-action="node-add" class="btn btn-primary" data-url="<?php echo $action_url['nodeAdd'];?>">添加新方法</button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<script id="tr-edit-template" type="text/template">
+    <tr data-action-type="nodeEdit" id="action_edit_{{node_id}}">
+        <th scope="row" class="col-sm-4">
+            <input type="text" class="form-control" value="{{node_name}}" name="node_name" />
+        </th>
+        <td>
+            <input type="text" class="form-control" value="{{node_nav_name}}" name="node_nav_name" />
+        </td>
+        <td>
+            <input type="text" class="form-control" value="{{node_title}}" name="node_title" />
+        </td>
+        <td>
+            <button type="button" name="save" data-class="action" data-action="node-edit" class="btn btn-sm btn-warning" data-id="{{node_id}}" data-url="{{node_edit_url}}">修改</button>
+            <button type="button" name="delete" data-class="action" data-action="node-delete" class="btn btn-sm btn-danger" data-id="{{node_id}}" data-url="{{node_delete_url}}">删除</button>
+        </td>
+    </tr>
+</script>
+
+<script id="tr-add-template" type="text/template">
+    {{#.}}
+    <tr data-action-type="nodeAdd">
+        <th scope="row" class="col-sm-4">
+            <input type="text" class="form-control" value="{{node_name}}" name="node_name" />
+        </th>
+        <td>
+            <input type="text" class="form-control" value="" name="node_nav_name" />
+        </td>
+        <td>
+            <input type="text" class="form-control" value="{{node_title}}" name="node_title" />
+        </td>
+        <td>
+            <input type="hidden" name="node_pid" value="<?php echo $node_id;?>" />
+            <button type="button" name="save" data-class="action" data-after="remove" data-action="node-add" class="btn btn-primary" data-url="<?php echo $action_url['nodeAdd'];?>">添加新方法</button>
+        </td>
+    </tr>
+    {{/.}}
+</script>
+
+
+<script id="tr-flush-template" type="text/template">
+    {{#.}}
+        {{#existed}}
+            <tr data-action-type="nodeEdit" id="action_edit_{{id}}">
+                <th scope="row" class="col-sm-4">
+                    <input type="text" class="form-control" value="{{name}}" name="node_name" {{^real_func}}style="color:red"{{/real_func}} />
+                </th>
+                <td>
+                    <input type="text" class="form-control" value="{{nav_name}}" name="node_nav_name" />
+                </td>
+                <td>
+                    <input type="text" class="form-control" value="{{title}}" name="node_title" />
+                </td>
+                <td>
+                    <button type="button" name="save" data-class="action" data-action="node-edit" class="btn btn-sm btn-warning" data-id="{{id}}" data-url="{{node_edit_url}}">修改</button>
+                    <button type="button" name="delete" data-class="action" data-action="node-delete" class="btn btn-sm btn-danger" data-id="{{id}}" data-url="{{node_delete_url}}">删除</button>
+                </td>
+            </tr>
+        {{/existed}}
+        {{^existed}}
+        <tr data-action-type="nodeAdd">
+            <th scope="row" class="col-sm-4">
+                <input type="text" class="form-control" value="{{node_name}}" name="node_name" title="{{class_name}}"  style="color:blue" />
+            </th>
+            <td>
+                <input type="text" class="form-control" value="" name="node_nav_name" />
+            </td>
+            <td>
+                <input type="text" class="form-control" value="{{node_title}}" name="node_title" />
+            </td>
+            <td>
+                <input type="hidden" name="node_pid" value="<?php echo $node_id;?>" />
+                <button type="button" name="save" data-class="action" data-after="flush" data-action="node-add" class="btn btn-primary" data-url="<?php echo $action_url['nodeAdd'];?>">
+                    添加<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                </button>
+            </td>
+        </tr>
+    {{/existed}}
+    {{/.}}
+    <tr data-action-type="nodeAdd">
+        <th scope="row" class="col-sm-4">
+            <input type="text" class="form-control" value="" name="node_name" />
+        </th>
+        <td>
+            <input type="text" class="form-control" value="" name="node_nav_name" />
+        </td>
+        <td>
+            <input type="text" class="form-control" value="" name="node_title" />
+        </td>
+        <td>
+            <input type="hidden" name="node_pid" value="<?php echo $node_id;?>" />
+            <button type="button" name="save" data-class="action"  data-after="flush" data-action="node-add" class="btn btn-primary" data-url="<?php echo $action_url['nodeAdd'];?>">
+                添加<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+            </button>
+        </td>
+    </tr>
+</script>
+
+<script>
+    $(function(){
+
+        //调用开关插件
+        $("[name='node_status']").bootstrapSwitch();
+        $('li').click(function(){
+            $('[name=edites]').hide();
+            $('li').removeClass('active');
+            var show_table = $(this).attr('name');
+            $('#'+show_table).show();
+            $(this).addClass('active');
+        });
+
+        layer.config({
+            skin:'layer-ext-moon',
+            extend:'skin/moon/style.css'
+        });
+
+        $(document).on('click', '[data-class=action]',function() {
+            var current_action = $(this).attr('data-action'),
+                    _this = $(this);
+            switch (current_action){
+                case 'node-add':
+                    var _tr = $(this).parent().parent();
+                    $.post(
+                        $(this).attr('data-url'),
+                        {
+                            node_name: _tr.find('input[name=node_name]').val(),
+                            node_nav_name: _tr.find('input[name=node_nav_name]').val(),
+                            node_title: _tr.find('input[name=node_title]').val(),
+                            node_pid: _tr.find('input[name=node_pid]').val()
+                        },
+                        function(res){
+                            layer.msg(res.info, {icon:res.status});
+                            if(1 == res.status){
+                                $('#node-add-name').val('');
+                                $('#node-nav-name').val('');
+                                $('#node-add-title').val('');
+                                $('.node-add').before(Mustache.render($('#tr-edit-template').html(), res.data));
+                                if(_this.attr('data-after') == 'flush'){
+                                    $.get(
+                                        "<?php echo $action_url['getClassNode'];?>",
+                                        {node_id: "<?php echo $node_id; ?>"},
+                                        function(res){
+                                            layer.msg(res.info, {icon:res.status,fix:true, offset: '100px', time:1000});
+                                            if(1 == res.status){
+                                                $('#node_list_body').html('').html(Mustache.render($('#tr-flush-template').html(), res.data));
+                                            }
+                                        }
+                                    );
+                                }
+                            }
+                        }
+                    );
+                    break;
+
+                case 'batchAdd':
+                    var batch_data = [];
+                    $.each($('tr[data-action-type=nodeAdd]'), function(index, ele){
+                        batch_data.push({
+                            "node_name" : $(ele).find('input[name=node_name]').val(),
+                            "node_nav_name" : $(ele).find('input[name=node_nav_name]').val(),
+                            "node_title" : $(ele).find('input[name=node_title]').val(),
+                            "node_pid" : $(ele).find('input[name=node_pid]').val(),
+                        });
+                    });
+                    $.post(
+                        _this.data('url'),
+                        {batch_data: batch_data},
+                        function(res){
+                            layer.msg(res.info, {icon:res.status});
+                            (1 == res.status) && $('#node_li').click();
+                        }
+                    );
+                    break;
+                case 'node-edit':
+                    var _tr = $(this).parent().parent();
+                    $.post(
+                        $(this).attr('data-url'),
+                        {
+                            node_name: _tr.find('input[name=node_name]').val(),
+                            node_nav_name: _tr.find('input[name=node_nav_name]').val(),
+                            node_title: _tr.find('input[name=node_title]').val(),
+                            node_id: $(this).attr('data-id')
+                        },
+                        function(res){
+                            layer.msg(res.info, {icon:res.status,fix:true, offset: '100px'});
+                        }
+                    );
+                    break;
+                case 'node-delete':
+                    layer.confirm('确定要删除么？', {icon: 3, title:'提示',fix:true, offset: '100px'}, function(index){
+                        //do something
+                        if(index){
+                            $.post(
+                                _this.attr('data-url'),
+                                {node_id: _this.attr('data-id')},
+                                function(res){
+                                    layer.msg(res.info, {icon:res.status,fix:true, offset: '100px'});
+                                    (1 == res.status) && $('#node_li').click();
+                                }
+                            );
+                        }
+                    });
+                    break;
+                case 'batchDelete':
+                    layer.confirm('确定要删除么？', {icon: 3, title:'提示',fix:true, offset: '100px'}, function(index){
+                        //do something
+                        if(index){
+                            var batch_data = [];
+                            $.each($('tr[data-action-type=nodeEdit]'), function(index, ele){
+                                batch_data.push(
+                                        $(ele).find('button[name=delete]').data('id')
+                                );
+                            });
+                            console.log(batch_data);
+                            $.post(
+                                _this.attr('data-url'),
+                                {node_ids: batch_data},
+                                function(res){
+                                    layer.msg(res.info, {icon:res.status,fix:true, offset: '100px'});
+                                    (1 == res.status) && $('#node_li').click();
+                                }
+                            );
+                        }
+                    });
+                    break;
+                case 'flush_node':
+                    $(this).addClass('glyphicon-xuanzhuan');
+                    $.get(
+                        $(this).attr('data-url'),
+                        {node_id:$(this).attr('data-id')},
+                        function(res){
+                            layer.msg(res.info, {icon:res.status,fix:true, offset: '100px'});
+                            if(1 == res.status){
+                                $('#node_list_body').html('').html(Mustache.render($('#tr-flush-template').html(), res.data));
+                            }
+                            _this.removeClass('glyphicon-xuanzhuan');
+                        }
+                    );
+                    break;
+                default:
+                    break;
+            }
+        });
+
+        $('form').on('submit',function(){
+            $.post(
+                $(this).attr('action'),
+                $(this).serialize(),
+                function(res){
+                    layer.msg(res.info, {icon:res.status});
+                }
+            );
+            return false;
+        });
+    });
+</script>

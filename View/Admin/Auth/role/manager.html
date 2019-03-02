@@ -1,0 +1,118 @@
+<link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet">
+<link href="/static/bootstrap/dashboard.css" rel="stylesheet">
+<link href="/static/bootstrap/site.min.css" rel="stylesheet">
+<link href="/static/bootstrap/css/bootstrap-switch.css" rel="stylesheet">
+<link href="/static/jquery/jquery-plugins/zTree/css/metroStyle/metroStyle.css" rel="stylesheet">
+<script src="/static/jquery/jquery-1.11.2.min.js"></script>
+<script src="/static/bootstrap/js/bootstrap.min.js"></script>
+<script src="/static/bootstrap/js/bootstrap-switch.min.js"></script>
+<script src="/static/layer/layer.js"></script>
+<script src="/static/mustache.js"></script>
+
+<script src="/static/jquery/jquery-plugins/zTree/js/jquery.ztree.all-3.5.min.js"></script>
+<script src="/static/jquery/jquery-plugins/zTree/js/jquery.ztree.core-3.5.min.js"></script>
+<script src="/static/jquery/jquery-plugins/zTree/js/jquery.ztree.excheck-3.5.min.js"></script>
+
+<ul class="nav nav-tabs">
+    <li name="basic_info" role="presentation" class="active"><a href="#basic">设置权限节点</a></li>
+</ul>
+<form id="set_role_node" method="post" action="<?php echo $actions['saveNode'];?>">
+    <div class="container" style="margin:20px;">
+        <ul id="nodeTree" class="ztree"></ul>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-6" style="position: fixed; top: 400px;left: 400px;">
+            <button name="submit" type="submit" class="btn btn-primary">保存</button>
+            <button type="button" class="btn btn-default">还原</button>
+        </div>
+    </div>
+</form>
+
+<script>
+    $(function(){
+        var role_id = "<?php echo $role_id;?>";
+        var setting = {
+            check: {
+                enable: true,
+                chkboxType: { "Y" : "ps", "N" : "s" }
+            },
+            async: {
+                enable: true,
+                url:"<?php echo $actions['getNode'];?>",
+                autoParam:["id"],
+                otherParam:{"role_id":role_id, "otherParam":"zTreeAsyncTest"},
+                type: "get"
+            },
+            data:{
+                key:{
+                    name: 'title',
+                    level: 'level'
+                }
+            }
+        };
+
+
+        $.fn.zTree.init($("#nodeTree"), setting);
+        $(document).on('submit', 'form', function(){
+            var change_checked_nodes = $.fn.zTree.getZTreeObj("nodeTree").getChangeCheckedNodes();
+            var nodes_arr = [];
+            if(change_checked_nodes.length > 0){
+                $.map(change_checked_nodes, function(val, key){
+                    nodes_arr.push({id:val.id, checked:val.checked, level:val.level});
+                });
+            }
+            $.post(
+                $(this).attr('action'),
+                {change_checked_nodes:  nodes_arr, role_id:role_id},
+                function(res){
+                    layer.msg(res.info, {icon:res.status,fix:true, offset: '100px', time:1000});
+                }
+            );
+            return false;
+        });
+
+        //调用开关插件
+        $("input[name=role_status]").bootstrapSwitch();
+        layer.config({
+            skin:'layer-ext-moon',
+            extend:'skin/moon/style.css'
+        });
+        $('input[name="role_status"]').on('switchChange.bootstrapSwitch', function(event, state) {
+            $.post(
+                $(this).attr('data-url'),
+                {
+                    role_id: $(this).attr('data-id'),
+                    status: state
+                },
+                function(res){
+                    layer.msg(res.info, {icon:res.status});
+                }
+            );
+        });
+
+        $(document).on('click', 'button',function() {
+            var actions = ['manager', 'delete'];
+            var current_action = $(this).attr('data-action');
+            if($.inArray(current_action, actions) >= 0){
+                switch (current_action){
+                    case 'manager':
+                        layer.open({
+                            type: 2,
+                            title: $(this).attr('data-title'),
+                            shadeClose: true,
+                            shade: 0.8,
+                            area: ['800px', '90%'],
+                            content: $(this).attr('data-url'),
+                            cancel:function(){
+                                window.location.reload();
+                            }
+                        });
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+    });
+</script>
