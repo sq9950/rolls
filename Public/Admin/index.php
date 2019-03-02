@@ -34,7 +34,7 @@ $app = new \Ypf\Ypf($ypfSetting);
 //config
 $config = new \Ypf\Lib\Config();
 $config->load(__CONF__);
-
+$config->load(__CONF__.'/Admin');
 $conf = require __CONF__ . '/common.php';
 \Ypf\Lib\Config::$config = array_merge(\Ypf\Lib\Config::$config, $conf); //合并.php配置文件
 $load = new \Ypf\Lib\Load(__ROOT__);

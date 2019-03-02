@@ -2,8 +2,6 @@
 
 namespace Controller;
 
-require __ROOT__ . '/vendor/autoload.php';
-
 use Ypf\Lib\Config;
 use Service\Sdk\Sdk;
 use GuzzleHttp\Client;

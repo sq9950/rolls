@@ -27,13 +27,8 @@ if (!session_id()) {
 }
 
 $autoloadFile = __ROOT__.'/vendor/autoload.php';
-if(file_exists($autoloadFile)) require $autoloadFile;
-
-if (file_exists(__ROOT__ . '/../Ypf/Ypf.php')) {
-    require __ROOT__ . '/../Ypf/Ypf.php';
-} else {
-    require __ROOT__ . '/../ypf/Ypf.php';
-}
+require $autoloadFile;
+require __ROOT__ . '/Ypf/Ypf.php';
 
 $ypfSetting = array(
 	'root' => __ROOT__,
@@ -44,7 +39,7 @@ $app = new \Ypf\Ypf($ypfSetting);
 //config
 $config = new \Ypf\Lib\Config();
 $config->load(__CONF__);
-
+$config->load(__CONF__.'/Web');
 $conf = require __CONF__ . '/common.php';
 \Ypf\Lib\Config::$config = array_merge(\Ypf\Lib\Config::$config, $conf); //合并.php配置文件
 $load = new \Ypf\Lib\Load(__ROOT__);
