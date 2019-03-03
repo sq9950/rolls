@@ -5,27 +5,27 @@ namespace Controller\Web;
 class Common extends \Controller\ControllerWeb {
 	public function header() {
         $this->view->assign("title", "劳斯莱斯");
-		return $this->view->fetch("Web/Common/header.html");
+		return $this->view->fetch("Web/Common/public/header.html");
 	}
 	
     public function footer() {
-        return $this->view->fetch('Web/Common/footer.html');
+        return $this->view->fetch('Web/Common/public/footer.html');
     }
 
     public function cookie() {
-        return $this->view->fetch('Web/Common/cookie.html');
+        return $this->view->fetch('Web/Common/public/cookie.html');
     }
 
     public function letSlide() {
-        return $this->view->fetch('Web/Common/letSlide.html');
+        return $this->view->fetch('Web/Common/public/letSlide.html');
     }
 
     public function wechatPopFooter() {
-        return $this->view->fetch('Web/Common/wechat-pop-footer.html');
+        return $this->view->fetch('Web/Common/public/wechat-pop-footer.html');
     }
 
     public function wechatPopPage() {
-        return $this->view->fetch('Web/Common/wechat-pop-page.html');
+        return $this->view->fetch('Web/Common/public/wechat-pop-page.html');
     }
 
 }
