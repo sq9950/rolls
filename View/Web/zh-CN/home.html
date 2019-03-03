@@ -863,6 +863,7 @@ Place this snippet between the <head> and </head> tags on every page of your sit
         f.parentNode.insertBefore(j, f);
       })(window, document, 'script', 'dataLayer', 'GTM-TNV8SK');
     </script>
+    <?php echo $cookie; ?>
     <!-- import ../components/public/cookie.html -->
     <!-- import ../components/main/home.html -->
     <!-- import ../components/public/1.html -->
@@ -885,7 +886,9 @@ Place this snippet between the <head> and </head> tags on every page of your sit
     </script>
 
     <div class="shade"></div>
+    <?php echo $letSlide; ?>
     <!-- import ../components/public/letSlide.html -->
+    <?php echo $footer; ?>
     <!-- import ../components/public/footer.html -->
 
     <script
@@ -924,9 +927,11 @@ Place this snippet between the <head> and </head> tags on every page of your sit
       type="text/javascript"
       src="/etc/designs/rollsroyce-website/assets.2750bb371d9e4edee82e0e94de6b9b37.js"
     ></script>
-
     <!-- import ../components/public/wechat-pop-footer.html -->
+    <?php echo $wechat_pop_footer; ?>
+
     <!-- import ../components/public/wechat-pop-page.html -->
+    <?php echo $wechat_pop_page; ?>
 
     <!-- disable Recaptcha -->
     <script type="text/javascript">
