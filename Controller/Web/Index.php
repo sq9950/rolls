@@ -18,7 +18,7 @@ class Index extends ControllerWeb {
             'slide'  => ['index']
         ];
         $this->setHeaderFooter($layout_params);
-        $this->view->display('Web/home.html');
+        $this->view->display('Web/zh-CN/home.html');
 
 	}
 
