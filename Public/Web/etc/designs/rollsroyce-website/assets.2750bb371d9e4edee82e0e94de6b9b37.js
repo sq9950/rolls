@@ -17128,15 +17128,15 @@ require = function e$jscomp$8(t$jscomp$1, n$jscomp$5, i$jscomp$5) {
         t$jscomp$803.stopPropagation();
       }
       C$jscomp$28.removeClass("hidden");
-      C$jscomp$28.addClass("loading");
-      (0, _$jscomp$32["default"])().then(function(e$jscomp$1022) {
-        C$jscomp$28.removeClass("loading");
-        f$jscomp$79["default"].render(f$jscomp$79["default"].createElement(m$jscomp$44["default"], {
-          translate : r$jscomp$321,
-          cityList : e$jscomp$1022,
-          data : h$jscomp$66["default"]
-        }), x$jscomp$94);
-      });
+      // C$jscomp$28.addClass("loading");
+      // (0, _$jscomp$32["default"])().then(function(e$jscomp$1022) {
+      //   C$jscomp$28.removeClass("loading");
+      //   f$jscomp$79["default"].render(f$jscomp$79["default"].createElement(m$jscomp$44["default"], {
+      //     translate : r$jscomp$321,
+      //     cityList : e$jscomp$1022,
+      //     data : h$jscomp$66["default"]
+      //   }), x$jscomp$94);
+      // });
     }
     function a$jscomp$196() {
       l$jscomp$138["default"].subscribe(c$jscomp$97["default"].ACTION_OFFSET_DEALER_PANEL_TOGGLE, o$jscomp$249);
