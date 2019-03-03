@@ -85,13 +85,17 @@ class ControllerWeb extends Controller
         $cookie_args = isset($params['cookie']) && is_array($params['cookie']) ? $params['cookie'] : [];
         $letSlide_args = isset($params['letSlide']) && is_array($params['letSlide']) ? $params['letSlide'] : [];
         $wechat_pop_footer_args = isset($params['wechat-pop-footer']) && is_array($params['wechat-pop-footer']) ? $params['wechat-pop-footer'] : [];
-        $wechat_pop_page_args   = isset($params['wechat-pop-page'])   && is_array($params['wechat-pop-page']) ? $params['wechat-pop-page'] : [];
+        $wechat_pop_page_args   = isset($params['wechat-pop-page']) && is_array($params['wechat-pop-page']) ? $params['wechat-pop-page'] : [];
+        $main_home_args   = isset($params['main_home']) && is_array($params['main_home']) ? $params['main_home'] : [];
+
         $this->view->assign('header', $this->action("\Controller\Web\Common\header",  $header_args));
         $this->view->assign('footer', $this->action("\Controller\Web\Common\\footer", $footer_args));
         $this->view->assign('cookie', $this->action("\Controller\Web\Common\cookie",  $cookie_args));
         $this->view->assign('letSlide', $this->action("\Controller\Web\Common\letSlide", $letSlide_args));
         $this->view->assign('wechat_pop_footer', $this->action("\Controller\Web\Common\wechatPopFooter", $wechat_pop_footer_args));
         $this->view->assign('wechat_pop_page', $this->action("\Controller\Web\Common\wechatPopPage", $wechat_pop_page_args));
+        $this->view->assign('main_home', $this->action("\Controller\Web\Common\mainHome", $main_home_args));
+        $this->view->assign('public1', $this->action("\Controller\Web\Common\public1", []));
     }
 
     /**

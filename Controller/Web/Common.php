@@ -28,5 +28,13 @@ class Common extends \Controller\ControllerWeb {
         return $this->view->fetch('Web/Common/public/wechat-pop-page.html');
     }
 
+    public function mainHome() {
+        return $this->view->fetch('Web/Common/main/home.html');
+    }
+
+    public function public1() {
+        return $this->view->fetch('Web/Common/public/1.html');
+    }
+
 }
 
