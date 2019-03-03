@@ -11,7 +11,7 @@ class Index extends ControllerWeb {
         parent::__construct();
     }
 
-	public function index(){
+    public function index(){
         $layout_params = [
             'header' => '',
             'footer' => '',
@@ -19,7 +19,6 @@ class Index extends ControllerWeb {
         ];
         $this->setHeaderFooter($layout_params);
         $this->view->display('Web/zh-CN/home.html');
-
-	}
+    }
 
 }
