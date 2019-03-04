@@ -94,7 +94,7 @@ class ControllerWeb extends Controller
         $this->view->assign('letSlide', $this->action("\Controller\Web\Common\letSlide", $letSlide_args));
         $this->view->assign('wechat_pop_footer', $this->action("\Controller\Web\Common\wechatPopFooter", $wechat_pop_footer_args));
         $this->view->assign('wechat_pop_page', $this->action("\Controller\Web\Common\wechatPopPage", $wechat_pop_page_args));
-        $this->view->assign('main_home', $this->action("\Controller\Web\Common\mainHome", $main_home_args));
+        //$this->view->assign('main_home', $this->action("\Controller\Web\Common\mainHome", $main_home_args));
         $this->view->assign('public1', $this->action("\Controller\Web\Common\public1", []));
     }
 

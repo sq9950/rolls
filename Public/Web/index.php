@@ -13,10 +13,8 @@ define("__APP__", dirname(dirname(__DIR__))); //Public
 define("__VIEW__", __APP__ . '/View/'); //Public
 define("__ROOT__", __APP__);
 
-$application = getenv("APPLICATION_ENV") ? getenv("APPLICATION_ENV") : "Conf";
-define("__CONF__", __ROOT__ . '/' . $application . '/');
+define("__CONF__", __ROOT__ . '/Conf/');
 define("__LIBRARY__", __ROOT__ . '/Library');
-define("__VIEW_COMMON__", __ROOT__ . '/View/Common');
 
 ini_set('session.gc_maxlifetime', 86400 * 2);
 if (!session_id()) {
@@ -30,10 +28,7 @@ $autoloadFile = __ROOT__.'/vendor/autoload.php';
 require $autoloadFile;
 require __ROOT__ . '/Ypf/Ypf.php';
 
-$ypfSetting = array(
-	'root' => __ROOT__,
-);
-
+$ypfSetting = ['root' => __ROOT__];
 $app = new \Ypf\Ypf($ypfSetting);
 
 //config
@@ -72,12 +67,12 @@ $view->setTemplateDir(__ROOT__ . '/View');
 $app->set('view', $view);
 
 //document
-$load->library('Document', '', 'document');
+//$load->library('Document', '', 'document');
 
 //curl
 $load->library('Curl', '', 'curl');
 
-$app->addPreAction("\Controller\Admin\Common\Router\index");
+$app->addPreAction("\Controller\Web\Router\index");
 $app->disPatch();
 
 $response->setCompression(9);
