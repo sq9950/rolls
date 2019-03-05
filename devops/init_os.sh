@@ -29,5 +29,10 @@ yum install MariaDB-server MariaDB-client
 yum install nginx memcached redis
 yum install php72w-bcmath php72w-cli php72w-common php72w-fpm php72w-gd php72w-mbstring php72w-mysqlnd php72w-pdo php72w-opcache php72w-pecl-memcached php72w-pecl-redis
 
+
+useradd www
+mkdir -p /data/www/rolls
+
 #mysqladmin -uroot -p'' passwd admin
+
 
