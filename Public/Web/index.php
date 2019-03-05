@@ -1,8 +1,8 @@
 <?php
 date_default_timezone_set('Asia/Shanghai');
 
-//error_reporting(E_ALL);
-error_reporting(E_ALL ^ E_ERROR ^ E_WARNING ^ E_NOTICE ^ E_DEPRECATED);
+error_reporting(E_ALL);
+//error_reporting(E_ALL ^ E_ERROR ^ E_WARNING ^ E_NOTICE ^ E_DEPRECATED);
 ini_set("display_errors",   "On");
 define('ERROR_DISPLAY_CLI', false);
 define('ERROR_DISPLAY_HTML', true);
