@@ -1,9 +1,9 @@
 <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
 <html>
-    <head><title>404 No resource found</title></head>
+    <head><title>404 Not Found</title></head>
     <body>
-        <h1>No resource found</h1>
-        <p>Cannot serve request to /content/dam/rollsroyce-website/MenuModeThumbnails/JPEGS/RR_Model_Selector_Ghost_EWB_Light.jpg.rr.1366.MED.jpg on this server</p>
+        <h1>Not Found</h1>
+        <p>Cannot serve request to /content/dam/rollsroyce-website/Menu%20Model%20Thumbnails/JPEGS/RR_Model_Selector_Ghost_EWB_Light.jpg.rr1920.MED.jpg on this server</p>
         
         
         
