@@ -38,20 +38,20 @@ class Common extends \Controller\Controller
             die;
         }
         $this->getActions();
-        $have_access = \Rbac::AccessDecision($this->request->get);
-        if (!$have_access) {
-            $res                   = array(
-                'status' => 0,
-                'info'   => '无权限',
-                'data'   => array(),
-            );
-            $log_params['params']  = json_encode($this->request->get, JSON_UNESCAPED_UNICODE);
-            $log_params['message'] = "权限错误：{$res['info']}";
-            $this->saveLog($log_params);
-            $this->view->display('Admin/Public/access.html');
-            die;
-            //            $this->ajaxReturn($res);
-        }
+        //$have_access = \Rbac::AccessDecision($this->request->get);
+        //if (!$have_access) {
+        //    $res                   = array(
+        //        'status' => 0,
+        //        'info'   => '无权限',
+        //        'data'   => array(),
+        //    );
+        //    $log_params['params']  = json_encode($this->request->get, JSON_UNESCAPED_UNICODE);
+        //    $log_params['message'] = "权限错误：{$res['info']}";
+        //    $this->saveLog($log_params);
+        //    $this->view->display('Admin/Public/access.html');
+        //    die;
+        //    //            $this->ajaxReturn($res);
+        //}
         $this->user_model   = new \Model\User();
         $memberinfo         = $this->getMemberInfo();
         $this->operate_logs = new \Service\Log\LogService(array(

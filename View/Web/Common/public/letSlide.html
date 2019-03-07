@@ -53,90 +53,59 @@
 
       <div class="scroll js-expand">
         <div class="cars">
-          <a
-            href="/zh-CN/phantom.html"
-            class="model distribute-6 "
-            data-analytics-action="幻影"
-          >
+            <?php foreach($cars as $car) { ?>
+            <a href="/zh-CN/<?php echo $car['name_en']; ?>.html" class="model distribute-6" data-analytics-action="<?php echo $car['name_zh']; ?>">
             <figure class="adaptive-image ">
-              <img
-                src="/content/dam/rollsroyce-website/MenuModelThumbnails/JPEGS/RR_Phantom_Model_Selector_Belladonna_3.jpg.rr.1198.LOW.jpg"
-                alt="RR_Phantom_Model_Selector_Belladonna_3"
-              />
+              <img src="<?php echo $car['image']; ?>" alt="RR_Phantom_Model_Selector_Belladonna_3"/>
+            </figure>
+            <span class="h3"><?php echo $car['name_zh']; ?></span>
+            <span class="p"><?php echo $car['summary']; ?></span>
+          </a>
+          <?php } ?>
+            <!--
+          <a href="/zh-CN/phantom.html" class="model distribute-6" data-analytics-action="幻影">
+            <figure class="adaptive-image ">
+              <img src="/content/dam/rollsroyce-website/MenuModelThumbnails/JPEGS/RR_Phantom_Model_Selector_Belladonna_3.jpg.rr.1198.LOW.jpg" alt="RR_Phantom_Model_Selector_Belladonna_3"/>
             </figure>
             <span class="h3">幻影</span>
             <span class="p">移动的艺术宫殿</span>
           </a>
-          <a
-            href="/zh-CN/cullinan.html"
-            class="model distribute-6 "
-            data-analytics-action="库里南"
-          >
+          <a href="/zh-CN/cullinan.html" class="model distribute-6" data-analytics-action="库里南">
             <figure class="adaptive-image ">
-              <img
-                src="/content/dam/rollsroyce-website/MenuModelThumbnails/JPEGS/RR_Cullinan-Model_Selector_02.jpg.rr.1198.LOW.jpg"
-                alt="RR_Cullinan-Model_Selector_02"
-              />
+              <img src="/content/dam/rollsroyce-website/MenuModelThumbnails/JPEGS/RR_Cullinan-Model_Selector_02.jpg.rr.1198.LOW.jpg" alt="RR_Cullinan-Model_Selector_02"/>
             </figure>
             <span class="h3">库里南</span>
             <span class="p">悠然天地间</span>
           </a>
-          <a
-            href="/zh-CN/ghost-overview.html"
-            class="model distribute-6 "
-            data-analytics-action="古思特"
-          >
+          <a href="/zh-CN/ghost-overview.html" class="model distribute-6" data-analytics-action="古思特">
             <figure class="adaptive-image ">
-              <img
-                src="/content/dam/rollsroyce-website/MenuModelThumbnails/JPEGS/RR_Model_Selector_Ghost_SWB_Light.jpg.rr.1198.LOW.jpg"
-                alt="RR_Model_Selector_Ghost_SWB_Light"
-              />
+              <img src="/content/dam/rollsroyce-website/MenuModelThumbnails/JPEGS/RR_Model_Selector_Ghost_SWB_Light.jpg.rr.1198.LOW.jpg" alt="RR_Model_Selector_Ghost_SWB_Light"/>
             </figure>
             <span class="h3">古思特</span>
             <span class="p">轻松简约之美</span>
           </a>
-          <a
-            href="/zh-CN/dawn-overview.html"
-            class="model distribute-6 "
-            data-analytics-action="曜影"
-          >
+          <a href="/zh-CN/dawn-overview.html" class="model distribute-6" data-analytics-action="曜影">
             <figure class="adaptive-image ">
-              <img
-                src="/content/dam/rollsroyce-website/MenuModelThumbnails/JPEGS/RR_Model_Selector_Dawn_Red_Light.jpg.rr.1198.LOW.jpg"
-                alt="RR_Model_Selector_Dawn_Red_Light"
-              />
+              <img src="/content/dam/rollsroyce-website/MenuModelThumbnails/JPEGS/RR_Model_Selector_Dawn_Red_Light.jpg.rr.1198.LOW.jpg" alt="RR_Model_Selector_Dawn_Red_Light"/>
             </figure>
             <span class="h3">曜影</span>
             <span class="p">美妙绝伦</span>
           </a>
-          <a
-            href="/zh-CN/introducing-wraith.html"
-            class="model distribute-6 "
-            data-analytics-action="魅影"
-          >
+          <a href="/zh-CN/introducing-wraith.html" class="model distribute-6 " data-analytics-action="魅影">
             <figure class="adaptive-image ">
-              <img
-                src="/content/dam/rollsroyce-website/MenuModelThumbnails/JPEGS/Off-Canvas_Model_selector_v3-1_HR3.jpg.rr.1198.LOW.jpg"
-                alt="Off-Canvas_Model_selector_v3-1_HR3"
-              />
+              <img src="/content/dam/rollsroyce-website/MenuModelThumbnails/JPEGS/Off-Canvas_Model_selector_v3-1_HR3.jpg.rr.1198.LOW.jpg" alt="Off-Canvas_Model_selector_v3-1_HR3"/>
             </figure>
             <span class="h3">魅影</span>
             <span class="p">不羁动力、优雅格调、非凡魅力</span>
           </a>
-          <a
-            href="/zh-CN/black-badge.html"
-            class="model distribute-6 "
-            data-analytics-action="BLACK BADGE"
-          >
+          <a href="/zh-CN/black-badge.html" class="model distribute-6" data-analytics-action="BLACK BADGE">
             <figure class="adaptive-image ">
-              <img
-                src="/content/dam/rollsroyce-website/MenuModelThumbnails/JPEGS/BB_Model_Selector_SideMenu_Wraith.jpg.rr.1198.LOW.jpg"
-                alt="BB_Model_Selector_SideMenu_Wraith"
-              />
+              <img src="/content/dam/rollsroyce-website/MenuModelThumbnails/JPEGS/BB_Model_Selector_SideMenu_Wraith.jpg.rr.1198.LOW.jpg" alt="BB_Model_Selector_SideMenu_Wraith"/>
             </figure>
             <span class="h3">BLACK BADGE</span>
             <span class="p">勇闯暗夜：魅影，曜影，古思特</span>
           </a>
+            -->
         </div>
       </div>
     </nav>

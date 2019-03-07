@@ -1,8 +1,17 @@
 <?php
-
 namespace Controller\Web;
 
+use \Model\Car\CarLslsModel;
+
 class Common extends \Controller\ControllerWeb {
+
+    private $_carLslsModel;
+
+    public function __construct() {
+        parent::__construct();
+        $this->_carLslsModel = new CarLslsModel();
+    }
+
 	public function header() {
         $this->view->assign("title", "劳斯莱斯");
 		return $this->view->fetch("Web/Common/public/header.html");
@@ -17,6 +26,8 @@ class Common extends \Controller\ControllerWeb {
     }
 
     public function letSlide() {
+        $cars = $this->_carLslsModel->gets(['status' => 1]);
+        $this->view->assign('cars', $cars);
         return $this->view->fetch('Web/Common/public/letSlide.html');
     }
 

@@ -94,6 +94,10 @@ class ExtendModel extends \Ypf\Core\Model {
         return $list;
     }
 
+    public function gets($where = array(), $offset = 0, $limit = 999999, $order = array(), $fields = array(), $group = '', $sortKey = '') {
+        return $this->getListByWhere($where, $offset, $limit, $order, $fields, $group, $sortKey);
+    }
+
 
     /**
      * 根据条件查询一条记录
