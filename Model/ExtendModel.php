@@ -21,7 +21,7 @@ class ExtendModel extends \Ypf\Core\Model {
     public    $table_name    = '';
 
     // 链操作方法列表
-    protected $methods = array('strict', 'order', 'alias', 'having', 'group', 'lock', 'distinct', 'auto', 'filter', 'validate', 'result', 'token', 'index', 'force');
+    protected $methods = ['strict', 'order', 'alias', 'having', 'group', 'lock', 'distinct', 'auto', 'filter', 'validate', 'result', 'token', 'index', 'force'];
 
     public function __construct() {
         parent::__construct();
@@ -54,7 +54,7 @@ class ExtendModel extends \Ypf\Core\Model {
      * @param string $sortKey
      * @return mixed
      */
-    public function getListByWhere($where = array(), $offset = 0, $limit = 999999, $order = array(), $fields = array(), $group = '', $sortKey = '') {
+    public function getListByWhere($where = [], $offset = 0, $limit = 999999, $order = [], $fields = [], $group = '', $sortKey = '') {
         $sql_where = is_array($where) ? $this->db_instance->parseWhere($where) : $where;
         $offset    = intval($offset);
         $limit     = intval($limit);
@@ -62,7 +62,7 @@ class ExtendModel extends \Ypf\Core\Model {
         $group     = trim($group);
 
         if (is_array($order)) {
-            $arr_order = array();
+            $arr_order = [];
             foreach ($order as $key => $val) {
                 $arr_order[] = " {$key} {$val} ";
             }
@@ -94,7 +94,7 @@ class ExtendModel extends \Ypf\Core\Model {
         return $list;
     }
 
-    public function gets($where = array(), $offset = 0, $limit = 999999, $order = array(), $fields = array(), $group = '', $sortKey = '') {
+    public function gets($where = [], $offset = 0, $limit = 999999, $order = [], $fields = [], $group = '', $sortKey = '') {
         return $this->getListByWhere($where, $offset, $limit, $order, $fields, $group, $sortKey);
     }
 
@@ -106,7 +106,7 @@ class ExtendModel extends \Ypf\Core\Model {
      * @param string $group
      * @return mixed
      */
-    public function getOneByWhere($where = array(), $fields = array(), $group = '') {
+    public function getOneByWhere($where = [], $fields = [], $group = '') {
         $sql_where = is_array($where) ? $this->db_instance->parseWhere($where) : $where;
         $group     = trim($group);
         if (is_array($fields)) {
@@ -123,6 +123,10 @@ class ExtendModel extends \Ypf\Core\Model {
         return $data;
     }
 
+    public function get($where = [], $fields = [], $group = '') {
+        return $this->getOneByWhere($where, $fields, $group);
+    }
+
     /**
      * 获取单个字段的值
      * @param array  $where
@@ -130,7 +134,7 @@ class ExtendModel extends \Ypf\Core\Model {
      * @param string $group
      * @return bool
      */
-    public function getOneFieldByWhere($where = array(), $field = '', $group = '') {
+    public function getOneFieldByWhere($where = [], $field = '', $group = '') {
         $res = false;
         if ($field) {
             $info = $this->getOneByWhere($where, '', $group);
@@ -145,7 +149,7 @@ class ExtendModel extends \Ypf\Core\Model {
      * @param string $group
      * @return mixed
      */
-    public function getListCountByWhere($where = array(), $group = '') {
+    public function getListCountByWhere($where = [], $group = '') {
         $sql_where = is_array($where) ? $this->db_instance->parseWhere($where) : $where;
         $group     = trim($group);
         return $this->db_instance->table($this->table_name)->where($sql_where)->group($group)->count();
@@ -158,7 +162,7 @@ class ExtendModel extends \Ypf\Core\Model {
      * @param array $data
      * @return bool
      */
-    public function updateById($id = 0, $data = array()) {
+    public function updateById($id = 0, $data = []) {
         $res = false;
         if ($id && is_array($data) && !empty($data)) {
             if (in_array('id', array_keys($data))) {
@@ -169,13 +173,17 @@ class ExtendModel extends \Ypf\Core\Model {
         return $res;
     }
 
+    public function update($where = [], $data = []) {
+        return updateByWhere($where, $data);
+    }
+
     /**
      * 根据where条件更新数据
      * @param array $where
      * @param array $data
      * @return bool
      */
-    public function updateByWhere($where = array(), $data = array()) {
+    public function updateByWhere($where = [], $data = []) {
         $res = false;
         if (is_array($data) && !empty($data)) {
             $sql_where = is_array($where) ? $this->db_instance->parseWhere($where) : $where;
@@ -187,7 +195,11 @@ class ExtendModel extends \Ypf\Core\Model {
         return $res;
     }
 
-    public function deleteByWhere($where = array()) {
+    public function delete($where = []) {
+        return $this->deleteByWhere($where);
+    }
+
+    public function deleteByWhere($where = []) {
         $sql_where = is_array($where) ? $this->db_instance->parseWhere($where) : $where;
         $res       = $this->db_instance->table($this->table_name)->where($sql_where)->delete();
         return $res;
@@ -199,7 +211,7 @@ class ExtendModel extends \Ypf\Core\Model {
      * @param array  $where
      * @return bool
      */
-    public function updateFromSqlByWhere($update_sql = '', $where = array()) {
+    public function updateFromSqlByWhere($update_sql = '', $where = []) {
         $ret       = false;
         $sql_where = is_array($where) ? $this->db_instance->parseWhere($where) : $where;
         if ($sql_where && $update_sql) {
@@ -216,7 +228,7 @@ class ExtendModel extends \Ypf\Core\Model {
      * @param array $fields
      * @return mixed
      */
-    public function find($where = array(), $fields = array()) {
+    public function find($where = [], $fields = []) {
         $sql_where = is_array($where) ? $this->db_instance->parseWhere($where) : $where;
         if (is_array($fields) && !empty($fields)) {
             $sql_field = implode(' , ', $fields);
@@ -227,7 +239,7 @@ class ExtendModel extends \Ypf\Core\Model {
 
     }
 
-    public function add($data = array()) {
+    public function add($data = []) {
         $res = false;
         if (is_array($data) && !empty($data)) {
             $res = $this->db_instance->table($this->table_name)->insert($data);
