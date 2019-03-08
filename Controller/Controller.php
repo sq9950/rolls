@@ -500,4 +500,11 @@ class Controller extends BaseController
         return $key == 'configall' ? Config::$config : parent::__get($key);
     }
 
+    public function _RC($info = '') {
+        $this->ajaxReturn(['status' => 0, 'info' => $info, 'data' => []]);
+    }
+
+    public function _RD($data) {
+        $this->ajaxReturn(['status' => 1, 'info' => '操作成功', 'data' => $data]);
+    }
 }

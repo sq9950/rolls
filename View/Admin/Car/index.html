@@ -150,7 +150,8 @@
                                     <th  data-sort-ignore="true" style="text-align: center;" data-class="expand">中文名</th>
                                     <th  data-sort-ignore="true" style="text-align: center;" data-class="expand">描述</th>
                                     <th  data-sort-ignore="true" style="text-align: center;" data-class="expand">图片</th>
-                                    <th  data-sort-ignore="true" style="text-align: center;">状态</th>
+                                    <th  data-sort-ignore="true" style="text-align: center;" data-class="expand">备注</th>
+                                    <th  data-sort-ignore="true" style="text-align: center;" data-class="expand">状态</th>
                                     <th data-sort-ignore="true" style="text-align: center;">操作</th>
                                 </tr>
                                 </thead>
@@ -230,26 +231,27 @@
                 <h4 class="modal-title">新增车型：</h4>
             </div>
             <form class="form-inline" id="form-add">
+                <input name="id" type="hidden" class="form-control" id="field_id">
                 <div class="form-group">
                     <div class="input-group">
                         <div class="input-group-addon">英文名：</div>
-                        <input name="name_en" type="text" class="form-control" id="" placeholder="英文名">
+                        <input name="name_en" type="text" class="form-control" id="field_name_en" placeholder="英文名">
                     </div>
                     <div class="input-group">
                         <div class="input-group-addon">中文名：</div>
-                        <input name="name_zh" type="text" class="form-control" id="" placeholder="中文名">
+                        <input name="name_zh" type="text" class="form-control" id="field_name_zh" placeholder="中文名">
                     </div>
                     <div class="input-group">
                         <div class="input-group-addon">描述：</div>
-                        <input name="summary" type="text" class="form-control" id="" placeholder="描述">
+                        <input name="summary" type="text" class="form-control" id="field_summary" placeholder="描述">
                     </div>
                     <div class="input-group">
                         <div class="input-group-addon">图片：</div>
-                        <input name="image" type="file" class="form-control" id="" placeholder="图片">
+                        <input name="image" type="file" class="form-control" id="field_image" placeholder="图片">
                     </div>
                     <div class="input-group">
                         <div class="input-group-addon">备注：</div>
-                        <input name="remark" type="text" class="form-control" id="" placeholder="备注">
+                        <input name="remark" type="text" class="form-control" id="field_remark" placeholder="备注">
                     </div>
                 </div>
                 <button type="button" data-class="action" data-action="save" data-url="<?php echo $actions['save'];?>" class="btn btn-primary">保存</button>
@@ -350,6 +352,24 @@
                 case 'add':
                     $('#addForm').modal('show');
                     break;
+                case 'edit':
+                    $.post(
+                        $(this).data('url'),
+                        {id: $(this).attr('data-id')},
+                        function(res){
+                            if(res.status == 0){
+                                layer.msg(res.info, {icon:res.status});
+                            } else {
+                                $('#field_id').val(res.data.id);
+                                $('#field_name_en').val(res.data.name_en);
+                                $('#field_name_zh').val(res.data.name_zh);
+                                $('#field_summary').val(res.data.summary);
+                                $('#field_remark').val(res.data.remark);
+                                $('#addForm').modal('show');
+                            }
+                        }
+                    );
+                    break;
                 case 'save':
                     $.post(
                         $(this).attr('data-url'),
@@ -363,6 +383,14 @@
                         }
                     );
                     break;
+                case 'delete':
+                    $.post(
+                        $(this).attr('data-url'),
+                        {id: $(this).attr('data-id')},
+                        function(res){
+                            layer.msg(res.info, {icon:res.status});
+                        }
+                    );
                 default:
                     break;
             }
@@ -382,12 +410,12 @@
             <td style="text-align: center;">{{remark}}</td>
             <td style="text-align: center;">
                 <div class="switch has-switch">
-                    <input  data-on-text="启用" data-off-text="禁用" name="status" type="checkbox" {{#status_bool}}checked=""{{/status_bool}} data-id="{{id}}" data-url="<?php echo $actions['editStatus'];?>">
+                    <input  data-on-text="启用" data-off-text="禁用" name="status" type="checkbox" {{#status_bool}}checked=""{{/status_bool}} data-id="{{id}}" data-url="<?php echo $actions['stop'];?>">
                 </div>
             </td>
             <td style="text-align: center;">
                 <div class="btn-group" role="group" aria-label="...">
-                    <button type="button" class="btn btn-primary" data-class="action" data-action="manager" data-url="<?php echo $actions['Manager'];?>" data-id="{{id}}" data-title="域名管理">管理</button>
+                    <button type="button" class="btn btn-primary" data-class="action" data-action="edit" data-url="<?php echo $actions['edit'];?>" data-id="{{id}}" data-title="域名管理">管理</button>
                     <button type="button" class="btn btn-danger" data-class="action" data-action="delete" data-url="<?php echo $actions['delete'];?>" data-id="{{id}}">删除</button>
                 </div>
             </td>
