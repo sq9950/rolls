@@ -20,6 +20,7 @@
 * introducing-wraith.html 魅影视频广告页（视频）
 * wraith.html 魅影首页
   wraith-black-badge.html 强劲 2
+  dawn-black-badge.html 强劲 3
 
 * BLACK BADGE （视频页）
 
