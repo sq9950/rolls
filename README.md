@@ -2,6 +2,9 @@
 
 - phantom.html 幻影 页面打不开，暂时不加(视频)
 
+  - phantom-swb.html 标准轴距
+    phantom-ewb.html 长轴距
+
 - cullinan.html 库里南
 
 - ghost-overview.html 古思特
