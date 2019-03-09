@@ -1,0 +1,13 @@
+{
+ "dest_dir" : "/data/www/rolls_content",
+ "bucket" : "jingwupublic",
+ "prefix" : "rolls/",
+ "suffixes" : "",
+ "cdn_domain" : "jingwupublic.qiniudn.com",
+ "referer" : "",
+ "log_file" : "/tmp/qiniu_download.log",
+ "log_level" : "info",
+ "log_rotate" : 1,
+ "log_stdout" : true
+}
+
