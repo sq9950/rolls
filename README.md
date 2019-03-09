@@ -1,6 +1,6 @@
 ## 页面
 
-- phantom.html 幻影 页面打不开，暂时不加(视频)
+- phantom.html 幻影(视频)
 
   - phantom-swb.html 标准轴距
     phantom-ewb.html 长轴距
@@ -29,10 +29,10 @@
 
 ## bug
 
-图片有的加载不出来
 联系我们点开白屏
 dawn-inspired-by-fashion.html 不显示库存表
 
 ## 备注
 
 js 17131 行 注释，点击经销商，不再有 loading 过渡动画
+js 9456  行 注释，右侧弹窗，填写表单 隐藏

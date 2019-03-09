@@ -844,8 +844,8 @@ require = function e$jscomp$8(t$jscomp$1, n$jscomp$5, i$jscomp$5) {
       });
     }
     function a$jscomp$14(t$jscomp$37) {
-      var n$jscomp$34 = e$jscomp$40("pubsub-js");
-      n$jscomp$34.subscribe(t$jscomp$37.WINDOW_SCROLL, o$jscomp$16);
+      var pubSub = e$jscomp$40("pubsub-js");
+      pubSub.subscribe(t$jscomp$37.WINDOW_SCROLL, o$jscomp$16);
     }
     var s$jscomp$5 = [".rr-section .card", ".rr-section .headline", ".rr-section .card-text", ".onScreenPlay", ".rr-section .card-text-on-image", ".rr-section .cards-holder > .adaptive-image", ".rr-section .card-text-on-image .text", ".hero", ".inpage-selector", ".configurator-selector", ".rr-grecaptcha", ".rr-accordion", ".rr-section:not(.pillar-point) .cta:not(.show-again):not(.vehicle-recall-cta):not(.cta--success)"];
     var l$jscomp$5 = $(s$jscomp$5.join(","));
@@ -854,12 +854,12 @@ require = function e$jscomp$8(t$jscomp$1, n$jscomp$5, i$jscomp$5) {
   }, {
     "pubsub-js" : 222
   }],
-  117 : [function(e$jscomp$44, t$jscomp$38, n$jscomp$35) {
+  117 : [function(require, t$jscomp$38, n$jscomp$35) {
     function i$jscomp$31() {
       function e$jscomp$45() {
         var e$jscomp$46 = window.scrollTop || window.pageYOffset;
         if (o$jscomp$18 !== e$jscomp$46) {
-          u$jscomp$7.publish(a$jscomp$15.WINDOW_SCROLL, e$jscomp$46);
+          pubSub.publish(a$jscomp$15.WINDOW_SCROLL, e$jscomp$46);
           o$jscomp$18 = e$jscomp$46;
         } else {
           clearInterval(l$jscomp$6);
@@ -879,7 +879,7 @@ require = function e$jscomp$8(t$jscomp$1, n$jscomp$5, i$jscomp$5) {
     var a$jscomp$15 = void 0;
     var s$jscomp$6 = 50;
     var l$jscomp$6 = void 0;
-    var u$jscomp$7 = e$jscomp$44("pubsub-js");
+    var pubSub = require("pubsub-js");
     t$jscomp$38.exports = r$jscomp$22;
   }, {
     "pubsub-js" : 222
@@ -9438,9 +9438,9 @@ require = function e$jscomp$8(t$jscomp$1, n$jscomp$5, i$jscomp$5) {
     "pubsub-js" : 222
   }],
   74 : [function(e$jscomp$460, t$jscomp$392, n$jscomp$310) {
-    function i$jscomp$246(e$jscomp$461) {
-      return e$jscomp$461 && e$jscomp$461.__esModule ? e$jscomp$461 : {
-        "default" : e$jscomp$461
+    function Objectinspect(pubsub) {
+      return pubsub && pubsub.__esModule ? pubsub : {
+        "default" : pubsub
       };
     }
     function r$jscomp$190(e$jscomp$462) {
@@ -9449,22 +9449,22 @@ require = function e$jscomp$8(t$jscomp$1, n$jscomp$5, i$jscomp$5) {
           n$jscomp$311.preventDefault();
           n$jscomp$311.stopPropagation();
         }
-        a$jscomp$116["default"].publish(e$jscomp$462.FORM_PREPOPULATE_FIELDS);
+        pubSub["default"].publish(e$jscomp$462.FORM_PREPOPULATE_FIELDS);
         $(".right-canvas .sub").addClass("hidden");
-        s$jscomp$91.removeClass("hidden");
+        formEle.removeClass("hidden");
       }
-      a$jscomp$116["default"].subscribe(e$jscomp$462.UI_SHADE_CLOSED, function() {
-        s$jscomp$91.addClass("hidden");
-      });
-      a$jscomp$116["default"].subscribe(e$jscomp$462.UI_SWAP_FORM_REQUEST_INFORMATION, t$jscomp$393);
-      a$jscomp$116["default"].subscribe(e$jscomp$462.ACTION_OPEN_REQUEST_INFORMATION_FORM, t$jscomp$393);
+      // pubSub["default"].subscribe(e$jscomp$462.UI_SHADE_CLOSED, function() {
+      //   formEle.addClass("hidden");
+      // });
+      // pubSub["default"].subscribe(e$jscomp$462.UI_SWAP_FORM_REQUEST_INFORMATION, t$jscomp$393);
+      // pubSub["default"].subscribe(e$jscomp$462.ACTION_OPEN_REQUEST_INFORMATION_FORM, t$jscomp$393);
     }
     Object.defineProperty(n$jscomp$310, "__esModule", {
       value : true
     });
-    var o$jscomp$143 = e$jscomp$460("pubsub-js");
-    var a$jscomp$116 = i$jscomp$246(o$jscomp$143);
-    var s$jscomp$91 = $(".ri-panel");
+    var pubSub = e$jscomp$460("pubsub-js");
+    pubSub = Objectinspect(pubSub);
+    var formEle = $(".ri-panel");
     n$jscomp$310["default"] = r$jscomp$190;
     t$jscomp$392.exports = n$jscomp$310["default"];
   }, {
@@ -15298,15 +15298,15 @@ require = function e$jscomp$8(t$jscomp$1, n$jscomp$5, i$jscomp$5) {
       return r$jscomp$285;
     }
     function o$jscomp$215() {
-      var e$jscomp$861 = window.sessionStorage;
-      if (e$jscomp$861.getItem("userSelectedCountry") && e$jscomp$861.getItem("selectedDealerCountryCode")) {
+      var sessionStorage = window.sessionStorage;
+      if (sessionStorage.getItem("userSelectedCountry") && sessionStorage.getItem("selectedDealerCountryCode")) {
         $("form").each(function(t$jscomp$704, n$jscomp$545) {
           var i$jscomp$414 = $(n$jscomp$545);
           if (!(i$jscomp$414.is("[data-prefill]") && "" !== i$jscomp$414.data("prefill"))) {
-            i$jscomp$414.find('[name="country"]').val(e$jscomp$861.getItem("userSelectedCountry")).change();
-            i$jscomp$414.find('[name="dealerCountry"]').val(e$jscomp$861.getItem("selectedDealerCountryCode")).change();
+            i$jscomp$414.find('[name="country"]').val(sessionStorage.getItem("userSelectedCountry")).change();
+            i$jscomp$414.find('[name="dealerCountry"]').val(sessionStorage.getItem("selectedDealerCountryCode")).change();
             window.setTimeout(function() {
-              i$jscomp$414.find('[name="preferredDealer"]').val(e$jscomp$861.getItem("selectedDealerID")).change();
+              i$jscomp$414.find('[name="preferredDealer"]').val(sessionStorage.getItem("selectedDealerID")).change();
             }, 200);
           }
         });
@@ -17128,6 +17128,7 @@ require = function e$jscomp$8(t$jscomp$1, n$jscomp$5, i$jscomp$5) {
         t$jscomp$803.stopPropagation();
       }
       C$jscomp$28.removeClass("hidden");
+      console.log('lsq_1111')
       // C$jscomp$28.addClass("loading");
       // (0, _$jscomp$32["default"])().then(function(e$jscomp$1022) {
       //   C$jscomp$28.removeClass("loading");
@@ -39993,42 +39994,47 @@ require = function e$jscomp$8(t$jscomp$1, n$jscomp$5, i$jscomp$5) {
         "default" : e$jscomp$3001
       };
     }
-    var r$jscomp$950 = e$jscomp$3000("./lib/run-cta");
-    var o$jscomp$734 = i$jscomp$1289(r$jscomp$950);
-    t$jscomp$2262.exports = function(t$jscomp$2263) {
-      var n$jscomp$1811 = e$jscomp$3000("pubsub-js");
-      var i$jscomp$1290 = void 0;
+    var runCta = e$jscomp$3000("./lib/run-cta");
+    var run_cta = i$jscomp$1289(runCta);
+    t$jscomp$2262.exports = function(ActionList) {
+      var pubSub = e$jscomp$3000("pubsub-js");
+      var isTouchMove = void 0;
       var r$jscomp$951 = void 0;
-      var a$jscomp$576 = "ontouchstart" in document.documentElement ? "touchend" : "click";
-      var s$jscomp$462 = "[data-action], .cta a, a";
+      var eventTypeString = "ontouchstart" in document.documentElement ? "touchend" : "click";
+      var actionString = "[data-action], .cta a, a";
       $(document).on("touchstart", function(e$jscomp$3002) {
-        i$jscomp$1290 = false;
-      }).on("click", s$jscomp$462, function(e$jscomp$3003) {
-        return i$jscomp$1290 = false, r$jscomp$951 ? void(r$jscomp$951 = false) : (e$jscomp$3003.preventDefault(), void e$jscomp$3003.stopPropagation());
+        isTouchMove = false;
+      }).on("click", actionString, function(e$jscomp$3003) {
+        return isTouchMove = false, r$jscomp$951 ? void(r$jscomp$951 = false) : (e$jscomp$3003.preventDefault(), void e$jscomp$3003.stopPropagation());
       }).on("touchmove", function(e$jscomp$3004) {
-        i$jscomp$1290 = true;
-      }).off(a$jscomp$576).on(a$jscomp$576, s$jscomp$462, function(e$jscomp$3005) {
-        function a$jscomp$577(i$jscomp$1291, r$jscomp$952) {
-          if ("OFFSET_DOWNLOAD_PANEL_TOGGLE" === r$jscomp$952) {
-            return e$jscomp$3005.stopPropagation(), window.debug && window.console && console.log("action:", r$jscomp$952, t$jscomp$2263["ACTION_" + r$jscomp$952]), (0, o$jscomp$734["default"])(i$jscomp$1291), void n$jscomp$1811.publish(t$jscomp$2263["ACTION_" + r$jscomp$952], e$jscomp$3005);
+        isTouchMove = true;
+      }).off(eventTypeString).on(eventTypeString, actionString, function(event) {
+        function a$jscomp$577(ele, ActionName) {
+          if ("OFFSET_DOWNLOAD_PANEL_TOGGLE" === ActionName) {
+            event.stopPropagation()
+            window.debug && window.console && console.log("action:", ActionName, ActionList["ACTION_" + ActionName]);
+            (0, run_cta["default"])(ele);
+            return  void pubSub.publish(ActionList["ACTION_" + ActionName], event);
           }
-          if ("DEFAULT" !== r$jscomp$952 && "OFFSET_MODELS_PANEL_SECONDARY_TOGGLE" === r$jscomp$952) {
-            return e$jscomp$3005.preventDefault(), e$jscomp$3005.stopPropagation(), void n$jscomp$1811.publish(t$jscomp$2263["ACTION_" + r$jscomp$952], e$jscomp$3005);
+          if ("DEFAULT" !== ActionName && "OFFSET_MODELS_PANEL_SECONDARY_TOGGLE" === ActionName) {
+            event.preventDefault()
+            event.stopPropagation()
+            return void pubSub.publish(ActionList["ACTION_" + ActionName], event);
           }
-          if ("DEFAULT" !== r$jscomp$952 && "OFFSET_DOWNLOAD_PANEL_TOGGLE" !== r$jscomp$952) {
+          if ("DEFAULT" !== ActionName && "OFFSET_DOWNLOAD_PANEL_TOGGLE" !== ActionName) {
             var a$jscomp$578 = function() {
-              e$jscomp$3005.preventDefault();
-              e$jscomp$3005.stopPropagation();
+              event.preventDefault();
+              event.stopPropagation();
               if (window.debug && window.console) {
-                console.log("action:", r$jscomp$952, t$jscomp$2263["ACTION_" + r$jscomp$952]);
+                console.log("action:", ActionName, ActionList["ACTION_" + ActionName]);
               }
-              var a$jscomp$579 = i$jscomp$1291.context.innerHTML;
-              var s$jscomp$464 = $(".sub form").find('[name="ctaCopy"]');
-              return s$jscomp$464.each(function(e$jscomp$3006, t$jscomp$2264) {
-                var n$jscomp$1812 = $(t$jscomp$2264);
-                var i$jscomp$1292 = a$jscomp$579.length <= 30 ? a$jscomp$579 : a$jscomp$579.substring(0, 27) + "...";
-                n$jscomp$1812.attr("value", i$jscomp$1292);
-              }), (0, o$jscomp$734["default"])(i$jscomp$1291), n$jscomp$1811.publish(t$jscomp$2263["ACTION_" + r$jscomp$952], e$jscomp$3005), {
+              var eleInnerHTML = ele.context.innerHTML;
+              var from_hiddenInput_ctaCopy = $(".sub form").find('[name="ctaCopy"]');
+              return from_hiddenInput_ctaCopy.each(function(e$jscomp$3006, input) {
+                var $Input = $(input);
+                var replace_html = eleInnerHTML.length <= 30 ? eleInnerHTML : eleInnerHTML.substring(0, 27) + "...";
+                $Input.attr("value", replace_html);
+              }), (0, run_cta["default"])(ele), pubSub.publish(ActionList["ACTION_" + ActionName], event), {
                 v : void 0
               };
             }();
@@ -40040,50 +40046,50 @@ require = function e$jscomp$8(t$jscomp$1, n$jscomp$5, i$jscomp$5) {
         function s$jscomp$463(t$jscomp$2265) {
           var n$jscomp$1813 = t$jscomp$2265.attr("target");
           var i$jscomp$1293 = t$jscomp$2265.hasClass("back");
-          return "_blank" !== n$jscomp$1813 || i$jscomp$1293 ? void(i$jscomp$1293 ? history.back() : "_self" !== n$jscomp$1813 && n$jscomp$1813 || ((0, o$jscomp$734["default"])(t$jscomp$2265), e$jscomp$3005.ctrlKey || e$jscomp$3005.metaKey || (e$jscomp$3005.preventDefault(), e$jscomp$3005.stopPropagation(), setTimeout(function() {
+          return "_blank" !== n$jscomp$1813 || i$jscomp$1293 ? void(i$jscomp$1293 ? history.back() : "_self" !== n$jscomp$1813 && n$jscomp$1813 || ((0, run_cta["default"])(t$jscomp$2265), event.ctrlKey || event.metaKey || (event.preventDefault(), event.stopPropagation(), setTimeout(function() {
             window.location.href = t$jscomp$2265.attr("href");
           }, 250)))) : void(r$jscomp$951 = true);
         }
-        function l$jscomp$390(t$jscomp$2266) {
-          var n$jscomp$1814 = t$jscomp$2266.attr("href");
-          if (n$jscomp$1814 && !t$jscomp$2266.attr("target")) {
-            if (!(e$jscomp$3005.ctrlKey || e$jscomp$3005.metaKey)) {
-              e$jscomp$3005.preventDefault();
-              e$jscomp$3005.stopPropagation();
-              window.location.href = n$jscomp$1814;
+        function l$jscomp$390(ele) {
+          var href = ele.attr("href");
+          if (href && !ele.attr("target")) {
+            if (!(event.ctrlKey || event.metaKey)) {
+              event.preventDefault();
+              event.stopPropagation();
+              window.location.href = href;
             }
           }
-          if (t$jscomp$2266.attr("target")) {
+          if (ele.attr("target")) {
             r$jscomp$951 = true;
           }
         }
-        if (!i$jscomp$1290) {
-          var u$jscomp$333 = $(e$jscomp$3005.target);
-          if (!(u$jscomp$333.is("a") || u$jscomp$333.is("[data-action]"))) {
-            if (u$jscomp$333.parents("a").length) {
-              u$jscomp$333 = u$jscomp$333.parents("a");
+        if (!isTouchMove) {
+          var ele = $(event.target);
+          if (!(ele.is("a") || ele.is("[data-action]"))) {
+            if (ele.parents("a").length) {
+              ele = ele.parents("a");
             }
           }
-          var c$jscomp$283 = (u$jscomp$333.data("action") || "").toUpperCase().replace(/-/gi, "_");
-          if (u$jscomp$333.is("[data-action]") && "DEFAULT" !== c$jscomp$283) {
-            a$jscomp$577(u$jscomp$333, c$jscomp$283);
+          var actionName = (ele.data("action") || "").toUpperCase().replace(/-/gi, "_");
+          if (ele.is("[data-action]") && "DEFAULT" !== actionName) {
+            a$jscomp$577(ele, actionName);
           } else {
-            if (u$jscomp$333.is(".cta a") && !u$jscomp$333.is("[data-form-action]")) {
-              s$jscomp$463(u$jscomp$333);
+            if (ele.is(".cta a") && !ele.is("[data-form-action]")) {
+              s$jscomp$463(ele);
             } else {
-              if (u$jscomp$333.is("a") || u$jscomp$333.parents("a").length) {
-                l$jscomp$390(u$jscomp$333);
+              if (ele.is("a") || ele.parents("a").length) {
+                l$jscomp$390(ele);
               } else {
-                e$jscomp$3005.preventDefault();
-                e$jscomp$3005.stopPropagation();
+                event.preventDefault();
+                event.stopPropagation();
               }
             }
           }
         }
       });
-      $(".shade").on("touchmove", function(e$jscomp$3007) {
-        e$jscomp$3007.preventDefault();
-        e$jscomp$3007.stopPropagation();
+      $(".shade").on("touchmove", function(event) {
+        event.preventDefault();
+        event.stopPropagation();
       });
     };
   }, {
@@ -41743,7 +41749,6 @@ $(document).ready(function() {
   });
 });
 function loadComplete(configData$jscomp$0) {
-  console.log("configData.timestamp1=" + configData$jscomp$0.timestamp);
   wx.config({
     debug : false,
     appId : configData$jscomp$0.appid,
