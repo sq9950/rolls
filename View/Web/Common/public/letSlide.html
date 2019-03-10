@@ -53,16 +53,23 @@
 
       <div class="scroll js-expand">
         <div class="cars">
-            <?php foreach($cars as $car) { ?>
-            <a href="/zh-CN/<?php echo $car['name_en']; ?>.html" class="model distribute-6" data-analytics-action="<?php echo $car['name_zh']; ?>">
+          <?php foreach($cars as $car) { ?>
+          <a
+            href="/zh-CN/<?php echo $car['name_en']; ?>.html"
+            class="model distribute-6"
+            data-analytics-action="<?php echo $car['name_zh']; ?>"
+          >
             <figure class="adaptive-image ">
-              <img src="<?php echo $car['image']; ?>" alt="RR_Phantom_Model_Selector_Belladonna_3"/>
+              <img
+                src="<?php echo $car['image']; ?>"
+                alt="RR_Phantom_Model_Selector_Belladonna_3"
+              />
             </figure>
             <span class="h3"><?php echo $car['name_zh']; ?></span>
             <span class="p"><?php echo $car['summary']; ?></span>
           </a>
           <?php } ?>
-            <!--
+          <!--
           <a href="/zh-CN/phantom.html" class="model distribute-6" data-analytics-action="幻影">
             <figure class="adaptive-image ">
               <img src="/content/dam/rollsroyce-website/Menu%20Model%20Thumbnails/JPEGS/RR_Phantom_Model_Selector_Belladonna_3.jpg.rr.1198.LOW.jpg" alt="RR_Phantom_Model_Selector_Belladonna_3"/>
@@ -148,18 +155,18 @@
             >法律声明</a
           >
 
-          <a
+          <!-- <a
             class="h5"
             href="https://www.press.rolls-roycemotorcars.com/rolls-royce-motor-cars-pressclub/startpage.html"
             target="_blank"
             >Pressclub</a
-          >
-          <a
+          > -->
+          <!-- <a
             class="h5"
             href="https://www.rolls-roycemotorcars.com"
             target="_blank"
             >English</a
-          >
+          > -->
           <a class="h5" href="/zh-CN/information/site-map.html">网站地图</a>
         </div>
       </div>
