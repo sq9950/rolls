@@ -11955,9 +11955,9 @@ html.rr-black-badge {
     text-indent: -9999px
   }
   nav.main a.menu::before {
-    content: '\2261';
+    content: '车型';
     text-indent: initial;
-    font-size: 24px;
+    font-size: 12px;
     position: absolute;
     top: 2px;
     left: 2px
