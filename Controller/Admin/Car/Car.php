@@ -25,7 +25,8 @@ class Car extends \Controller\Admin\Common\Common {
 	}
 
     public function list() {
-        $cars = $this->_carLslsModel->gets(['status' => 1]);
+        $cars = $this->_carLslsModel->gets([]);
+        foreach($cars as &$car) $car['status_bool'] = $car['status'] ? true : false;
         $this->_RD($cars);
     }
 
