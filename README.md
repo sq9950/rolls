@@ -29,7 +29,6 @@
 
 ## bug
 
-dawn-inspired-by-fashion.html 不显示库存表
 ownership.html 客户尊享 页面有弹表单
 所有视频页下掉，直接换车型主页
 
