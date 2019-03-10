@@ -25,12 +25,13 @@
   wraith-black-badge.html 强劲 2
   dawn-black-badge.html 强劲 3
 
-* BLACK BADGE （视频页）
+* black-badge.html （视频页）
 
 ## bug
 
 联系我们点开白屏
 dawn-inspired-by-fashion.html 不显示库存表
+ownership.html 客户尊享 页面有弹表单
 所有视频页下掉，直接换车型主页
 
 ## 备注
