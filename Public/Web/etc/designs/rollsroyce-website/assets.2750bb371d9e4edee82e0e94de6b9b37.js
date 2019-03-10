@@ -17128,7 +17128,6 @@ require = function e$jscomp$8(t$jscomp$1, n$jscomp$5, i$jscomp$5) {
         t$jscomp$803.stopPropagation();
       }
       C$jscomp$28.removeClass("hidden");
-      console.log('lsq_1111')
       // C$jscomp$28.addClass("loading");
       // (0, _$jscomp$32["default"])().then(function(e$jscomp$1022) {
       //   C$jscomp$28.removeClass("loading");
