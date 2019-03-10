@@ -245,10 +245,12 @@
                         <div class="input-group-addon">描述：</div>
                         <input name="summary" type="text" class="form-control" id="field_summary" placeholder="描述">
                     </div>
+                    <!--
                     <div class="input-group">
                         <div class="input-group-addon">图片：</div>
                         <input name="image" type="file" class="form-control" id="field_image" placeholder="图片">
                     </div>
+                    -->
                     <div class="input-group">
                         <div class="input-group-addon">备注：</div>
                         <input name="remark" type="text" class="form-control" id="field_remark" placeholder="备注">
@@ -406,7 +408,7 @@
             <td style="text-align: center;">{{name_en}}</td>
             <td style="text-align: center;">{{name_zh}}</td>
             <td style="text-align: center;">{{summary}}</td>
-            <td style="text-align: center;"><image src="{{image}}" style="width:100; height:50px;"></td>
+            <!-- <td style="text-align: center;"><image src="{{image}}" style="width:100; height:50px;"></td> -->
             <td style="text-align: center;">{{remark}}</td>
             <td style="text-align: center;">
                 <div class="switch has-switch">
@@ -416,7 +418,7 @@
             <td style="text-align: center;">
                 <div class="btn-group" role="group" aria-label="...">
                     <button type="button" class="btn btn-primary" data-class="action" data-action="edit" data-url="<?php echo $actions['edit'];?>" data-id="{{id}}" data-title="域名管理">管理</button>
-                    <button type="button" class="btn btn-danger" data-class="action" data-action="delete" data-url="<?php echo $actions['delete'];?>" data-id="{{id}}">删除</button>
+                    <!--<button type="button" class="btn btn-danger" data-class="action" data-action="delete" data-url="<?php echo $actions['delete'];?>" data-id="{{id}}">删除</button>-->
                 </div>
             </td>
         </tr>
