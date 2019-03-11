@@ -30,7 +30,12 @@ class Car extends \Controller\Admin\Common\Common {
 
     public function list() {
         $cars = $this->_carLslsModel->gets([]);
-        foreach($cars as &$car) $car['status_bool'] = $car['status'] ? true : false;
+        foreach($cars as &$car) {
+            $car['status_bool'] = $car['status'] ? true : false;
+            $url = $car['cfg_pdf'] ? 'http://jingwupublic.qiniudn.com/'.str_replace('content/', 'rolls/', $car['cfg_pdf']) : '';
+            $car['cfg_pdf_jw'] = $url;
+            $car['cfg_pdf_bool'] = $url ? true : false;
+        }
         $this->_RD($cars);
     }
 
@@ -73,7 +78,7 @@ class Car extends \Controller\Admin\Common\Common {
     public function upload() {
         $finfo = $_FILES['cfg_pdf_file'];
         $fkey = 'rolls/dam/rollsroyce-website/cfg_pdf/cfg_pdf_'.date('YmdHis').'.'.$finfo['name'];
-        $content = $finfo['tmp_name'];
+        $content = file_get_contents($finfo['tmp_name']);
         require __LIBRARY__ . '/Qiniu/autoload.php';
         $cfg = Cfg::getInstance()->get('QINIU_CONFIG');
 
