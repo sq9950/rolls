@@ -23,24 +23,15 @@ class UploadQNiuService extends \Service\Service {
         $this->ret = array('status' => 0, 'info' => '操作失败');
     }
 
-    public function initModels() {
-
-    }
-
     /**
      * 二进制上传
+     * uploadByQiNiu(['bucket' => 'xx', 'suffix' => 'xx', 'content' => 'xx']);
      * @param array $params
      * @return array
      */
-    public function uploadByQiNiu($params = array()){
-//        $params = array(
-//            'bucket' => 'xx',
-//            'file_name_suffix' => 'xx',
-//            'picContent' => 'xx',
-//        );
-
-        $this->ret = array('status' => 0, 'info' => '上传失败');
-        require_once __LIBRARY__ . '/Qiniu/autoload.php';
+    static public function uploadByQiNiu($params = []) {
+        $this->ret = ['status' => 0, 'info' => '上传失败'];
+        require __LIBRARY__ . '/Qiniu/autoload.php';
         // 需要填写你的 Access Key 和 Secret Key
         $accessKey = $this->configall['QINIU_CONFIG']['accessKey'];
         $secretKey = $this->configall['QINIU_CONFIG']['secretKey'];
@@ -69,21 +60,18 @@ class UploadQNiuService extends \Service\Service {
         $token = $auth->uploadToken($bucket);
 
         //生成图片的文件名
-        if(isset($params['file_name_suffix']) && !empty($params['file_name_suffix'])){
-            $file_name_suffix = "-".$params['file_name_suffix'];
-        }else{
-            $file_name_suffix = '';
-        }
+        $suffix = '';
+        if(isset($params['suffix']) && !empty($params['suffix'])) $suffix = "-".$params['suffix'];
 
         //二进制内容
-        $data = isset($params['picContent'])?$params['picContent']:'';
-        if(empty($data)){
+        $data = isset($params['picContent']) ? $params['picContent']:'';
+        if(empty($data)) {
             $this->ret = array('status' => 0, 'info' => '图片内容不能为空');
             return $this->ret;
         }
 
         // 上传到七牛后保存的文件名
-        $key = uniqid(time()). "$file_name_suffix";
+        $key = uniqid(time()). "$suffix";
 
         // 初始化 UploadManager 对象并进行文件的上传。
         $uploadMgr = new UploadManager();

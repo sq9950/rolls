@@ -25,5 +25,11 @@ return [
     'RBAC_ACCESS_TABLE'     => 'rbac_access',
     'RBAC_NODE_TABLE'       => 'rbac_node',
     'VERIFY_CODE_KEY'       => 'adminV3Verify',    //后台验证码session保存键名
-
+    'QINIU_CONFIG'          => [
+        //七牛上传配置-测试环境配置
+        'accessKey' => 'TbOklOe78xWDBuDp0DLXJMVDipBwOUjAXkYQThwB',
+        'secretKey' => 'bmIO5pBEJg0HnIvjlOn6563sw_ST4XbEFR6bcws8',
+        'bucket'    => 'jingwupublic',
+        'domain'    => 'http://upload.qiniu.com',
+    ],
 ];

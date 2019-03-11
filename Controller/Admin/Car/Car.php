@@ -2,6 +2,9 @@
 namespace Controller\Admin\Car;
 
 use \Model\Car\CarLslsModel;
+use Library\Qiniu\Auth;
+use Library\Qiniu\Storage\UploadManager;
+use \Ypf\Lib\Config as Cfg;
 
 class Car extends \Controller\Admin\Common\Common {
 
@@ -20,6 +23,7 @@ class Car extends \Controller\Admin\Common\Common {
         $actions['stop']   = \Url::get_function_url('car', 'car', 'stop',   [], true);
         $actions['edit']   = \Url::get_function_url('car', 'car', 'detail', [], true);
         $actions['delete'] = \Url::get_function_url('car', 'car', 'delete', [], true);
+        $actions['upload'] = \Url::get_function_url('car', 'car', 'upload', [], true);
         $this->view->assign('actions', $actions);
         $this->view->display('Admin/Car/index.html');
 	}
@@ -38,14 +42,13 @@ class Car extends \Controller\Admin\Common\Common {
 
     public function save() {
         $id = isset($this->req['id']) ? intval($this->req['id']) : 0;
-        $data = [
-            'name_en' => isset($this->req['name_en']) ? trim($this->req['name_en']) : '',
-            'name_zh' => isset($this->req['name_zh']) ? trim($this->req['name_zh']) : '',
-            'image'   => isset($this->req['image'])   ? trim($this->req['image'])   : '',
-            'summary' => isset($this->req['summary']) ? trim($this->req['summary']) : '',
-            'status'  => isset($this->req['status'])  ? trim($this->req['status'])  :  1,
-            'remark'  => isset($this->req['remark'])  ? trim($this->req['remark'])  : '',
-        ];
+        $data = [];
+        if(isset($this->req['name_en']))       $data['name_en']       = trim($this->req['name_en']);
+        if(isset($this->req['name_zh']))       $data['name_zh']       = trim($this->req['name_zh']);
+        if(isset($this->req['to_airpot_day'])) $data['to_airpot_day'] = trim($this->req['to_airpot_day']);
+        if(isset($this->req['to_store_day']))  $data['to_store_day']  = trim($this->req['to_store_day']);
+        if(isset($this->req['cfg_pdf']))       $data['cfg_pdf']       = trim($this->req['cfg_pdf']);
+
         if($id) {
             $result = $this->_carLslsModel->updateById($id, $data);
         } else {
@@ -65,6 +68,21 @@ class Car extends \Controller\Admin\Common\Common {
         $id = $this->req['id'];
         $result = $this->_carLslsModel->delete(['id' => $id]);
         $result ? $this->_RD([]) : $this->_RC('操作失败');
+    }
+
+    public function upload() {
+        $finfo = $_FILES['cfg_pdf_file'];
+        $fkey = 'rolls/dam/rollsroyce-website/cfg_pdf/cfg_pdf_'.date('YmdHis').'.'.$finfo['name'];
+        $content = $finfo['tmp_name'];
+        require __LIBRARY__ . '/Qiniu/autoload.php';
+        $cfg = Cfg::getInstance()->get('QINIU_CONFIG');
+
+        $auth = new Auth($cfg['accessKey'], $cfg['secretKey']);
+        $token = $auth->uploadToken($cfg['bucket']);
+
+        $uploadMgr = new UploadManager();
+        list($ret, $err) = $uploadMgr->put($token, $fkey, $content);
+        $err ? $this->_RC("上传失败: {$err}") : $this->_RD(str_replace('rolls/', 'content/', $fkey));
     }
 
 }

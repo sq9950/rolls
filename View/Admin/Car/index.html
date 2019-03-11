@@ -21,7 +21,9 @@
 
 <!-- filter dropdown control -->
 <script src="/static/jquery/jquery-plugins/jplist/js/jplist.filter-dropdown-bundle.min.js"></script>
-
+<script src="/static/jquery/jquery-plugins/jquery-upload/js/vendor/jquery.ui.widget.js"></script>
+<script src="/static/jquery/jquery-plugins/jquery-upload/js/jquery.iframe-transport.js"></script>
+<script src="/static/jquery/jquery-plugins/jquery-upload/js/jquery.fileupload.js"></script>
 <link href="/static/bootstrap/css/bootstrap-switch.css" rel="stylesheet">
 <script src="/static/bootstrap/js/bootstrap-switch.min.js"></script>
 <script src="/static/mustache.0.7.2.js"></script>
@@ -102,10 +104,7 @@
                                         data-control-type="items-per-page-drop-down"
                                         data-control-name="paging"
                                         data-control-action="paging">
-
                                     <ul>
-
-
                                         <li><span data-number="20" data-default="true"> 每页 100 条 </span></li>
                                         <li><span data-number="50"> 每页 50 条 </span></li>
                                         <li><span data-number="100"> 每页 100 条 </span></li>
@@ -149,7 +148,9 @@
                                     <th  data-sort-ignore="true" style="text-align: center;" data-class="expand">英文名</th>
                                     <th  data-sort-ignore="true" style="text-align: center;" data-class="expand">中文名</th>
                                     <th  data-sort-ignore="true" style="text-align: center;" data-class="expand">描述</th>
-                                    <th  data-sort-ignore="true" style="text-align: center;" data-class="expand">图片</th>
+                                    <th  data-sort-ignore="true" style="text-align: center;" data-class="expand">到港</th>
+                                    <th  data-sort-ignore="true" style="text-align: center;" data-class="expand">入库</th>
+                                    <th  data-sort-ignore="true" style="text-align: center;" data-class="expand">配置</th>
                                     <th  data-sort-ignore="true" style="text-align: center;" data-class="expand">备注</th>
                                     <th  data-sort-ignore="true" style="text-align: center;" data-class="expand">状态</th>
                                     <th data-sort-ignore="true" style="text-align: center;">操作</th>
@@ -245,15 +246,22 @@
                         <div class="input-group-addon">描述：</div>
                         <input name="summary" type="text" class="form-control" id="field_summary" placeholder="描述">
                     </div>
-                    <!--
                     <div class="input-group">
-                        <div class="input-group-addon">图片：</div>
-                        <input name="image" type="file" class="form-control" id="field_image" placeholder="图片">
+                        <div class="input-group-addon">到港：</div>
+                        <input name="to_airpot_day" type="text" class="form-control" id="field_to_airpot_day" placeholder="到港">
                     </div>
-                    -->
+                    <div class="input-group">
+                        <div class="input-group-addon">入库：</div>
+                        <input name="to_store_day" type="text" class="form-control" id="field_to_store_day" placeholder="入库">
+                    </div>
                     <div class="input-group">
                         <div class="input-group-addon">备注：</div>
                         <input name="remark" type="text" class="form-control" id="field_remark" placeholder="备注">
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-addon">配置：</div>
+                        <input name="cfg_pdf_file" type="file" id="fileupload-cfg_pdf" style="width: 120px; overflow: hidden;">
+                        <input name="cfg_pdf" type="text" class="form-control" id="field_cfg_pdf" readonly>
                     </div>
                 </div>
                 <button type="button" data-class="action" data-action="save" data-url="<?php echo $actions['save'];?>" class="btn btn-primary">保存</button>
@@ -367,6 +375,9 @@
                                 $('#field_name_zh').val(res.data.name_zh);
                                 $('#field_summary').val(res.data.summary);
                                 $('#field_remark').val(res.data.remark);
+                                $('#field_to_airpot_day').val(res.data.to_airpot_day);
+                                $('#field_to_store_day').val(res.data.to_store_day);
+                                $('#field_cfg_pdf').val(res.data.cfg_pdf);
                                 $('#addForm').modal('show');
                             }
                         }
@@ -408,7 +419,9 @@
             <td style="text-align: center;">{{name_en}}</td>
             <td style="text-align: center;">{{name_zh}}</td>
             <td style="text-align: center;">{{summary}}</td>
-            <!-- <td style="text-align: center;"><image src="{{image}}" style="width:100; height:50px;"></td> -->
+            <td style="text-align: center;">{{to_airpot_day}}</td>
+            <td style="text-align: center;">{{to_store_day}}</td>
+            <td style="text-align: center;"><a href="http://www.shanghai-rolls-roycemotorcars.com/{{cfg_pdf}}" target="_blank">查看</td>
             <td style="text-align: center;">{{remark}}</td>
             <td style="text-align: center;">
                 <div class="switch has-switch">
@@ -423,4 +436,18 @@
             </td>
         </tr>
     {{/.}}
+</script>
+
+<script type="text/javascript">
+//ajax上传图片
+$("#fileupload-cfg_pdf").fileupload({
+    autoUpload: true,
+    url: "<?php echo $actions['upload'];?>",//文件上传地址，当然也可以直接写在input的data-url属性内
+    success: function(res, textStatus, jqXHR){
+        layer.msg(res.info, {icon:res.status});
+        if(1 == res.status){
+            $("#field_cfg_pdf").val(res.data);
+        }
+    }
+});
 </script>
