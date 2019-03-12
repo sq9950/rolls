@@ -941,5 +941,59 @@ Place this snippet between the <head> and </head> tags on every page of your sit
         recaptchaOnload();
       });
     </script>
+    <style>
+      #consultation {
+        padding: 5px;
+        z-index: 9999;
+        position: fixed;
+        top: 50%;
+        right: 10px;
+        width: 96px;
+        height: 160px;
+        margin-top: -80px;
+        border: 1px solid #dadee7;
+        border-radius: 2px;
+        background: #fff;
+        box-shadow: 0 1px 15px rgba(0, 0, 0, 0.15);
+        -webkit-box-sizing: content-box;
+        box-sizing: content-box;
+      }
+      #consultation span {
+        display: block;
+        line-height: 30px;
+        text-align: center;
+        font-size: 14px;
+      }
+      #consultation img {
+        display: block;
+        margin-bottom: 5px;
+        width: 100%;
+      }
+      #consultation a {
+        display: block;
+        width: 96px;
+
+        height: 28px;
+        line-height: 28px;
+        background: #12b7f5;
+        color: #fff;
+        border-color: #12b7f5;
+        text-align: center;
+
+        text-decoration: none;
+        border: 1px solid #dadee7;
+        border-radius: 2px;
+        font-size: 14px;
+        font-family: 'microsoft yahei';
+      }
+    </style>
+    <div id="consultation">
+      <span>微信二维码</span>
+      <img
+        src="/etc/designs/rollsroyce-website/assets/img/sns/pc-qr.png"
+        alt="微信二维码"
+      />
+      <a href="javascript:;">点击获取报价</a>
+    </div>
   </body>
 </html>
