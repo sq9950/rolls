@@ -68,6 +68,9 @@ CREATE TABLE `car_lsls` (
   `image` varchar(255) NOT NULL COMMENT '左侧车型图',
   `summary` varchar(255) NOT NULL COMMENT '描述',
   `page_index` varchar(255) NOT NULL COMMENT '首页',
+  `to_airpot_day` int(11) NOT NULL DEFAULT 0 COMMENT '到港时间',
+  `to_store_day` int(11) NOT NULL DEFAULT 0 COMMENT '入库时间',
+  `cfg_pdf` varchar(255) NOT NULL DEFAULT '' COMMENT '配置pdf文件',
   `status` int(11) NOT NULL DEFAULT 0 COMMENT '状态：0停用  1启用',
   `remark` varchar(255) DEFAULT '' COMMENT '备注',
   PRIMARY KEY (`id`)
@@ -80,7 +83,7 @@ CREATE TABLE `car_lsls` (
 
 LOCK TABLES `car_lsls` WRITE;
 /*!40000 ALTER TABLE `car_lsls` DISABLE KEYS */;
-INSERT INTO `car_lsls` VALUES (1,'phantom','幻影','/content/dam/rollsroyce-website/Menu%20Model%20Thumbnails/JPEGS/RR_Phantom_Model_Selector_Belladonna_3.jpg.rr.1198.LOW.jpg','移动的艺术宫殿','phantom-swb',1,''),(2,'cullinan','库里南','/content/dam/rollsroyce-website/Menu%20Model%20Thumbnails/JPEGS/RR_Cullinan-Model_Selector_02.jpg.rr.1198.LOW.jpg','悠然天地间','cullinan',1,''),(3,'ghost-overview','古思特','/content/dam/rollsroyce-website/Menu%20Model%20Thumbnails/JPEGS/RR_Model_Selector_Ghost_SWB_Light.jpg.rr.1198.LOW.jpg','轻松简约之美','ghost-overview',1,''),(4,'dawn-overview','曜影','/content/dam/rollsroyce-website/Menu%20Model%20Thumbnails/JPEGS/RR_Model_Selector_Dawn_Red_Light.jpg.rr.1198.LOW.jpg','美妙绝伦','dawn-overview',1,''),(5,'introducing-wraith','魅影','/content/dam/rollsroyce-website/Menu%20Model%20Thumbnails/JPEGS/Off-Canvas_Model_selector_v3-1_HR3.jpg.rr.1198.LOW.jpg','不羁动力、优雅格调、非凡魅力','wraith',1,''),(6,'black-badge','BLACK BADGE','/content/dam/rollsroyce-website/Menu%20Model%20Thumbnails/JPEGS/BB_Model_Selector_SideMenu_Wraith.jpg.rr.1198.LOW.jpg','勇闯暗夜：魅影，曜影，古思特','dawn-black-badge',1,'');
+INSERT INTO `car_lsls` VALUES (1,'phantom','幻影','/content/dam/rollsroyce-website/Menu%20Model%20Thumbnails/JPEGS/RR_Phantom_Model_Selector_Belladonna_3.jpg.rr.1198.LOW.jpg','移动的艺术宫殿','phantom-swb',0,0,'',1,''),(2,'cullinan','库里南','/content/dam/rollsroyce-website/Menu%20Model%20Thumbnails/JPEGS/RR_Cullinan-Model_Selector_02.jpg.rr.1198.LOW.jpg','悠然天地间','cullinan',0,0,'',1,''),(3,'ghost-overview','古思特','/content/dam/rollsroyce-website/Menu%20Model%20Thumbnails/JPEGS/RR_Model_Selector_Ghost_SWB_Light.jpg.rr.1198.LOW.jpg','轻松简约之美','ghost-overview',0,0,'',1,''),(4,'dawn-overview','曜影','/content/dam/rollsroyce-website/Menu%20Model%20Thumbnails/JPEGS/RR_Model_Selector_Dawn_Red_Light.jpg.rr.1198.LOW.jpg','美妙绝伦','dawn-overview',0,0,'',1,''),(5,'introducing-wraith','魅影','/content/dam/rollsroyce-website/Menu%20Model%20Thumbnails/JPEGS/Off-Canvas_Model_selector_v3-1_HR3.jpg.rr.1198.LOW.jpg','不羁动力、优雅格调、非凡魅力','wraith',0,0,'',1,''),(6,'black-badge','BLACK BADGE','/content/dam/rollsroyce-website/Menu%20Model%20Thumbnails/JPEGS/BB_Model_Selector_SideMenu_Wraith.jpg.rr.1198.LOW.jpg','勇闯暗夜：魅影，曜影，古思特','dawn-black-badge',0,0,'',1,'');
 /*!40000 ALTER TABLE `car_lsls` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -431,4 +434,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-03-12 14:30:58
+-- Dump completed on 2019-03-12 14:33:38
