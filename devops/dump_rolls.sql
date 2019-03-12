@@ -100,7 +100,7 @@ CREATE TABLE `car_stock` (
   `display` int(11) NOT NULL DEFAULT 0 COMMENT '是否展示：0不展示 1展示',
   `remark` varchar(255) DEFAULT '' COMMENT '备注',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='车辆库存表';
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='车辆库存表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -109,7 +109,7 @@ CREATE TABLE `car_stock` (
 
 LOCK TABLES `car_stock` WRITE;
 /*!40000 ALTER TABLE `car_stock` DISABLE KEYS */;
-INSERT INTO `car_stock` VALUES (1,'暮光紫曜影',1,1,'content/dam/rollsroyce-website/cfg_pdf/cfg_pdf_20190312141655.暮光紫曜影.pdf',1,'暮光紫曜影'),(2,'钻石黑幻影加长版',1,1,'content/dam/rollsroyce-website/cfg_pdf/cfg_pdf_20190312141745.钻石黑幻影加长版.pdf',1,'钻石黑幻影加长版'),(3,'英吉利白库里南',1,1,'content/dam/rollsroyce-website/cfg_pdf/cfg_pdf_20190312141848.英吉利白库里南.pdf',1,'英吉利白库里南'),(4,'烟晶棕、白双色魅影',1,1,'content/dam/rollsroyce-website/cfg_pdf/cfg_pdf_20190312141916.烟晶棕、白双色魅影.pdf',1,'烟晶棕、白双色魅影');
+INSERT INTO `car_stock` VALUES (1,'暮光紫曜影',1,1,'content/dam/rollsroyce-website/cfg_pdf/cfg_pdf_20190312141655.暮光紫曜影.pdf',1,'暮光紫曜影'),(2,'钻石黑幻影加长版',1,1,'content/dam/rollsroyce-website/cfg_pdf/cfg_pdf_20190312141745.钻石黑幻影加长版.pdf',1,'钻石黑幻影加长版'),(3,'英吉利白库里南',1,1,'content/dam/rollsroyce-website/cfg_pdf/cfg_pdf_20190312141848.英吉利白库里南.pdf',1,'英吉利白库里南'),(4,'烟晶棕、白双色魅影',1,1,'content/dam/rollsroyce-website/cfg_pdf/cfg_pdf_20190312141916.烟晶棕、白双色魅影.pdf',1,'烟晶棕、白双色魅影'),(5,'伊瓜苏兰加长古思特',1,1,'content/dam/rollsroyce-website/cfg_pdf/cfg_pdf_20190312142955.伊瓜苏兰加长古思特.pdf',1,'伊瓜苏兰加长古思特'),(6,'钻石黑库里南',1,1,'content/dam/rollsroyce-website/cfg_pdf/cfg_pdf_20190312143025.钻石黑库里南.pdf',1,'钻石黑库里南');
 /*!40000 ALTER TABLE `car_stock` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -431,4 +431,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-03-12 14:24:12
+-- Dump completed on 2019-03-12 14:30:58
