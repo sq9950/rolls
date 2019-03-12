@@ -1,29 +1,29 @@
 <?php
 namespace Controller\Admin\Car;
 
-use \Model\Car\CarLslsModel;
+use \Model\Car\CarStockModel as StockModel;
 use Library\Qiniu\Auth;
 use Library\Qiniu\Storage\UploadManager;
 use \Ypf\Lib\Config as Cfg;
 
-class Car extends \Controller\Admin\Common\Common {
+class Stock extends \Controller\Admin\Common\Common {
 
-    private $_carLslsModel;
+    private $_stockModel;
     static public $qiniuDomain = 'http://jingwupublic.qiniudn.com/';
 
     public function __construct(){
         parent::__construct();
-        $this->_carLslsModel = new CarLslsModel();
+        $this->_stockModel = new StockModel();
     }
 
     private function _actions() {
         $actions = [];
-        $actions['list']   = \Url::get_function_url('car', 'car', 'list',   [], true);
-        $actions['save']   = \Url::get_function_url('car', 'car', 'save',   [], true);
-        $actions['stop']   = \Url::get_function_url('car', 'car', 'stop',   [], true);
-        $actions['edit']   = \Url::get_function_url('car', 'car', 'edit',   [], true);
-        $actions['delete'] = \Url::get_function_url('car', 'car', 'delete', [], true);
-        $actions['upload'] = \Url::get_function_url('car', 'car', 'upload', [], true);
+        $actions['list']   = \Url::get_function_url('car', 'stock', 'list',   [], true);
+        $actions['save']   = \Url::get_function_url('car', 'stock', 'save',   [], true);
+        $actions['stop']   = \Url::get_function_url('car', 'stock', 'stop',   [], true);
+        $actions['edit']   = \Url::get_function_url('car', 'stock', 'edit', [], true);
+        $actions['delete'] = \Url::get_function_url('car', 'stock', 'delete', [], true);
+        $actions['upload'] = \Url::get_function_url('car', 'stock', 'upload', [], true);
         return $actions;
     }
 
@@ -31,25 +31,24 @@ class Car extends \Controller\Admin\Common\Common {
         $this->setHeaderFooter();
 
         $this->view->assign('actions', $this->_actions());
-        $this->view->display('Admin/Car/index.html');
+        $this->view->display('Admin/Car/stock.html');
 	}
 
-	public function edit() {
+    public function edit() {
         $id = isset($this->req['id']) ? ($this->req['id']) : 0;
-        $car = $this->_carLslsModel->get(['id' => $id]);
-        $car = $car ? $car : [];
-        $car['cfg_pdf_url'] = $car['cfg_pdf'] ? self::$qiniuDomain.str_replace('content/', 'rolls/', $car['cfg_pdf']) : '';
+        $stock = $this->_stockModel->get(['id' => $id]);
+        $stock = $stock ? $stock : [];
 
         $this->view->assign('actions', $this->_actions());
-        $this->view->assign('car', $car);
-        $this->view->display('Admin/Car/car_edit.html');
-	}
+        $this->view->assign('stock', $stock);
+        $this->view->display('Admin/Car/stock_edit.html');
+    }
 
     public function list() {
-        $cars = $this->_carLslsModel->gets([]);
+        $cars = $this->_stockModel->gets([]);
         foreach($cars as &$car) {
-            $car['status_bool'] = $car['status'] ? true : false;
-            $car['cfg_pdf_url'] = $car['cfg_pdf'] ? self::$qiniuDomain.str_replace('content/', 'rolls/', $car['cfg_pdf']) : '';
+            $car['display_bool'] = $car['display'] ? true : false;
+            $car['cfg_pdf_url']  = $car['cfg_pdf'] ? 'http://jingwupublic.qiniudn.com/'.str_replace('content/', 'rolls/', $car['cfg_pdf']) : '';
             $car['cfg_pdf_bool'] = $car['cfg_pdf_url'] ? true : false;
         }
         $this->_RD($cars);
@@ -57,38 +56,37 @@ class Car extends \Controller\Admin\Common\Common {
 
     public function detail() {
         $id = isset($this->req['id']) ? ($this->req['id']) : 0;
-        $car = $this->_carLslsModel->get(['id' => $id]);
+        $car = $this->_stockModel->get(['id' => $id]);
         $car ? $this->_RD($car) : $this->_RC('数据不存在');
     }
 
     public function save() {
         $id = isset($this->req['id']) ? intval($this->req['id']) : 0;
         $data = [];
-        if(isset($this->req['name_en']))       $data['name_en']       = trim($this->req['name_en']);
-        if(isset($this->req['name_zh']))       $data['name_zh']       = trim($this->req['name_zh']);
+        if(isset($this->req['name']))          $data['name']          = trim($this->req['name']);
         if(isset($this->req['to_airpot_day'])) $data['to_airpot_day'] = trim($this->req['to_airpot_day']);
         if(isset($this->req['to_store_day']))  $data['to_store_day']  = trim($this->req['to_store_day']);
         if(isset($this->req['cfg_pdf']))       $data['cfg_pdf']       = trim($this->req['cfg_pdf']);
         if(isset($this->req['remark']))        $data['remark']        = trim($this->req['remark']);
 
         if($id) {
-            $result = $this->_carLslsModel->updateById($id, $data);
+            $result = $this->_stockModel->updateById($id, $data);
         } else {
-            $result = $this->_carLslsModel->add($data);
+            $result = $this->_stockModel->add($data);
         }
         $result ? $this->_RD([]) : $this->_RC('操作失败');
     }
 
     public function stop() {
         $id = $this->req['id'];
-        $status = $this->req['status'];
-        $result = $this->_carLslsModel->updateById($id, ['status' => $status]);
+        $display = $this->req['display'];
+        $result = $this->_stockModel->updateById($id, ['display' => $display]);
         $result ? $this->_RD([]) : $this->_RC('操作失败');
     }
 
     public function delete() {
         $id = $this->req['id'];
-        $result = $this->_carLslsModel->delete(['id' => $id]);
+        $result = $this->_stockModel->delete(['id' => $id]);
         $result ? $this->_RD([]) : $this->_RC('操作失败');
     }
 

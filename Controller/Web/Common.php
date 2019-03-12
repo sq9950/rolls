@@ -2,6 +2,7 @@
 namespace Controller\Web;
 
 use \Model\Car\CarLslsModel;
+use \Model\Car\CarStockModel as StockModel;
 
 class Common extends \Controller\ControllerWeb {
 
@@ -10,6 +11,7 @@ class Common extends \Controller\ControllerWeb {
     public function __construct() {
         parent::__construct();
         $this->_carLslsModel = new CarLslsModel();
+        $this->_stockModel = new StockModel();
     }
 
 	public function header() {
@@ -45,6 +47,12 @@ class Common extends \Controller\ControllerWeb {
 
     public function public1() {
         return $this->view->fetch('Web/Common/public/1.html');
+    }
+
+    public function stock() {
+        $stocks = $this->_stockModel->gets(['display' => 1]);
+        $this->view->assign('stocks', $stocks);
+        return $this->view->fetch('Web/Common/public/stock.html');
     }
 
 }

@@ -1,0 +1,127 @@
+<link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet">
+<link href="/static/bootstrap/dashboard.css" rel="stylesheet">
+<link href="/static/bootstrap/site.min.css" rel="stylesheet">
+<link href="/static/bootstrap/css/bootstrap-switch.css" rel="stylesheet">
+<script src="/static/jquery/jquery-1.11.2.min.js"></script>
+<script src="/static/bootstrap/js/bootstrap.min.js"></script>
+<script src="/static/bootstrap/js/bootstrap-switch.min.js"></script>
+<script src="/static/jquery/jquery-plugins/jquery-upload/js/vendor/jquery.ui.widget.js"></script>
+<script src="/static/jquery/jquery-plugins/jquery-upload/js/jquery.iframe-transport.js"></script>
+<script src="/static/jquery/jquery-plugins/jquery-upload/js/jquery.fileupload.js"></script>
+<script src="/static/layer/layer.js"></script>
+<script src="/static/mustache.js"></script>
+
+<style  type="text/css">
+    .glyphicon-xuanzhuan{
+        animation: spin 5s linear infinite;
+    }
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+</style>
+<form data-action-type="formSave" name="edites" class="form-horizontal" id="formSave" style="padding: 10px;" action="<?php echo $actions['save'];?>">
+    <div class="form-group">
+        <label for="inputName" class="col-sm-2 control-label">名称</label>
+        <div class="col-sm-6">
+            <input name="name" type="text" class="form-control" id="inputName" value="<?php echo isset($stock['name']) ? $stock['name'] : '';?>">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputCfgPdf" class="col-sm-2 control-label">配置</label>
+        <div class="col-sm-6">
+            <input name="cfg_pdf_file" type="file" id="fileupload-cfg_pdf" style="width: 120px; overflow: hidden;">
+            <?php if(isset($stock['cfg_pdf']) && $stock['cfg_pdf']) { ?>
+            <a href="<?php echo $stock['cfg_pdf_url']; ?>" id="cfg_pdf_url" target="_blank">查看</a>
+            <?php } ?>
+            <input name="cfg_pdf" type="text" class="form-control" id="inputCfgPdf" readonly value="<?php echo isset($stock['cfg_pdf']) ? $stock['cfg_pdf'] : '';?>">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputToAirpotDay" class="col-sm-2 control-label">到港</label>
+        <div class="col-sm-6">
+            <input name="to_airpot_day" type="text" class="form-control" id="inputToAirpotDay" value="<?php echo isset($stock['to_airpot_day']) ? $stock['to_airpot_day'] : '';?>" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputToStoreDay" class="col-sm-2 control-label">入库</label>
+        <div class="col-sm-6">
+            <input name="to_store_day" type="text" class="form-control" id="inputToStoreDay" value="<?php echo isset($stock['to_store_day']) ? $stock['to_store_day'] : '';?>" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputRemark" class="col-sm-2 control-label">备注</label>
+        <div class="col-sm-6">
+            <input name="remark" type="text" class="form-control" id="inputRemark" value="<?php echo isset($stock['remark']) ? $stock['remark'] : '';?>" />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-6">
+            <input type="hidden" name="id" value="<?php echo isset($stock['id']) ? $stock['id'] : 0;?>" />
+            <button name="submit" type="submit" class="btn btn-primary">保存</button>
+        </div>
+    </div>
+</form>
+
+<script>
+    $(function(){
+        //调用开关插件
+        $("[name='status']").bootstrapSwitch();
+        $('li').click(function(){
+            $('[name=edites]').hide();
+            $('li').removeClass('active');
+            var show_table = $(this).attr('name');
+            $('#'+show_table).show();
+            $(this).addClass('active');
+        });
+
+        layer.config({
+            skin:'layer-ext-moon',
+            extend:'skin/moon/style.css'
+        });
+        $('#formSave').on('submit',function(){
+            $.post(
+                $(this).attr('action'),
+                $(this).serialize(),
+                function(res){
+                    layer.msg(res.info, {icon:res.status});
+                }
+            );
+            return false;
+        });
+    });
+</script>
+
+<script type="text/javascript">
+//ajax上传图片
+$("#fileupload-cfg_pdf").fileupload({
+    autoUpload: true,
+    url: "<?php echo $actions['upload'];?>",//文件上传地址，当然也可以直接写在input的data-url属性内
+    success: function(res, textStatus, jqXHR){
+        layer.msg(res.info, {icon:res.status});
+        if(1 == res.status){
+            $("#inputCfgPdf").val(res.data.cfg_pdf);
+            $('#cfg_pdf_url').attr('href', res.data.cfg_pdf_url)
+        }
+    }
+});
+</script>
+
+<script type="text/javascript">
+//ajax上传图片
+$("#fileupload-cfg_pdf").fileupload({
+    autoUpload: true,
+    url: "<?php echo $actions['upload'];?>",//文件上传地址，当然也可以直接写在input的data-url属性内
+    success: function(res, textStatus, jqXHR){
+        layer.msg(res.info, {icon:res.status});
+        if(1 == res.status){
+            $("#inputCfgPdf").val(res.data.cfg_pdf);
+            $('#cfg_pdf_url').attr('href', res.data.cfg_pdf_url)
+        }
+    }
+});
+</script>

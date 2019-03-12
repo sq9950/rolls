@@ -225,6 +225,66 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="addForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" id="modal-container">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">车型：</h4>
+            </div>
+            <form class="form-inline" id="form-add">
+                <input name="id" type="hidden" class="form-control" id="field_id">
+                <div class="form-group">
+                    <label for="inputPassword3" class="col-sm-2 control-label">英文名：</label>
+                    <div class="col-sm-6">
+                        <input name="name_en" type="text" class="form-control" id="field_name_en" placeholder="英文名">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputPassword3" class="col-sm-2 control-label">中文名：</label>
+                    <div class="col-sm-6">
+                        <input name="name_zh" type="text" class="form-control" id="field_name_zh" placeholder="中文名">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputPassword3" class="col-sm-2 control-label">描述：</label>
+                    <div class="col-sm-6">
+                        <input name="summary" type="text" class="form-control" id="field_summary" placeholder="描述">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputPassword3" class="col-sm-2 control-label">到港：</label>
+                    <div class="col-sm-6">
+                        <input name="to_airpot_day" type="text" class="form-control" id="field_to_airpot_day" placeholder="到港">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputPassword3" class="col-sm-2 control-label">入库：</label>
+                    <div class="col-sm-6">
+                        <input name="to_store_day" type="text" class="form-control" id="field_to_store_day" placeholder="入库">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputPassword3" class="col-sm-2 control-label">备注：</label>
+                    <div class="col-sm-6">
+                        <input name="remark" type="text" class="form-control" id="field_remark" placeholder="备注">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputPassword3" class="col-sm-2 control-label">配置：</label>
+                    <div class="col-sm-6">
+                        <input name="cfg_pdf_file" type="file" id="fileupload-cfg_pdf" style="width: 120px; overflow: hidden;">
+                        <input name="cfg_pdf" type="text" class="form-control" id="field_cfg_pdf" readonly>
+                    </div>
+                </div>
+                <button type="button" data-class="action" data-action="save" data-url="<?php echo $actions['save'];?>" class="btn btn-primary">保存</button>
+            </form>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
     $(function(){
         function render_jplist(){
@@ -316,6 +376,25 @@
                     $('#addForm').modal('show');
                     break;
                 case 'edit':
+                    $.post(
+                        $(this).data('url'),
+                        {id: $(this).attr('data-id')},
+                        function(res){
+                            if(res.status == 0){
+                                layer.msg(res.info, {icon:res.status});
+                            } else {
+                                $('#field_id').val(res.data.id);
+                                $('#field_name_en').val(res.data.name_en);
+                                $('#field_name_zh').val(res.data.name_zh);
+                                $('#field_summary').val(res.data.summary);
+                                $('#field_remark').val(res.data.remark);
+                                $('#field_to_airpot_day').val(res.data.to_airpot_day);
+                                $('#field_to_store_day').val(res.data.to_store_day);
+                                $('#field_cfg_pdf').val(res.data.cfg_pdf);
+                                $('#addForm').modal('show');
+                            }
+                        }
+                    );
                     layer.open({
                         type: 2,
                         title: $(this).attr('data-title'),
@@ -326,7 +405,6 @@
                         cancel:function(){
                             global_flush_jplist();
                         }
-                    });
                     break;
                 case 'save':
                     $.post(
@@ -366,7 +444,7 @@
             <td style="text-align: center;">{{summary}}</td>
             <td style="text-align: center;">{{to_airpot_day}}</td>
             <td style="text-align: center;">{{to_store_day}}</td>
-            <td style="text-align: center;">{{#cfg_pdf_bool}}<a href="{{cfg_pdf_url}}" target="_blank">查看</a>{{/cfg_pdf_bool}}</td>
+            <td style="text-align: center;">{{#cfg_pdf_bool}}<a href="{{cfg_pdf_jw}}" target="_blank">查看</a>{{/cfg_pdf_bool}}</td>
             <td style="text-align: center;">{{remark}}</td>
             <td style="text-align: center;">
                 <div class="switch has-switch">
@@ -375,7 +453,7 @@
             </td>
             <td style="text-align: center;">
                 <div class="btn-group" role="group" aria-label="...">
-                    <button type="button" class="btn btn-primary" data-class="action" data-action="edit" data-url="<?php echo $actions['edit'];?>?id={{id}}" data-id="{{id}}" data-title="车型">编辑</button>
+                    <button type="button" class="btn btn-primary" data-class="action" data-action="edit" data-url="<?php echo $actions['edit'];?>" data-id="{{id}}" data-title="域名管理">管理</button>
                     <!--<button type="button" class="btn btn-danger" data-class="action" data-action="delete" data-url="<?php echo $actions['delete'];?>" data-id="{{id}}">删除</button>-->
                 </div>
             </td>

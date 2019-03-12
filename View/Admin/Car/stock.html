@@ -31,7 +31,7 @@
     <div class="row">
         <?php echo $slide_common;?>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-            <h2 class="sub-header">车型管理</h2>
+            <h2 class="sub-header">库存管理</h2>
             <div class="row">
                 <div class="col-sm-8" style="margin-bottom: 20px;">
                     <div id="jplist-page-area" class="box jplist">
@@ -78,14 +78,12 @@
                                     </ul>
                                 </div>
                                 -->
-                                <!--
                                 <button type="button"
                                         class="btn btn-primary"
                                         data-action="add"
-                                        data-class="action"
-                                        data-url="">新增</button>
-                                -->
-
+                                        data-class="action" 
+                                        data-url="<?php echo $actions['edit']; ?>"
+                                        data-title="库存">新增</button>
                                 <!-- reset button -->
                                 <!--
                                 <button
@@ -146,14 +144,12 @@
                                 <thead>
                                 <tr>
                                     <th  data-sort-ignore="true" style="text-align: center;" data-class="expand">ID</th>
-                                    <th  data-sort-ignore="true" style="text-align: center;" data-class="expand">英文名</th>
-                                    <th  data-sort-ignore="true" style="text-align: center;" data-class="expand">中文名</th>
-                                    <th  data-sort-ignore="true" style="text-align: center;" data-class="expand">描述</th>
+                                    <th  data-sort-ignore="true" style="text-align: center;" data-class="expand">名称</th>
                                     <th  data-sort-ignore="true" style="text-align: center;" data-class="expand">到港</th>
                                     <th  data-sort-ignore="true" style="text-align: center;" data-class="expand">入库</th>
                                     <th  data-sort-ignore="true" style="text-align: center;" data-class="expand">配置</th>
                                     <th  data-sort-ignore="true" style="text-align: center;" data-class="expand">备注</th>
-                                    <th  data-sort-ignore="true" style="text-align: center;" data-class="expand">状态</th>
+                                    <th  data-sort-ignore="true" style="text-align: center;" data-class="expand">显示</th>
                                     <th data-sort-ignore="true" style="text-align: center;">操作</th>
                                 </tr>
                                 </thead>
@@ -251,13 +247,13 @@
                     , render: function (dataItem, statuses) {
                         $list.html(template(dataItem.content));
                         //调用开关插件
-                        $("input[name=status]").bootstrapSwitch();
-                        $('input[name="status"]').on('switchChange.bootstrapSwitch', function(event, state) {
+                        $("input[name=display]").bootstrapSwitch();
+                        $('input[name="display"]').on('switchChange.bootstrapSwitch', function(event, state) {
                             $.post(
                                     $(this).data('url'),
                                     {
                                         id: $(this).attr('data-id'),
-                                        status: state ? 1 : 0
+                                        display: state ? 1 : 0
                                     },
                                     function(res){
                                         layer.msg(res.info, {icon:res.status});
@@ -275,17 +271,17 @@
 
         render_jplist();
         //调用开关插件
-        $("input[name=role_status]").bootstrapSwitch();
+        $("input[name=display]").bootstrapSwitch();
         layer.config({
             skin:'layer-ext-moon',
             extend:'skin/moon/style.css'
         });
-        $('input[name="role_status"]').on('switchChange.bootstrapSwitch', function(event, state) {
+        $('input[name="display"]').on('switchChange.bootstrapSwitch', function(event, state) {
             $.post(
                 $(this).attr('data-url'),
                 {
                     role_id: $(this).attr('data-id'),
-                    status: state
+                    display: state
                 },
                 function(res){
                     layer.msg(res.info, {icon:res.status});
@@ -313,7 +309,17 @@
 
             switch (current_action){
                 case 'add':
-                    $('#addForm').modal('show');
+                    layer.open({
+                        type: 2,
+                        title: $(this).attr('data-title'),
+                        shadeClose: true,
+                        shade: 0.8,
+                        area: ['60%', '90%'],
+                        content: $(this).attr('data-url'),
+                        cancel:function(){
+                            global_flush_jplist();
+                        }
+                    });
                     break;
                 case 'edit':
                     layer.open({
@@ -361,21 +367,19 @@
     {{#.}}
         <tr style="" data-id="tr_id_{{id}}">
             <td style="text-align: center;">{{id}}</td>
-            <td style="text-align: center;">{{name_en}}</td>
-            <td style="text-align: center;">{{name_zh}}</td>
-            <td style="text-align: center;">{{summary}}</td>
+            <td style="text-align: center;">{{name}}</td>
             <td style="text-align: center;">{{to_airpot_day}}</td>
             <td style="text-align: center;">{{to_store_day}}</td>
             <td style="text-align: center;">{{#cfg_pdf_bool}}<a href="{{cfg_pdf_url}}" target="_blank">查看</a>{{/cfg_pdf_bool}}</td>
             <td style="text-align: center;">{{remark}}</td>
             <td style="text-align: center;">
                 <div class="switch has-switch">
-                    <input  data-on-text="启用" data-off-text="禁用" name="status" type="checkbox" {{#status_bool}}checked=""{{/status_bool}} data-id="{{id}}" data-url="<?php echo $actions['stop'];?>">
+                    <input  data-on-text="启用" data-off-text="禁用" name="display" type="checkbox" {{#display_bool}}checked=""{{/display_bool}} data-id="{{id}}" data-url="<?php echo $actions['stop'];?>">
                 </div>
             </td>
             <td style="text-align: center;">
                 <div class="btn-group" role="group" aria-label="...">
-                    <button type="button" class="btn btn-primary" data-class="action" data-action="edit" data-url="<?php echo $actions['edit'];?>?id={{id}}" data-id="{{id}}" data-title="车型">编辑</button>
+                    <button type="button" class="btn btn-primary" data-class="action" data-action="edit" data-url="<?php echo $actions['edit'];?>?id={{id}}" data-id="{{id}}" data-title="库存">编辑</button>
                     <!--<button type="button" class="btn btn-danger" data-class="action" data-action="delete" data-url="<?php echo $actions['delete'];?>" data-id="{{id}}">删除</button>-->
                 </div>
             </td>
@@ -396,3 +400,4 @@ $("#fileupload-cfg_pdf").fileupload({
     }
 });
 </script>
+
