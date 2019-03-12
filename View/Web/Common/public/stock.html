@@ -39,8 +39,8 @@
         <?php $classname = $key % 2 == 0 ? 'double' : 'single'; ?>
         <tr class="<?php echo $classname; ?>">
             <td class="carName"><a target="_blank" href="/<?php echo $stock['cfg_pdf']; ?>"><?php echo $stock['name']; ?></a></td>
-            <td><a target="_blank" href="/<?php echo $stock['cfg_pdf']; ?>"><?php echo $stock['to_airpot_day']; ?></a></td>
-            <td><a target="_blank" href="/<?php echo $stock['cfg_pdf']; ?>"><?php echo $stock['to_store_day']; ?></a></td>
+            <td><a target="_blank" href="/<?php echo $stock['cfg_pdf']; ?>"><?php echo $stock['to_airpot_day']; ?>台</a></td>
+            <td><a target="_blank" href="/<?php echo $stock['cfg_pdf']; ?>"><?php echo $stock['to_store_day']; ?>台</a></td>
         </tr>
         <?php } ?>
       </tbody>
