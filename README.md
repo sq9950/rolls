@@ -4,8 +4,11 @@
 
   - phantom-swb.html 标准轴距
     phantom-ewb.html 长轴距
+    phantom-ewb-privacy-suite.html 　探索密境
 
 - cullinan.html 库里南
+  explore-cullinan.html 　品鉴库里南
+  cullinan-the-final-challenge.html 　终级挑战
 
 - ghost-overview.html 古思特
 - ghost-swb.html 标准轴距
@@ -29,6 +32,8 @@
 
 ## bug
 
+the-rolls-royce-story.html 页面会跳出去，但不影响
+ghost-black-badge.html 　库存表，有点遮挡
 ownership.html 客户尊享 页面有弹表单
 所有视频页下掉，直接换车型主页
 
