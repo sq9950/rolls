@@ -1,13 +1,13 @@
--- MySQL dump 10.17  Distrib 10.3.11-MariaDB, for Linux (x86_64)
+-- MySQL dump 10.16  Distrib 10.2.22-MariaDB, for Linux (x86_64)
 --
--- Host: localhost    Database: rolls
+-- Host: 127.0.0.1    Database: rolls
 -- ------------------------------------------------------
--- Server version	10.3.11-MariaDB
+-- Server version	10.2.22-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -42,7 +42,7 @@ CREATE TABLE `admin_operate_log` (
   KEY `index_domain` (`domain`),
   KEY `index_user` (`user_id`),
   FULLTEXT KEY `index_params` (`params`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -51,6 +51,7 @@ CREATE TABLE `admin_operate_log` (
 
 LOCK TABLES `admin_operate_log` WRITE;
 /*!40000 ALTER TABLE `admin_operate_log` DISABLE KEYS */;
+INSERT INTO `admin_operate_log` VALUES (1,1,'admin','Publicer','Login','check_login','{\"id\":\"1\",\"nickname\":\"admin\",\"keyword\":\"user_login\",\"method\":8,\"message\":\"后台登录\",\"obj_user\":\"\",\"domain\":\"\",\"remark\":\"\"}',8,'2019-03-12 18:42:48','118.212.230.200','user_login','后台登录','',0,''),(2,1,'admin','Publicer','Login','check_login','{\"id\":\"1\",\"nickname\":\"admin\",\"keyword\":\"user_login\",\"method\":8,\"message\":\"后台登录\",\"obj_user\":\"\",\"domain\":\"\",\"remark\":\"\"}',8,'2019-03-12 22:22:05','101.93.214.241','user_login','后台登录','',0,''),(3,1,'admin','Publicer','Login','check_login','{\"id\":\"1\",\"nickname\":\"admin\",\"keyword\":\"user_login\",\"method\":8,\"message\":\"后台登录\",\"obj_user\":\"\",\"domain\":\"\",\"remark\":\"\"}',8,'2019-03-13 02:58:40','118.212.230.200','user_login','后台登录','',0,''),(4,1,'admin','Publicer','Login','check_login','{\"id\":\"1\",\"nickname\":\"admin\",\"keyword\":\"user_login\",\"method\":8,\"message\":\"后台登录\",\"obj_user\":\"\",\"domain\":\"\",\"remark\":\"\"}',8,'2019-03-21 02:07:31','118.212.230.200','user_login','后台登录','',0,''),(5,0,'admin','Publicer','Login','check_login','{\"id\":\"1\",\"nickname\":\"admin\",\"keyword\":\"user_login\",\"method\":8,\"message\":\"后台登录失败：密码不正确！\",\"obj_user\":\"\",\"domain\":\"\",\"remark\":\"\"}',8,'2019-04-16 02:04:32','59.63.206.113','user_login','后台登录失败：密码不正确！','',0,''),(6,1,'admin','Publicer','Login','check_login','{\"id\":\"1\",\"nickname\":\"admin\",\"keyword\":\"user_login\",\"method\":8,\"message\":\"后台登录\",\"obj_user\":\"\",\"domain\":\"\",\"remark\":\"\"}',8,'2019-04-16 02:05:02','59.63.206.113','user_login','后台登录','',0,''),(7,1,'admin','Publicer','Login','check_login','{\"id\":\"1\",\"nickname\":\"admin\",\"keyword\":\"user_login\",\"method\":8,\"message\":\"后台登录\",\"obj_user\":\"\",\"domain\":\"\",\"remark\":\"\"}',8,'2019-04-16 23:24:04','114.93.33.190','user_login','后台登录','',0,'');
 /*!40000 ALTER TABLE `admin_operate_log` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -112,7 +113,7 @@ CREATE TABLE `car_stock` (
 
 LOCK TABLES `car_stock` WRITE;
 /*!40000 ALTER TABLE `car_stock` DISABLE KEYS */;
-INSERT INTO `car_stock` VALUES (1,'暮光紫曜影',1,1,'content/dam/rollsroyce-website/cfg_pdf/cfg_pdf_20190312141655.暮光紫曜影.pdf',1,'暮光紫曜影'),(2,'钻石黑幻影加长版',1,1,'content/dam/rollsroyce-website/cfg_pdf/cfg_pdf_20190312141745.钻石黑幻影加长版.pdf',1,'钻石黑幻影加长版'),(3,'英吉利白库里南',1,1,'content/dam/rollsroyce-website/cfg_pdf/cfg_pdf_20190312141848.英吉利白库里南.pdf',1,'英吉利白库里南'),(4,'烟晶棕、白双色魅影',1,1,'content/dam/rollsroyce-website/cfg_pdf/cfg_pdf_20190312141916.烟晶棕、白双色魅影.pdf',1,'烟晶棕、白双色魅影'),(5,'伊瓜苏兰加长古思特',1,1,'content/dam/rollsroyce-website/cfg_pdf/cfg_pdf_20190312142955.伊瓜苏兰加长古思特.pdf',1,'伊瓜苏兰加长古思特'),(6,'钻石黑库里南',1,1,'content/dam/rollsroyce-website/cfg_pdf/cfg_pdf_20190312143025.钻石黑库里南.pdf',1,'钻石黑库里南');
+INSERT INTO `car_stock` VALUES (1,'曜影',1,1,'content/dam/rollsroyce-website/cfg_pdf/cfg_pdf_20190416194503.暮光紫曜影_510_1.jpg',1,'暮光紫曜影'),(2,'幻影加长版',1,1,'content/dam/rollsroyce-website/cfg_pdf/cfg_pdf_20190416194813.钻石黑库里南_510_1.jpg',1,'钻石黑幻影加长版'),(3,'英吉利白库里南',1,1,'content/dam/rollsroyce-website/cfg_pdf/cfg_pdf_20190416194909.英吉利白库里南_510_1.jpg',1,'英吉利白库里南'),(4,'魅影',1,1,'content/dam/rollsroyce-website/cfg_pdf/cfg_pdf_20190416195713.烟晶棕、白双色魅影_510_1.jpg',1,'烟晶棕、白双色魅影'),(5,'古思特',1,1,'content/dam/rollsroyce-website/cfg_pdf/cfg_pdf_20190416200231.伊瓜苏兰加长古思特_510_1.jpg',1,'伊瓜苏兰加长古思特'),(6,'库里南',1,1,'content/dam/rollsroyce-website/cfg_pdf/cfg_pdf_20190416200336.钻石黑库里南_510_1.jpg',1,'钻石黑库里南');
 /*!40000 ALTER TABLE `car_stock` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -306,7 +307,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'admin','admin','632d5c9979c053281d1f3b86610a81d9','',1,'','','','2019-03-02 20:48:30','',0,'2019-03-02 20:48:16',1,0,0,'2018-10-17 17:17:28','2019-03-02 12:48:30'),(2,'lideqiang','lideqiang','962f5f59375f547e90b3fdb27cadc470','',1,'','13811490097','','2019-03-12 06:15:20','',0,'2019-02-15 15:31:48',0,0,0,'0000-00-00 00:00:00','2019-03-11 22:15:20');
+INSERT INTO `user` VALUES (1,'admin','admin','632d5c9979c053281d1f3b86610a81d9','',1,'','','','2019-04-16 19:24:04','',0,'2019-04-15 22:04:32',1,0,0,'2018-10-17 17:17:28','2019-04-16 11:24:04'),(2,'lideqiang','lideqiang','962f5f59375f547e90b3fdb27cadc470','',1,'','13811490097','','2019-03-12 06:15:20','',0,'2019-02-15 15:31:48',0,0,0,'0000-00-00 00:00:00','2019-03-11 22:15:20');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -384,7 +385,7 @@ CREATE TABLE `user_log` (
   `ip` varchar(255) NOT NULL,
   `message` varchar(500) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -393,6 +394,7 @@ CREATE TABLE `user_log` (
 
 LOCK TABLES `user_log` WRITE;
 /*!40000 ALTER TABLE `user_log` DISABLE KEYS */;
+INSERT INTO `user_log` VALUES (1,1,'login','user','2019-03-12 18:42:48','118.212.230.200','<a>登陆</a>后台'),(2,1,'login','user','2019-03-12 22:22:05','101.93.214.241','<a>登陆</a>后台'),(3,1,'login','user','2019-03-13 02:58:40','118.212.230.200','<a>登陆</a>后台'),(4,1,'login','user','2019-03-21 02:07:31','118.212.230.200','<a>登陆</a>后台'),(5,1,'login','user','2019-04-16 02:05:02','59.63.206.113','<a>登陆</a>后台'),(6,1,'login','user','2019-04-16 23:24:04','114.93.33.190','<a>登陆</a>后台');
 /*!40000 ALTER TABLE `user_log` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -434,4 +436,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-03-12 14:33:38
+-- Dump completed on 2019-04-17 11:20:50
